@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { signInWithGoogle, auth } from '../firebaseConfig';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const PageContainer = styled.div`
   display: flex;
@@ -9,7 +8,7 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #FFD700;
+  background-color: #FFFACD;
 `;
 
 const Card = styled.div`
@@ -35,33 +34,20 @@ const Button = styled.button`
   }
 `;
 
-const Login = () => {
+const Setup = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigate('/setup');
-      }
-    });
-    return () => unsubscribe();
-  }, [navigate]);
-
-  const handleLogin = async () => {
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-    }
+  const handleProceed = () => {
+    navigate('/dashboard');
   };
 
   return (
     <PageContainer>
       <Card>
-        <Button onClick={handleLogin}>Login with Google</Button>
+        <Button onClick={handleProceed}>Proceed to Dashboard</Button>
       </Card>
     </PageContainer>
   );
 };
 
-export default Login;
+export default Setup;

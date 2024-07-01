@@ -3,12 +3,6 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/
 import { getFirestore, doc, updateDoc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-// Import the functions you need from the SDKs you need
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDgJaKT2vIM26sEYkXSUn2cdsKoe72W_44",
   authDomain: "gourmetai-c3818.firebaseapp.com",
@@ -18,7 +12,6 @@ const firebaseConfig = {
   appId: "1:434846086463:web:3fc3d18f7cda2bf7de8f8a"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -30,8 +23,7 @@ const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
-    
-    // Ensure Firestore has the user document
+
     const userDocRef = doc(db, "users", user.uid);
     await setDoc(userDocRef, {
       displayName: user.displayName,
