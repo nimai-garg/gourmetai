@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
+// 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&family=Quicksand:wght@400;700&display=swap');
 
