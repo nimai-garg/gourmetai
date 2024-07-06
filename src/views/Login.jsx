@@ -9,21 +9,26 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #FFD700;
+  background-color: #FFF;
+  font-family: 'Fustat', sans-serif;
 `;
 
 const Card = styled.div`
-  background-color: #f5f5dc;
+  background-color: #f5f5f5;
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  font-family: 'Fustat', sans-serif;
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Add this line for the gap */
 `;
 
 const Button = styled.button`
-  background-color: #d3d3d3;
+  background-color: #fff;
   color: #000000;
-  border: none;
+  border-color: black;
   border-radius: 30px;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -31,8 +36,12 @@ const Button = styled.button`
   width: 200px;
   cursor: pointer;
   &:hover {
-    background-color: #c0c0c0;
+    color: #fff;
+    background-color: #000;
+    border-color: white;
   }
+  font-family: 'Fustat', sans-serif;
+  margin: 0 0.5rem; /* Add this line for a gap */
 `;
 
 const Login = () => {
@@ -55,10 +64,18 @@ const Login = () => {
     }
   };
 
+  const handleLearn = () => {
+    window.open('https://google.com', '_blank');
+  }
+
   return (
     <PageContainer>
+      <h1>GourmetAI</h1>
+      <p>An app that creates you personalized recipes</p>
+      <br></br>
       <Card>
-        <Button onClick={handleLogin}>Login with Google</Button>
+        <Button onClick={handleLogin}>Let's go!</Button>
+        <Button onClick={handleLearn}>Learn more</Button>
       </Card>
     </PageContainer>
   );

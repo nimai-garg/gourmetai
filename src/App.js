@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { auth } from './firebaseConfig';
 import Login from './views/Login';
 import Setup from './views/Setup';
-import StudentDashboard from './views/StudentDashboard';
+import StudentDashboard from './views/Dashboard';
 import GlobalStyle from './GlobalStyles';
 
 const App = () => {
