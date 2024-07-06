@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { doc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig'; // Import auth from firebaseConfig.js
+import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
 
 const PageContainer = styled.div`
   display: flex;
@@ -10,12 +11,12 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #FFFACD;
+  background-color: #FFF;
   font-family: 'Fustat', sans-serif;
 `;
 
 const Card = styled.div`
-  background-color: #f5f5dc;
+  background-color: #f5f5f5;
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -24,19 +25,22 @@ const Card = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #d3d3d3;
+  background-color: #fff;
   color: #000000;
-  border: none;
+  border-color: black;
   border-radius: 30px;
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: bold;
-  width: 200px;
+  width: 180px;
   cursor: pointer;
   &:hover {
-    background-color: #c0c0c0;
+    color: #fff;
+    background-color: #000;
+    border-color: white;
   }
   font-family: 'Fustat', sans-serif;
+  margin: 0 1rem; /* Add this line for a gap */
 `;
 
 const InputField = styled.input`
@@ -46,6 +50,45 @@ const InputField = styled.input`
   margin-bottom: 1rem;
   width: 300px;
   font-size: 1rem;
+  font-family: 'Fustat', sans-serif;
+`;
+
+const SignOutButton = styled.button`
+  cursor: pointer;
+  background-color: #fff;
+  color: red;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 30px;
+  margin-top: 1rem;
+  font-family: 'Fustat', sans-serif;
+  border: 2px solid red; // Use red color for border
+  //transition: background-color 0.3s, color 0.3s, border-color 0.3s; // Smooth transition for hover effect
+
+  &:hover {
+    color: #fff;
+    background-color: red; // Corrected to red background on hover
+    border-color: white;
+  }
+`;
+
+const GoBackButton = styled.button`
+  background-color: #fff;
+  color: #000000;
+  border-color: black;
+  border-radius: 30px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 180px;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+    background-color: #000;
+    border-color: white;
+  }
+  font-family: 'Fustat', sans-serif;
+  margin: 0 1rem; /* Add this line for a gap */
 `;
 
 const Setup = () => {
@@ -99,23 +142,46 @@ const Setup = () => {
       console.error('Error saving last name:', error);
     }
   };
-  
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  const handleGoBack = async () => {
+    setCurrentCard(1);
+  }
+
   return (
+
     <PageContainer>
+      <h1>Setup</h1>
+      <p>Personalization comes with the setup</p>
+      <br></br>
+
       {currentCard === 1 && (
         <Card>
+          <p>What is your first name?</p>
+        
           <InputField
             type="text"
-            placeholder="Enter your first name"
+            placeholder="Enter your response"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
           <Button onClick={handleSaveFirstName}>Next</Button>
+          <br></br>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
         </Card>
       )}
 
       {currentCard === 2 && (
         <Card>
+           <p>What is your last name?</p>
+
           <InputField
             type="text"
             placeholder="Enter your last name"
@@ -123,9 +189,13 @@ const Setup = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
           <Button onClick={handleSaveLastName}>Next</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack}>Go back</GoBackButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
         </Card>
       )}
     </PageContainer>
+
   );
 };
 

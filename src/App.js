@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { auth } from './firebaseConfig';
+import Landing from './views/Landing';
 import Login from './views/Login';
 import Setup from './views/Setup';
 import StudentDashboard from './views/Dashboard';
@@ -20,6 +21,7 @@ const App = () => {
     <Router>
       <GlobalStyle />
       <Routes>
+        <Route path="" element={<Landing/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={user ? <Setup /> : <Navigate to="/login" />} />
         <Route path="/dashboard" element={user ? <StudentDashboard /> : <Navigate to="/login" />} />
