@@ -4,7 +4,7 @@ import { auth } from './firebaseConfig';
 import Landing from './views/Landing';
 import Login from './views/Login';
 import Setup from './views/Setup';
-import StudentDashboard from './views/Dashboard';
+import Dashboard from './views/Dashboard';
 import GlobalStyle from './GlobalStyles';
 
 const App = () => {
@@ -24,7 +24,7 @@ const App = () => {
         <Route path="" element={<Landing/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={user ? <Setup /> : <Navigate to="/login" />} />
-        <Route path="/dashboard" element={user ? <StudentDashboard /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to={user ? "/setup" : "/login"} />} />
       </Routes>
     </Router>

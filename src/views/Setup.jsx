@@ -77,10 +77,9 @@ const GoBackButton = styled.button`
   color: #000000;
   border-color: black;
   border-radius: 30px;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  padding: 0.5rem 1rem;
   font-weight: bold;
-  width: 180px;
+  width: 80px;
   cursor: pointer;
   &:hover {
     color: #fff;
@@ -95,6 +94,10 @@ const Setup = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [calorieRequirements, setCalorieRequirements] = useState('');
+  const [proteinRequirements, setProteinRequirements] = useState('');
+  const [religionChoice, setReligionChoice] = useState('');
   const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -137,9 +140,81 @@ const Setup = () => {
   
       await setDoc(userDocRef, { lastName }, { merge: true });
   
-      navigate('/nextPage'); // Redirect to the next page after setup
+      setCurrentCard(3); // Move to the next card
     } catch (error) {
       console.error('Error saving last name:', error);
+    }
+  };
+
+  const handleDietaryRestrictions = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
+  
+      setCurrentCard(4); // Move to the next card
+    } catch (error) {
+      console.error('Error saving dietary restrictions:', error);
+    }
+  };
+
+  const handleCalorieRequirements = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { calorieRequirements }, { merge: true });
+  
+      setCurrentCard(5); // Move to the next card
+    } catch (error) {
+      console.error('Error saving calorie requirements:', error);
+    }
+  };
+
+  const handleProteinRequirements = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { proteinRequirements }, { merge: true });
+
+      setCurrentCard(6); // Move to the next card
+    } catch (error) {
+      console.error('Error saving protein requirements:', error);
+    }
+  };
+
+  const handleReligionChoice = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { religionChoice }, { merge: true });
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error('Error saving religion choice:', error);
     }
   };
 
@@ -151,8 +226,24 @@ const Setup = () => {
     }
   };
 
-  const handleGoBack = async () => {
+  const handleGoBack1 = async () => {
     setCurrentCard(1);
+  }
+
+  const handleGoBack2 = async () => {
+    setCurrentCard(2);
+  }
+
+  const handleGoBack3 = async () => {
+    setCurrentCard(3);
+  }
+
+  const handleGoBack4 = async () => {
+    setCurrentCard(4);
+  }
+
+  const handleGoBack5 = async () => {
+    setCurrentCard(5);
   }
 
   return (
@@ -164,6 +255,7 @@ const Setup = () => {
 
       {currentCard === 1 && (
         <Card>
+           <h3>Question #1</h3>
           <p>What is your first name?</p>
         
           <InputField
@@ -180,20 +272,94 @@ const Setup = () => {
 
       {currentCard === 2 && (
         <Card>
+           <h3>Question #2</h3>
            <p>What is your last name?</p>
 
           <InputField
             type="text"
-            placeholder="Enter your last name"
+            placeholder="Enter your response"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
           <Button onClick={handleSaveLastName}>Next</Button>
           <br></br>
-          <GoBackButton onClick={handleGoBack}>Go back</GoBackButton>
+          <GoBackButton onClick={handleGoBack1}>Go back</GoBackButton>
           <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
         </Card>
       )}
+
+      {currentCard === 3 && (
+        <Card>
+           <h3>Question #3</h3>
+           <p>Tell me your dietary restrictions in detail. Type none if applicable</p>
+
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={dietaryRestrictions}
+            onChange={(e) => setDietaryRestrictions(e.target.value)}
+          />
+          <Button onClick={handleDietaryRestrictions}>Next</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack2}>Go back</GoBackButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+        </Card>
+      )}
+
+      {currentCard === 4 && (
+        <Card>
+           <h3>Question #4</h3>
+           <p>Do you have any calorie requirements? Type N/A if applicable</p>
+
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={calorieRequirements}
+            onChange={(e) => setCalorieRequirements(e.target.value)}
+          />
+          <Button onClick={handleCalorieRequirements}>Next</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack3}>Go back</GoBackButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+        </Card>
+      )}
+
+      {currentCard === 5 && (
+        <Card>
+           <h3>Question #5</h3>
+           <p>Do you have any protein requirements? Type N/A if applicable</p>
+
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={proteinRequirements}
+            onChange={(e) => setProteinRequirements(e.target.value)}
+          />
+          <Button onClick={handleProteinRequirements}>Next</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack4}>Go back</GoBackButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+        </Card>
+      )}
+
+      {currentCard === 6 && (
+        <Card>
+          <h3>Question #6</h3>
+           <p>What religion are you? Type none if applicable </p>
+
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={religionChoice}
+            onChange={(e) => setReligionChoice(e.target.value)}
+          />
+          <Button onClick={handleReligionChoice}>Next</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack5}>Go back</GoBackButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+        </Card>
+      )}
+
     </PageContainer>
 
   );
