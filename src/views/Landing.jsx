@@ -13,6 +13,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Header = styled.div`
@@ -35,7 +36,7 @@ const CenterText = styled.h1`
 `;
 
 const SubCenterText = styled.h3`
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-family: 'Fustat', sans-serif;
   background: gray;
   justify-content: center;
@@ -108,19 +109,24 @@ const ActionButton = styled.button`
 `;
 
 const SecondDiv = styled.div`
-  margin-top: 130px;
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px; /* Adjust the gap as needed */
 `;
 
 const Box = styled.div`
   background-color: #f5f5f5;
-  padding: 14rem 19rem;
+  padding: 1rem 2rem;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: 'Fustat', sans-serif;
   
   margin-left: 50px;
-  max-width: 100px;
-  max-height: 300px;
+  max-width: 400px;
+  max-height: 400px;
 `;
 
 const BoxHeader = styled.h1`
@@ -130,6 +136,16 @@ const BoxHeader = styled.h1`
 
 const BoxParagraph = styled.p`
 
+`;
+
+const Footer = styled.p`
+  justiy-content: center;
+  align-items: center;
+  display: flex;
+  margin-left: 60px;
+  &:hover {
+    font-weight: bold;
+  }
 `;
 
 const handleLearn = () => {
@@ -152,9 +168,22 @@ const Landing = () => {
       <SecondDiv>
         <Box>
           <BoxHeader>What is Gourmet AI?</BoxHeader>
+          <BoxParagraph>GourmetAI is an AI that helps you think of new recipes to create with your available ingredients in your house. In addition to this, we use your preferences to give you recipes that suit your needs!</BoxParagraph>
+        </Box>
+
+        <Box>
+          <BoxHeader>Explain the Personalization</BoxHeader>
+          <BoxParagraph>In addition to the available ingredients, we ask you for your dietary needs, calorie/protein requirements, religion needs, and any other special requirements to give you the best recipes crafted by us.</BoxParagraph>
+        </Box>
+
+        <Box>
+          <BoxHeader>How does this work?</BoxHeader>
+          <BoxParagraph>First, you will sign up with Google for secure authentication, then answer our setup personalization questions. You can start creating recipes by clicking the appropriate button. Happy creating! </BoxParagraph>
         </Box>
         <br></br>
       </SecondDiv>
+      <Footer>© 2024 - Created by Nimai Garg</Footer>
+      <br></br>
     </PageContainer>
   )
 }
