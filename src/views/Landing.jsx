@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const PageContainer = styled.div`
     background-color: #FFF;
@@ -143,26 +144,33 @@ const Footer = styled.p`
   align-items: center;
   display: flex;
   margin-left: 60px;
+  font-family: 'Fustat', sans-serif;
   &:hover {
     font-weight: bold;
   }
 `;
 
-const handleLearn = () => {
-    window.open('https://gourmetai.com', '_blank');
-}
+// const handleLearn = () => {
+//     window.open('https://gourmetai.com', '_blank');
+// }
 
 const Landing = () => {
+  const navigate = useNavigate();
+
+  const handleActionButton = () => {
+    navigate('/login');
+  }
+
   return (
     <PageContainer>
       <HeaderContainer>
         <Header>GourmetAI</Header>
-        <ActionButton onClick={handleLearn}>Create</ActionButton>
+        <ActionButton onClick={handleActionButton}>Create</ActionButton>
       </HeaderContainer>
       <CenterText>Find inspiration for your next recipe</CenterText>
       <SubCenterText>A 100% free AI that allows you to think of creative, innovative, and personalized recipes </SubCenterText>
       <CenterTextButtonDiv>
-        <LeftCenterTextButton>Let's innovate</LeftCenterTextButton>
+        <LeftCenterTextButton onClick={handleActionButton}>Let's innovate</LeftCenterTextButton>
         <RightCenterTextButton>Learn more</RightCenterTextButton>
       </CenterTextButtonDiv>
       <SecondDiv>

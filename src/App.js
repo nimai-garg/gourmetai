@@ -5,6 +5,8 @@ import Landing from './views/Landing';
 import Login from './views/Login';
 import Setup from './views/Setup';
 import Dashboard from './views/Dashboard';
+import EditSettings from './views/EditSettings'
+import RecipeSetup from './views/RecipeSetup'
 import GlobalStyle from './GlobalStyles';
 
 const App = () => {
@@ -25,6 +27,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={user ? <Setup /> : <Navigate to="/login" />} />
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/editSettings" element={<EditSettings/>} />
+        <Route path="/recipeSetup" element={<RecipeSetup/>} />
         <Route path="*" element={<Navigate to={user ? "/setup" : "/login"} />} />
       </Routes>
     </Router>
