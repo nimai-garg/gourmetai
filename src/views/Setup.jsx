@@ -79,15 +79,17 @@ const GoBackButton = styled.button`
   border-radius: 30px;
   padding: 0.5rem 1rem;
   font-weight: bold;
-  width: 80px;
+  min-width: 100px;  /* Adjust the width to ensure "Go back" fits in one line */
   cursor: pointer;
+  white-space: nowrap;  /* Prevents the text from wrapping to the next line */
+  text-align: center;
   &:hover {
     color: #fff;
     background-color: #000;
     border-color: white;
   }
   font-family: 'Fustat', sans-serif;
-  margin: 0 1rem; /* Add this line for a gap */
+  margin: 0 1rem; /* Add this line for a​⬤
 `;
 
 const Setup = () => {
@@ -345,7 +347,7 @@ const Setup = () => {
       {currentCard === 6 && (
         <Card>
           <h3>Question #6</h3>
-           <p>What religion are you? Type none if applicable </p>
+           <p>What religion are you? Type none if applicable</p>
 
           <InputField
             type="text"

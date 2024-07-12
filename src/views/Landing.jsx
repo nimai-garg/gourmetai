@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const PageContainer = styled.div`
-    background-color: #FFF;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 20px; /* Add padding for small screens */
 `;
 
 const HeaderContainer = styled.div`
@@ -15,12 +16,21 @@ const HeaderContainer = styled.div`
   align-items: center;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const Header = styled.div`
   font-size: 1.7rem;
   font-family: 'Fustat', sans-serif;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const CenterText = styled.h1`
@@ -34,6 +44,11 @@ const CenterText = styled.h1`
   background: linear-gradient(to right, #ffcccc, #ff6699);
   -webkit-background-clip: text; /* Clip the gradient to the text */
   -webkit-text-fill-color: transparent; /* Make the text color transparent */
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    margin-top: 50px;
+  }
 `;
 
 const SubCenterText = styled.h3`
@@ -44,8 +59,13 @@ const SubCenterText = styled.h3`
   align-items: center;
   display: flex;
   margin-bottom: 60px;
-   -webkit-background-clip: text; /* Clip the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Make the text color transparent *
+  -webkit-background-clip: text; /* Clip the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
 `;
 
 const CenterTextButtonDiv = styled.div`
@@ -54,6 +74,11 @@ const CenterTextButtonDiv = styled.div`
   align-items: center;
   margin-bottom: 20px;
   gap: 50px; /* Adjust the gap as needed */
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `;
 
 const LeftCenterTextButton = styled.button`
@@ -107,6 +132,11 @@ const ActionButton = styled.button`
     background-color: #000;
     border-color: white;
   }
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
 `;
 
 const SecondDiv = styled.div`
@@ -116,6 +146,12 @@ const SecondDiv = styled.div`
   align-items: center;
   margin-bottom: 20px;
   gap: 20px; /* Adjust the gap as needed */
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin-top: 40px;
+    gap: 10px;
+  }
 `;
 
 const Box = styled.div`
@@ -124,23 +160,34 @@ const Box = styled.div`
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: 'Fustat', sans-serif;
-  
   margin-left: 50px;
   max-width: 400px;
   max-height: 400px;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    max-width: 90%;
+    padding: 1rem;
+  }
 `;
 
 const BoxHeader = styled.h1`
   align-items: flex-start;
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const BoxParagraph = styled.p`
-
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const Footer = styled.p`
-  justiy-content: center;
+  justify-content: center;
   align-items: center;
   display: flex;
   margin-left: 60px;
@@ -148,11 +195,12 @@ const Footer = styled.p`
   &:hover {
     font-weight: bold;
   }
-`;
 
-// const handleLearn = () => {
-//     window.open('https://gourmetai.com', '_blank');
-// }
+  @media (max-width: 768px) {
+    margin-left: 0;
+    font-size: 0.9rem;
+  }
+`;
 
 const Landing = () => {
   const navigate = useNavigate();

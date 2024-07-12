@@ -4,12 +4,12 @@ import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseC
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
-    background-color: #FFF;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    font-family: 'Fustat', sans-serif;
-    padding: 1rem;
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Fustat', sans-serif;
+  padding: 2rem;
 `;
 
 const HeaderContainer = styled.div`
@@ -50,25 +50,7 @@ const SignOutButton = styled.button`
   }
 `;
 
-const NewRecipeButton = styled.button`
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 30px;
-  font-family: 'Fustat', sans-serif;
-  background-color: #fff;
-  color: black;
-  border: 2px solid black;
-   padding: 10px 20px;
-
-  &:hover {
-    color: #fff;
-    background-color: black;
-    border-color: white;
-  }
-`;
-
-const EditSettingsButton = styled.button`
+const Button = styled.button`
   cursor: pointer;
   padding: 0.5rem 1rem;
   border: none;
@@ -86,29 +68,46 @@ const EditSettingsButton = styled.button`
   }
 `;
 
-const Heading = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  font-family: "'Fustat', sans-serif";
-  text-align: center;
-  width: 50%;
-  margin: 0 auto;
+// const Heading = styled.h1`
+//   font-size: 1.5rem;
+//   font-weight: bold;
+//   font-family: "'Fustat', sans-serif";
+//   text-align: center;
+//   width: 50%;
+//   margin: 0 auto;
+// `;
+
+const Box = styled.div`
+  background-color: #f5f5f5;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Fustat', sans-serif;
+
+  max-width: 400px;
+  max-height: 400px;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    max-width: 90%;
+    padding: 1rem;
+  }
 `;
 
 const Dashboard = () => {
-  const navigate = useNavigate(); // Correct usage of useNavigate hook
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       await logOut();
-      navigate('/login'); // Redirect to login page after logging out
+      navigate('/login');
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
 
   const handleRecipeSetup = () => {
-    navigate('/nextPage');
+    navigate('/recipeSetup');
   };
 
   const handleEditSettings = () => {
@@ -117,15 +116,23 @@ const Dashboard = () => {
 
   return (
     <PageContainer>
+
         <HeaderContainer>
           <Header>GourmetAI Dashboard</Header>
+          
           <HeaderButtons>
-            <EditSettingsButton onClick={handleEditSettings}>Edit Settings</EditSettingsButton>
+            <Button onClick={handleEditSettings}>Edit Settings</Button>
             <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
           </HeaderButtons>
         </HeaderContainer>
-        <p>Get started with a new recipe below.</p>
-        <NewRecipeButton onClick={handleRecipeSetup}>New Recipe</NewRecipeButton>
+
+        <br></br>
+        
+        <Box>
+          <p>Get started with a new recipe below.</p>
+          <Button onClick={handleRecipeSetup}>New Recipe</Button>
+        </Box>
+
     </PageContainer>
   );
 };
