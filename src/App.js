@@ -7,6 +7,7 @@ import Setup from './views/Setup';
 import Dashboard from './views/Dashboard';
 import EditSettings from './views/EditSettings'
 import RecipeSetup from './views/RecipeSetup'
+import NutritionalData from './views/NutritionalData'
 import GlobalStyle from './GlobalStyles';
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/editSettings" element={<EditSettings/>} />
         <Route path="/recipeSetup" element={<RecipeSetup/>} />
+        <Route path="nutritionalData" element={<NutritionalData/>} />
         <Route path="*" element={<Navigate to={user ? "/setup" : "/login"} />} />
       </Routes>
     </Router>

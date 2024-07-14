@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { doc, setDoc } from 'firebase/firestore';
-import { db, auth } from '../firebaseConfig'; // Import auth from firebaseConfig.js
-import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db, auth } from '../firebaseConfig';
 
 const PageContainer = styled.div`
   display: flex;
@@ -38,7 +37,7 @@ const Question = styled.h3`
   margin-bottom: 1rem;
 `;
 
-const InputField = styled.input`
+const InputField = styled.textarea`
   padding: 0.5rem;
   border: 2px solid #ccc;
   border-radius: 5px;
@@ -46,6 +45,13 @@ const InputField = styled.input`
   width: 100%;
   font-size: 1rem;
   font-family: 'Fustat', sans-serif;
+  resize: vertical;
+  max-width: 100%;
+
+  /* Apply input restriction using regex */
+  &:invalid {
+    border-color: red; /* Optional: Highlight invalid input */
+  }
 `;
 
 const Button = styled.button`
@@ -55,7 +61,6 @@ const Button = styled.button`
   border-radius: 30px;
   padding: 0.75rem 2rem;
   font-size: 1rem;
-  font-weight: bold;
   cursor: pointer;
   box-shadow: none;
   outline: none;
@@ -76,17 +81,61 @@ const EditSettings = () => {
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinRequirements, setProteinRequirements] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
-  const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    // Listen for auth state changes and set the current user
+    const fetchUserData = async () => {
+      try {
+        if (!currentUser) return;
+        
+        const userId = currentUser.uid;
+        const userDocRef = doc(db, 'users', userId);
+        const docSnap = await getDoc(userDocRef);
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setFirstName(userData.firstName || '');
+          setLastName(userData.lastName || '');
+          setDietaryRestrictions(userData.dietaryRestrictions || '');
+          setCalorieRequirements(userData.calorieRequirements || '');
+          setProteinRequirements(userData.proteinRequirements || '');
+          setReligionChoice(userData.religionChoice || '');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
     });
 
-    return () => unsubscribe();
-  }, []);
+    fetchUserData(); // Fetch user data on component mount
+
+    return () => unsubscribe(); // Cleanup on component unmount
+  }, [currentUser]);
+
+  const fetchUserData = async () => {
+    try {
+      if (!currentUser) return;
+      
+      const userId = currentUser.uid;
+      const userDocRef = doc(db, 'users', userId);
+      const docSnap = await getDoc(userDocRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        setFirstName(userData.firstName || '');
+        setLastName(userData.lastName || '');
+        setDietaryRestrictions(userData.dietaryRestrictions || '');
+        setCalorieRequirements(userData.calorieRequirements || '');
+        setProteinRequirements(userData.proteinRequirements || '');
+        setReligionChoice(userData.religionChoice || '');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   const handleSaveFirstName = async () => {
     if (!currentUser) {
@@ -100,8 +149,6 @@ const EditSettings = () => {
 
       await setDoc(userDocRef, { firstName }, { merge: true });
 
-      setFirstName(''); // Clear the input field
-      setCurrentCard(2); // Move to the next card
     } catch (error) {
       console.error('Error saving first name:', error);
     }
@@ -119,8 +166,6 @@ const EditSettings = () => {
 
       await setDoc(userDocRef, { lastName }, { merge: true });
 
-      setLastName(''); // Clear the input field
-      setCurrentCard(3); // Move to the next card
     } catch (error) {
       console.error('Error saving last name:', error);
     }
@@ -138,8 +183,6 @@ const EditSettings = () => {
 
       await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
 
-      setDietaryRestrictions(''); // Clear the input field
-      setCurrentCard(4); // Move to the next card
     } catch (error) {
       console.error('Error saving dietary restrictions:', error);
     }
@@ -157,8 +200,6 @@ const EditSettings = () => {
 
       await setDoc(userDocRef, { calorieRequirements }, { merge: true });
 
-      setCalorieRequirements(''); // Clear the input field
-      setCurrentCard(5); // Move to the next card
     } catch (error) {
       console.error('Error saving calorie requirements:', error);
     }
@@ -176,8 +217,6 @@ const EditSettings = () => {
 
       await setDoc(userDocRef, { proteinRequirements }, { merge: true });
 
-      setProteinRequirements(''); // Clear the input field
-      setCurrentCard(6); // Move to the next card
     } catch (error) {
       console.error('Error saving protein requirements:', error);
     }
@@ -195,11 +234,13 @@ const EditSettings = () => {
 
       await setDoc(userDocRef, { religionChoice }, { merge: true });
 
-      setReligionChoice(''); // Clear the input field
     } catch (error) {
       console.error('Error saving religion choice:', error);
     }
   };
+
+  // Implement handleSaveLastName, handleDietaryRestrictions, handleCalorieRequirements,
+  // handleProteinRequirements, and handleReligionChoice similarly as handleSaveFirstName
 
   const handleGoBack = () => {
     navigate('/dashboard');
@@ -210,6 +251,8 @@ const EditSettings = () => {
       <HeadingContainer>
         <Heading>Edit your Setup</Heading>
         <Button onClick={handleGoBack}>Go Back</Button>
+        <Button onClick={fetchUserData}>Refresh</Button>
+        <p>P.S.: If you click Submit, your current saving of information will be replaced by the new information in the text field.</p>
       </HeadingContainer>
 
       <Card>
@@ -217,10 +260,10 @@ const EditSettings = () => {
         <InputField
           type="text"
           placeholder="Enter your response"
-          value={firstName} // Bind the input field to the state
+          value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
-        <Button onClick={handleSaveFirstName}>Submit</Button>
+        <Button onClick={handleSaveFirstName}>Save</Button>
       </Card>
 
       <Card>
@@ -228,57 +271,74 @@ const EditSettings = () => {
         <InputField
           type="text"
           placeholder="Enter your response"
-          value={lastName} // Bind the input field to the state
+          value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
-        <Button onClick={handleSaveLastName}>Submit</Button>
+        <Button onClick={handleSaveLastName}>Save</Button>
       </Card>
 
       <Card>
-        <Question>Tell me your dietary restrictions in detail. Type none if applicable</Question>
+        <Question>What is your dietary restrictions?</Question>
         <InputField
           type="text"
           placeholder="Enter your response"
-          value={dietaryRestrictions} // Bind the input field to the state
-          onChange={(e) => setDietaryRestrictions(e.target.value)}
+          value={dietaryRestrictions}
+          onChange={(e) => {
+            // Allow alphabetical characters, spaces, and special characters, but not digits
+            const newValue = e.target.value.replace(/[0-9]/g, '');
+            setDietaryRestrictions(newValue);
+          }}
         />
-        <Button onClick={handleDietaryRestrictions}>Submit</Button>
+        <Button onClick={handleDietaryRestrictions}>Save</Button>
       </Card>
 
       <Card>
-        <Question>Do you have any calorie requirements? Type N/A if applicable</Question>
+        <Question>What is your calorie requirements? Answer in cals</Question>
         <InputField
           type="text"
           placeholder="Enter your response"
-          value={calorieRequirements} // Bind the input field to the state
-          onChange={(e) => setCalorieRequirements(e.target.value)}
+          value={calorieRequirements}
+          onChange={(e) => {
+          // Remove non-numeric characters using regex
+          const newValue = e.target.value.replace(/[^0-9]/g, '');
+          setCalorieRequirements(newValue);
+        }}
         />
-        <Button onClick={handleCalorieRequirements}>Submit</Button>
+        <Button onClick={handleCalorieRequirements}>Save</Button>
       </Card>
 
       <Card>
-        <Question>Do you have any protein requirements? Type N/A if applicable</Question>
+        <Question>What is your protein requirements? Answer in grams</Question>
         <InputField
           type="text"
           placeholder="Enter your response"
-          value={proteinRequirements} // Bind the input field to the state
-          onChange={(e) => setProteinRequirements(e.target.value)}
+          value={proteinRequirements}
+          onChange={(e) => {
+            // Remove non-numeric characters using regex
+            const newValue = e.target.value.replace(/[^0-9]/g, '');
+            setProteinRequirements(newValue);
+          }}
         />
-        <Button onClick={handleProteinRequirements}>Submit</Button>
+        <Button onClick={handleProteinRequirements}>Save</Button>
       </Card>
 
       <Card>
-        <Question>What religion are you? Type none if applicable</Question>
+        <Question>Do you follow any religion?</Question>
         <InputField
           type="text"
           placeholder="Enter your response"
-          value={religionChoice} // Bind the input field to the state
-          onChange={(e) => setReligionChoice(e.target.value)}
+          value={religionChoice}
+          onChange={(e) => {
+            // Remove non-alphabetical characters using regex
+            const newValue = e.target.value.replace(/[^a-zA-Z ]/g, '');
+            setReligionChoice(newValue);
+          }}
         />
-        <Button onClick={handleReligionChoice}>Submit</Button>
+        <Button onClick={handleReligionChoice}>Save</Button>
       </Card>
+
     </PageContainer>
-  )
+  );
 };
 
 export default EditSettings;

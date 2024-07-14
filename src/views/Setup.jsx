@@ -43,7 +43,7 @@ const Button = styled.button`
   margin: 0 1rem; /* Add this line for a gap */
 `;
 
-const InputField = styled.input`
+const InputField = styled.textarea`
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;

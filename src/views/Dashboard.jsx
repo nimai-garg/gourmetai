@@ -114,6 +114,10 @@ const Dashboard = () => {
     navigate('/editSettings');
   };
 
+  const handleNutritionalData = () => {
+    navigate('/nutritionalData')
+  }
+
   return (
     <PageContainer>
 
@@ -129,8 +133,22 @@ const Dashboard = () => {
         <br></br>
         
         <Box>
+          <h3>Recipe Innovation</h3>
           <p>Get started with a new recipe below.</p>
           <Button onClick={handleRecipeSetup}>New Recipe</Button>
+        </Box>
+
+        <Box>
+          <h3>Nutritional Data</h3>
+          <p>Find data on a particular food item</p>
+          <Button onClick={handleNutritionalData}>Let's find out</Button>
+        </Box>
+
+        <Box>
+          <h3>Ingredient of the Week</h3>
+          <p>Salt</p>
+          <p>Health Benefits:</p>
+          - Makes you stronger
         </Box>
 
     </PageContainer>
