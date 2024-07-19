@@ -10,7 +10,7 @@ const PageContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: #FFF;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
 `;
 
 const Card = styled.div`
@@ -19,28 +19,32 @@ const Card = styled.div`
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   display: flex;
   justify-content: center;
   gap: 1rem; /* Add this line for the gap */
 `;
 
 const Button = styled.button`
-  background-color: #fff;
-  color: #000000;
-  border-color: black;
-  border-radius: 30px;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 25px;
+  font-size: 0.85rem;
   font-weight: bold;
-  width: 200px;
   cursor: pointer;
-  &:hover {
-    color: #fff;
-    background-color: #000;
-    border-color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 0.8rem;
   }
-  font-family: 'Fustat', sans-serif;
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
   margin: 0 0.5rem; /* Add this line for a gap */
 `;
 
@@ -65,13 +69,13 @@ const Login = () => {
   };
 
   const handleLearn = () => {
-    window.open('https://google.com', '_blank');
+    navigate('/');
   }
 
   return (
     <PageContainer>
       <h1>GourmetAI</h1>
-      <p>An app that creates you personalized recipes</p>
+      <p>An app that provides you cooking resources</p>
       <br></br>
       <Card>
         <Button onClick={handleLogin}>Let's go!</Button>

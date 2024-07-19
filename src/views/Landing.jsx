@@ -15,7 +15,6 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 
   @media (max-width: 768px) {
@@ -25,8 +24,8 @@ const HeaderContainer = styled.div`
 
 const Header = styled.div`
   font-size: 1.7rem;
-  font-family: 'Fustat', sans-serif;
-  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -35,15 +34,16 @@ const Header = styled.div`
 
 const CenterText = styled.h1`
   font-size: 4rem;
-  font-family: 'Fustat', sans-serif;
-  font-weight: bold;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
   justify-content: center;
   align-items: center;
   display: flex;
   margin-top: 100px;
-  background: linear-gradient(to right, #ffcccc, #ff6699);
-  -webkit-background-clip: text; /* Clip the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  
+  // background: linear-gradient(to right, #ffcccc, #ff6699);
+  // -webkit-background-clip: text; /* Clip the gradient to the text */
+  // -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -53,8 +53,9 @@ const CenterText = styled.h1`
 
 const SubCenterText = styled.h3`
   font-size: 1.2rem;
-  font-family: 'Fustat', sans-serif;
-  background: gray;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  background: black;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -89,9 +90,9 @@ const LeftCenterTextButton = styled.button`
   padding: 10px 20px;
   width: 150px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 400;
   cursor: pointer;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   &:hover {
     color: #fff;
     background-color: #000;
@@ -107,9 +108,9 @@ const RightCenterTextButton = styled.button`
   padding: 10px 20px;
   width: 150px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 400;
   cursor: pointer;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   &:hover {
     color: #fff;
     background-color: #000;
@@ -118,20 +119,21 @@ const RightCenterTextButton = styled.button`
 `;
 
 const ActionButton = styled.button`
-  color: #000000;
-  background-color: transparent;
+  color: #fff;
+  background-color: #000;
   border: 2px solid black;
-  border-radius: 30px;
-  padding: 10px 20px;
-  font-size: 1rem;
+  border-radius: 10px;
+  padding: 9px 19px;
+  font-size: 0.85rem;
   font-weight: bold;
   cursor: pointer;
-  font-family: 'Fustat', sans-serif;
-  &:hover {
-    color: #fff;
-    background-color: #000;
-    border-color: white;
-  }
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  // &:hover {
+  //   color: #000;
+  //   background-color: #fff;
+  //   border-color: white;
+  // }
 
   @media (max-width: 768px) {
     padding: 5px 10px;
@@ -159,7 +161,7 @@ const Box = styled.div`
   padding: 1rem 2rem;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   margin-left: 50px;
   max-width: 400px;
   max-height: 400px;
@@ -191,7 +193,7 @@ const Footer = styled.p`
   align-items: center;
   display: flex;
   margin-left: 60px;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   &:hover {
     font-weight: bold;
   }
@@ -216,7 +218,7 @@ const Landing = () => {
         <ActionButton onClick={handleActionButton}>Create</ActionButton>
       </HeaderContainer>
       <CenterText>Find inspiration for your next recipe</CenterText>
-      <SubCenterText>A 100% free AI that allows you to think of creative, innovative, and personalized recipes </SubCenterText>
+      <SubCenterText>Quickly find info in documents, simplify complex topics, take notes and write with the power of AI.</SubCenterText>
       <CenterTextButtonDiv>
         <LeftCenterTextButton onClick={handleActionButton}>Let's innovate</LeftCenterTextButton>
         <RightCenterTextButton>Learn more</RightCenterTextButton>

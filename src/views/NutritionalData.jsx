@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Import your USDA image
 import usdaImage from '../images/USDA_Logo.jpg';
@@ -17,7 +19,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 
   @media (max-width: 768px) {
@@ -29,11 +31,33 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.7rem;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: bold;
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
+  }
+`;
+
+const HeaderButtons = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const TextField = styled.input`
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: calc(100% - 40px); /* Reduce width to ensure it doesn't hit the right edge */
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  max-width: 100%;
+
+  /* Apply input restriction using regex */
+  &:invalid {
+    border-color: red; /* Optional: Highlight invalid input */
   }
 `;
 
@@ -50,10 +74,144 @@ const USDAImage = styled.img`
   cursor: pointer; /* Make the cursor change to a pointer on hover */
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+`;
+
+const NextButton = styled.button`
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  background-color: #007bff;
+  color: #fff;
+  border: 2px solid #007bff;
+  padding: 10px 20px;
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
+`;
+
+const PreviousButton = styled.button`
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  background-color: red;
+  color: #fff;
+  border: 2px solid red;
+   padding: 10px 20px;
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
+`;
+
+const Button = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 19px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+`;
+
+const GridItem = styled.div`
+  background-color: #F5F5F5;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+`;
+
+const NutrientValue = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+`;
+
+const NutrientName = styled.div`
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+`;
+
+const NutritionData = styled.p`
+
+`
+
 const NutritionalData = () => {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState(''); // Default query example
+  const [nutritionData, setNutritionData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0); // Track current page of results
+
+  useEffect(() => {
+    // Function to fetch data from USDA API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://api.nal.usda.gov/fdc/v1/foods/search', {
+          params: {
+            api_key: 'P9Tx3qSSzbAUE6arbEzBatXAsLFRICnkI5O5ShPy',
+            query: query,
+            pageSize: 1, // Limit to 1 result per query
+            pageNumber: currentPage + 1 // Adjust to current page (API uses 1-based index)
+          }
+        });
+        setNutritionData(response.data.foods[0]); // Only store the first (best) result
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [query, currentPage]);
 
   const handleUSDALogo = () => {
     window.open('https://www.usda.gov/', '_blank'); // Opens USDA website in a new tab
+  };
+
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
+  };
+
+  const handleNext = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleGoBack = () => {
+    navigate('/dashboard');
   };
 
   return (
@@ -64,7 +222,76 @@ const NutritionalData = () => {
           <PoweredByText>powered by</PoweredByText>
           <USDAImage src={usdaImage} onClick={handleUSDALogo} alt="USDA Logo" />
         </Header>
+
+        <HeaderButtons>
+          <Button onClick={handleGoBack}>Go back</Button>
+        </HeaderButtons>
       </HeaderContainer>
+
+      {/* Input for dynamic query */}
+      <div>
+        <br></br>
+        <TextField type="text" value={query} placeholder="Enter an ingredient..." onChange={handleInputChange} />
+      </div>
+
+      {/* Display fetched data */}
+      
+      {nutritionData && (
+        <div>
+          <h2 style={{ fontFamily: 'Inter, sans-serif' }}>Nutritional Information for "{query}"</h2>
+          <NutritionData>{nutritionData.description}</NutritionData>
+          <GridContainer>
+          <GridItem>
+            <NutrientValue>{`${nutritionData.servingSize || 'N/A'} ${nutritionData.servingSizeUnit || ''}`}</NutrientValue>
+            <NutrientName>Serving Size</NutrientName>
+          </GridItem>
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1008)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Calories (kcal)</NutrientName>
+            </GridItem>
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1003)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Protein (g)</NutrientName>
+            </GridItem>
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1004)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Fat (g)</NutrientName>
+            </GridItem>
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1258)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Saturated Fat (g)</NutrientName>
+            </GridItem>
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1005)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Carbohydrates (g)</NutrientName>
+            </GridItem>
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1253)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Cholesterol (g)</NutrientName>
+            </GridItem>
+            <GridItem>
+              <NutrientValue> {nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1093)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Sodium (g)</NutrientName>
+            </GridItem>
+
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 2000)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Total Sugars (g)</NutrientName>
+            </GridItem>
+
+            <GridItem>
+              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 2001)?.value || 'N/A'}</NutrientValue>
+              <NutrientName>Included Sugars (g)</NutrientName>
+            </GridItem>
+            </GridContainer>
+          </div>
+      )}
+
+      {/* Navigation buttons */}
+      <ButtonContainer>
+        <PreviousButton onClick={handlePrevious} disabled={currentPage === 0}>Previous</PreviousButton>
+        <NextButton onClick={handleNext}>Next</NextButton>
+      </ButtonContainer>
     </PageContainer>
   );
 };

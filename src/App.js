@@ -8,7 +8,21 @@ import Dashboard from './views/Dashboard';
 import EditSettings from './views/EditSettings'
 import RecipeSetup from './views/RecipeSetup'
 import NutritionalData from './views/NutritionalData'
+import CookingTips from './views/CookingTips'
 import GlobalStyle from './GlobalStyles';
+
+// const handleFavoriteRecipes = () => {
+//   navigate('/favoriteRecipes');
+// }
+
+// const handleMealPlanning = () => {
+//   navigate('/mealPlanning');
+// }
+
+// const handleCookingTips = () => {
+//   navigate('/cookingTips');
+// }
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -30,7 +44,8 @@ const App = () => {
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/editSettings" element={<EditSettings/>} />
         <Route path="/recipeSetup" element={<RecipeSetup/>} />
-        <Route path="nutritionalData" element={<NutritionalData/>} />
+        <Route path="/nutritionalData" element={<NutritionalData/>} />
+        <Route path="/cookingTips" element={<CookingTips/>} />
         <Route path="*" element={<Navigate to={user ? "/setup" : "/login"} />} />
       </Routes>
     </Router>

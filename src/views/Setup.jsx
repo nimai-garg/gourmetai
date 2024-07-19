@@ -12,34 +12,35 @@ const PageContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: #FFF;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
 `;
 
 const Card = styled.div`
   background-color: #f5f5f5;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
 `;
 
 const Button = styled.button`
-  background-color: #fff;
-  color: #000000;
-  border-color: black;
-  border-radius: 30px;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 21px;
+  font-size: 0.85rem;
   font-weight: bold;
-  width: 180px;
   cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   &:hover {
     color: #fff;
     background-color: #000;
     border-color: white;
   }
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 0 1rem; /* Add this line for a gap */
 `;
 
@@ -50,33 +51,36 @@ const InputField = styled.textarea`
   margin-bottom: 1rem;
   width: 300px;
   font-size: 1rem;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter Tight', sans-serif;
+  resize: vertical;
+  max-width: 100%;
+  max-height: 200%;
 `;
 
 const SignOutButton = styled.button`
   cursor: pointer;
-  background-color: #fff;
-  color: red;
+  background-color: red;
+  color: #fff;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 30px;
+  border-radius: 10px;
   margin-top: 1rem;
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
   border: 2px solid red; // Use red color for border
   //transition: background-color 0.3s, color 0.3s, border-color 0.3s; // Smooth transition for hover effect
 
-  &:hover {
-    color: #fff;
-    background-color: red; // Corrected to red background on hover
-    border-color: white;
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
   }
 `;
 
 const GoBackButton = styled.button`
   background-color: #fff;
-  color: #000000;
+  color: #000;
+  border: 2px solid black;
   border-color: black;
-  border-radius: 30px;
+  border-radius: 10px;
   padding: 0.5rem 1rem;
   font-weight: bold;
   min-width: 100px;  /* Adjust the width to ensure "Go back" fits in one line */
@@ -88,7 +92,8 @@ const GoBackButton = styled.button`
     background-color: #000;
     border-color: white;
   }
-  font-family: 'Fustat', sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   margin: 0 1rem; /* Add this line for a​⬤
 `;
 
