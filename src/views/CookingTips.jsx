@@ -1,63 +1,113 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-const CookingTipsContainer = styled.div`
+const PageContainer = styled.div`
+  background-color: #FFF;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 100vh;
   padding: 20px;
 `;
 
-const TitleSection = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
+
+const Header = styled.div`
+  font-size: 1.7rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const NavigationButtonDiv = styled.div`
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
+`
+
+const ActionButton = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 19px;
+  font-size: 0.85rem;
+  font-weight: bold;
   cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
+`;
+
+const MainSection = styled.div`
+
+`;
+
+const MainBox = styled.div`
+  width: 100%;
+  border-radius: 15px;
+  height: 700px; /* Adjust height as needed */
+  background-color: #ECECEC; /* Sets the background color to gray */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const LeftLine = styled.div`
+  width: 2px; /* Thickness of the line */
+  height: 84%; /* Makes the line span the full height of its container */
+  background-color: black; /* Color of the line */
+  position: absolute; /* Positioned relative to its container */
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
 `;
 
-const ContentSection = styled.div`
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  ${(props) => props.isHidden && `display: none;`}
-`;
-
-const GoBackButtonContainer = styled.div`
-  margin-top: 20px;
-`;
-
 const CookingTips = () => {
-  const [isIndianTipsVisible, setIsIndianTipsVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const handleToggleIndianTips = () => {
-    setIsIndianTipsVisible(!isIndianTipsVisible);
+  const handleGoBack = () => {
+    navigate('/dashboard');
   };
 
   return (
-    <CookingTipsContainer>
-      <TitleSection onClick={handleToggleIndianTips}>
-        <Title>General Cooking Tips</Title>
-        {/* GoBackButton component */}
-      </TitleSection>
-      <ContentSection isHidden={!isIndianTipsVisible}>
-        {/* Content for General Cooking Tips */}
-      </ContentSection>
-      <ContentSection isHidden={isIndianTipsVisible}>
-        {/* Content for Indian Cooking Tips */}
-      </ContentSection>
-      <GoBackButtonContainer>
-        {/* GoBackButton component */}
-      </GoBackButtonContainer>
-    </CookingTipsContainer>
-  );
+   <PageContainer>
+     <HeaderContainer>
+        <Header>Cooking Tips</Header>
+      
+        <NavigationButtonDiv>
+          <ActionButton onClick={handleGoBack}>Go Back</ActionButton>
+        </NavigationButtonDiv>
+      </HeaderContainer>
+      <br></br>
+      <MainSection>
+        <MainBox>
+          <LeftLine></LeftLine>
+        </MainBox>
+      </MainSection>
+   </PageContainer>
+  )
 };
 
 export default CookingTips;

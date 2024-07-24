@@ -176,6 +176,8 @@ const Box = styled.div`
 const BoxHeader = styled.h1`
   align-items: flex-start;
   white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -218,7 +220,7 @@ const Landing = () => {
         <ActionButton onClick={handleActionButton}>Create</ActionButton>
       </HeaderContainer>
       <CenterText>Find inspiration for your next recipe</CenterText>
-      <SubCenterText>Quickly find info in documents, simplify complex topics, take notes and write with the power of AI.</SubCenterText>
+      <SubCenterText>Add something here. Powered by GPT 4o Mini, no cost, no pricing plans</SubCenterText>
       <CenterTextButtonDiv>
         <LeftCenterTextButton onClick={handleActionButton}>Let's innovate</LeftCenterTextButton>
         <RightCenterTextButton>Learn more</RightCenterTextButton>

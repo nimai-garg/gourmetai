@@ -59,6 +59,29 @@ const ActionButton = styled.button`
   }
 `;
 
+const SignOutButton = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 19px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+    background-color: red;
+  }
+`;
+
 const WelcomeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -143,7 +166,11 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const handleEditSetupButton = async () => {
-    navigate('/editSetup');
+    navigate('/editSettings');
+  };
+
+  const handleRecipeSetup = async () => {
+    navigate('/reviewSettings')
   };
   
   const handleCookingTips = async () => {
@@ -152,6 +179,10 @@ const Landing = () => {
 
   const handleNutritionalData = async () => {
     navigate('/nutritionalData');
+  }
+
+  const handleTesting = async () => {
+    navigate('/recipeGenerator');
   }
 
   const handleSignOut = async () => {
@@ -169,7 +200,7 @@ const Landing = () => {
       
         <NavigationButtonDiv>
           <ActionButton onClick={handleEditSetupButton}>Edit Setup</ActionButton>
-          <ActionButton onClick={handleSignOut}>Sign Out</ActionButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
         </NavigationButtonDiv>
       </HeaderContainer>
 
@@ -178,13 +209,14 @@ const Landing = () => {
         <SubCenterText>Choose a feature below to get started</SubCenterText>
         
         <ButtonContainer>
-          <OptionButton>AI Recipe Generator</OptionButton>
+          <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
           <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
           <br></br>
         </ButtonContainer>
 
         <ButtonContainer>
           <OptionButton onClick={handleCookingTips}>Cooking Tips</OptionButton>
+          <OptionButton onClick={handleTesting}>Testing</OptionButton>
         </ButtonContainer>
       </WelcomeContainer>
       

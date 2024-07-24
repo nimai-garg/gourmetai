@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
+import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
 
 const PageContainer = styled.div`
-  background-color: #FFF;
-  background-color: #FFF;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100vh;
-  padding: 2rem; /* Add padding for small screens */
+  background-color: #FFF;
+  font-family: 'Inter', sans-serif;
 `;
 
 const HeaderContainer = styled.div`
@@ -27,62 +28,22 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const Header = styled.div`
-  font-size: 1.7rem;
+const Header = styled.h1`
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-  }
+  font-weight: 700;
 `;
 
-const NavigationButtonDiv = styled.div`
-  display: flex;
-  gap: 10px; /* Adjust the gap as needed */
-`
-
-const Card = styled.div`
-  background-color: #fff;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
-  border-radius: 10px;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-`;
-
-const Question = styled.h3`
+const CardHeader = styled.h2`
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  margin-bottom: 1rem;
+  font-weight: 600;
 `;
 
-const InputField = styled.textarea`
-  padding: 0.5rem;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  width: 100%;
-  font-size: 1rem;
-  font-family: 'Inter', sans-serif;
-  resize: vertical;
-  max-width: 100%;
-
-  /* Apply input restriction using regex */
-  &:invalid {
-    border-color: red; /* Optional: Highlight invalid input */
-  }
-`;
-
-const Button = styled.button`
+const ContinueButton = styled.button`
   color: #fff;
   background-color: #000;
   border: none;
   border-radius: 10px;
-  padding: 9px 19px;
+  padding: 10px 20px;
   font-size: 0.85rem;
   font-weight: bold;
   cursor: pointer;
@@ -99,19 +60,71 @@ const Button = styled.button`
   }
 `;
 
-const Container = styled.div`
-  align-items: center;
+const Card = styled.div`
+  background-color: #f5f5f5;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: 'Inter', sans-serif;
 `;
 
-const EditSettings = () => {
+const Button = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 21px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  &:hover {
+    color: #fff;
+    background-color: #000;
+    border-color: white;
+  }
+  font-family: 'Inter', sans-serif;
+  margin: 0 1rem; /* Add this line for a gap */
+`;
+
+const InputField = styled.textarea`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: 300px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+`;
+
+const GoBackButton = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin: 0 1rem; /* Add this line for a gap */
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
+`;
+
+const ReviewSettings = () => {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinRequirements, setProteinRequirements] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
   const [availableIngredients, setAvailableIngredients] = useState('');
+  const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -125,13 +138,10 @@ const EditSettings = () => {
 
         if (docSnap.exists()) {
           const userData = docSnap.data();
-          setFirstName(userData.firstName || '');
-          setLastName(userData.lastName || '');
           setDietaryRestrictions(userData.dietaryRestrictions || '');
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinRequirements(userData.proteinRequirements || '');
           setReligionChoice(userData.religionChoice || '');
-          setAvailableIngredients(userData.availableIngredients || '');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -157,50 +167,13 @@ const EditSettings = () => {
 
       if (docSnap.exists()) {
         const userData = docSnap.data();
-        setFirstName(userData.firstName || '');
-        setLastName(userData.lastName || '');
         setDietaryRestrictions(userData.dietaryRestrictions || '');
         setCalorieRequirements(userData.calorieRequirements || '');
         setProteinRequirements(userData.proteinRequirements || '');
         setReligionChoice(userData.religionChoice || '');
-        setAvailableIngredients(userData.availableIngredients || '');
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    }
-  };
-
-  const handleSaveFirstName = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-
-      await setDoc(userDocRef, { firstName }, { merge: true });
-
-    } catch (error) {
-      console.error('Error saving first name:', error);
-    }
-  };
-
-  const handleSaveLastName = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-
-      await setDoc(userDocRef, { lastName }, { merge: true });
-
-    } catch (error) {
-      console.error('Error saving last name:', error);
     }
   };
 
@@ -209,13 +182,15 @@ const EditSettings = () => {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
-
+      fetchUserData();
+  
+      setCurrentCard(3); // Move to the next card
     } catch (error) {
       console.error('Error saving dietary restrictions:', error);
     }
@@ -226,13 +201,15 @@ const EditSettings = () => {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { calorieRequirements }, { merge: true });
-
+      fetchUserData();
+  
+      setCurrentCard(4); // Move to the next card
     } catch (error) {
       console.error('Error saving calorie requirements:', error);
     }
@@ -243,13 +220,15 @@ const EditSettings = () => {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { proteinRequirements }, { merge: true });
+      fetchUserData();
 
+      setCurrentCard(5); // Move to the next card
     } catch (error) {
       console.error('Error saving protein requirements:', error);
     }
@@ -260,13 +239,15 @@ const EditSettings = () => {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { religionChoice }, { merge: true });
+      fetchUserData();
 
+      setCurrentCard(6);
     } catch (error) {
       console.error('Error saving religion choice:', error);
     }
@@ -277,130 +258,148 @@ const EditSettings = () => {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { availableIngredients }, { merge: true });
+      fetchUserData();
 
+      navigate("/recipeQuestions");
     } catch (error) {
-      console.error('Error saving available ingredients', error);
+      console.error('Error saving available ingredients:', error);
     }
   };
 
-  const handleGoBack = () => {
+  const handleContinueButton = async () => {
+    setCurrentCard(2);
+    fetchUserData();
+  }
+
+  const homePage = async () => {
     navigate('/dashboard');
-  };
+  }
+
+  const handleGoBack1 = async () => {
+    setCurrentCard(1);
+  }
+
+  const handleGoBack2 = async () => {
+    setCurrentCard(2);
+  }
+
+  const handleGoBack3 = async () => {
+    setCurrentCard(3);
+  }
+
+  const handleGoBack4 = async () => {
+    setCurrentCard(4);
+  }
+
+  const handleGoBack5 = async () => {
+    setCurrentCard(5);
+  }
 
   return (
     <PageContainer>
-      <HeaderContainer>
-        <Header>Edit your Setup</Header>
-        <NavigationButtonDiv>
-          <Button onClick={handleGoBack}>Go Back</Button>
-          <Button onClick={fetchUserData}>Refresh</Button>
-        </NavigationButtonDiv>
-      </HeaderContainer>
-
-      <p>P.S.: If you click Submit, your current saving of information will be replaced by the new information in the text field.</p>
+      <Header>Review Settings</Header>
       <br></br>
-      <Container>
-        <Card>
-          <Question>What is your first name?</Question>
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <Button onClick={handleSaveFirstName}>Save</Button>
-        </Card>
 
+      {currentCard === 1 && (
         <Card>
-          <Question>What is your last name?</Question>
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <Button onClick={handleSaveLastName}>Save</Button>
+          <CardHeader>Let's start off by reviewing your setup</CardHeader>
+          <br></br>
+          <ContinueButton onClick={handleContinueButton}>Continue</ContinueButton>
         </Card>
+      )}
 
+      {currentCard === 2 && (
         <Card>
-          <Question>Do you follow a specific diet? Ex. Vegetarian, Vegan, Keto, Paleo. Type none if applicable</Question>
+           <h3>Question #1</h3>
+           <p>Do you follow a specific diet? Ex. Vegetarian, Vegan, Keto, Paleo. Type none if applicable</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={dietaryRestrictions}
-            onChange={(e) => {
-              // Allow alphabetical characters, spaces, and special characters, but not digits
-              const newValue = e.target.value.replace(/[0-9]/g, '');
-              setDietaryRestrictions(newValue);
-            }}
+            onChange={(e) => setDietaryRestrictions(e.target.value)}
           />
-          <Button onClick={handleDietaryRestrictions}>Save</Button>
+          <Button onClick={handleDietaryRestrictions}>Confirm</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack1}>Go back</GoBackButton>
         </Card>
+      )}
 
+      {currentCard === 3 && (
         <Card>
-          <Question>What is your calorie requirements per recipe? Answer in calories</Question>
+           <h3>Question #2</h3>
+           <p>Do you have any calorie requirements per recipe? Type N/A if applicable</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={calorieRequirements}
-            onChange={(e) => {
-            // Remove non-numeric characters using regex
-            const newValue = e.target.value.replace(/[^0-9]/g, '');
-            setCalorieRequirements(newValue);
-          }}
+            onChange={(e) => setCalorieRequirements(e.target.value)}
           />
-          <Button onClick={handleCalorieRequirements}>Save</Button>
+          <Button onClick={handleCalorieRequirements}>Confirm</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack2}>Go back</GoBackButton>
         </Card>
+      )}
 
+      {currentCard === 4 && (
         <Card>
-          <Question>What is your protein requirements per recipe? Answer in grams</Question>
+           <h3>Question #3</h3>
+           <p>Do you have any protein requirements per recipe? Type N/A if applicable</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={proteinRequirements}
-            onChange={(e) => {
-              // Remove non-numeric characters using regex
-              const newValue = e.target.value.replace(/[^0-9]/g, '');
-              setProteinRequirements(newValue);
-            }}
+            onChange={(e) => setProteinRequirements(e.target.value)}
           />
-          <Button onClick={handleProteinRequirements}>Save</Button>
+          <Button onClick={handleProteinRequirements}>Confirm</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack3}>Go back</GoBackButton>
         </Card>
+      )}
 
+      {currentCard === 5 && (
         <Card>
-          <Question>Do you follow any religion?</Question>
+          <h3>Question #4</h3>
+           <p>What religion are you? Type none if applicable</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={religionChoice}
-            onChange={(e) => {
-              // Remove non-alphabetical characters using regex
-              const newValue = e.target.value.replace(/[^a-zA-Z ]/g, '');
-              setReligionChoice(newValue);
-            }}
+            onChange={(e) => setReligionChoice(e.target.value)}
           />
-          <Button onClick={handleReligionChoice}>Save</Button>
+          <Button onClick={handleReligionChoice}>Confirm</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack4}>Go back</GoBackButton>
         </Card>
+      )}
 
+      {currentCard === 6 && (
         <Card>
-          <Question>What available ingredients you have?</Question>
+          <h3>Question #5</h3>
+           <p>What are available ingredients you have?</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={availableIngredients}
             onChange={(e) => setAvailableIngredients(e.target.value)}
           />
-          <Button onClick={handleAvailableIngredients}>Save</Button>
+          <Button onClick={handleAvailableIngredients}>Finish</Button>
+          <br></br>
+          <GoBackButton onClick={handleGoBack5}>Go back</GoBackButton>
         </Card>
-      </Container>
+      )} 
     </PageContainer>
-  );
-};
+  )
+}
 
-export default EditSettings;
+export default ReviewSettings;
