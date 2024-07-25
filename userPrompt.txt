@@ -1,0 +1,14 @@
+Make recipes based on this
+        Age: 
+        Dietary Restrictions: 
+        Allergy Restrictions: 
+        Calorie Requirements: 
+        Protein Preferences: 
+        Nutritional Goals: 
+        Religion Choice: 
+        Available Ingredients: 
+        Skill Level: 
+        Health Conditions: 
+        Kitchen Equipment: 
+        Cooking Restrictions: 
+        Other Instructions: 

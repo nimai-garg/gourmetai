@@ -9,10 +9,10 @@ CORS(app)  # Enable CORS for all routes
 def chat():
     data = request.get_json()
     user_message = data.get('message')
-    
+
     # Call the function that interacts with ChatGPT
     bot_reply = get_chatgpt_response(user_message)
-    
+
     return jsonify({'reply': bot_reply})
 
 if __name__ == '__main__':

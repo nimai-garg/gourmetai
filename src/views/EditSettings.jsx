@@ -49,6 +49,7 @@ const Card = styled.div`
   border-radius: 10px;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
   width: 100%;
   max-width: 500px;
   text-align: center;
@@ -107,11 +108,19 @@ const EditSettings = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [age, setAge] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [allergyRestrictions, setAllergyRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
-  const [proteinRequirements, setProteinRequirements] = useState('');
+  const [proteinPreferences, setProteinPreferences] = useState('')
+  const [nutritionalGoals, setNutritionalGoals] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
   const [availableIngredients, setAvailableIngredients] = useState('');
+  const [skillLevel, setSkillLevel] = useState('');
+  const [healthConditions, setHealthConditions] = useState('');
+  const [kitchenEquipment, setKitchenEquipment] = useState('');
+  const [cookingRestrictions, setCookingRestrictions] = useState('');
+  const [otherInstructions, setOtherInstructions] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -127,11 +136,19 @@ const EditSettings = () => {
           const userData = docSnap.data();
           setFirstName(userData.firstName || '');
           setLastName(userData.lastName || '');
+          setAge(userData.age || '');
           setDietaryRestrictions(userData.dietaryRestrictions || '');
+          setAllergyRestrictions(userData.allergyRestrictions || '');
           setCalorieRequirements(userData.calorieRequirements || '');
-          setProteinRequirements(userData.proteinRequirements || '');
+          setProteinPreferences(userData.proteinPreferences || '');
+          setNutritionalGoals(userData.nutritionalGoals || '');
           setReligionChoice(userData.religionChoice || '');
           setAvailableIngredients(userData.availableIngredients || '');
+          setSkillLevel(userData.skillLevel || '');
+          setHealthConditions(userData.healthConditions || '');
+          setKitchenEquipment(userData.kitchenEquipment || '');
+          setCookingRestrictions(userData.setCookingRestrictions || '');
+          setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -159,11 +176,19 @@ const EditSettings = () => {
         const userData = docSnap.data();
         setFirstName(userData.firstName || '');
         setLastName(userData.lastName || '');
+        setAge(userData.age || '');
         setDietaryRestrictions(userData.dietaryRestrictions || '');
+        setAllergyRestrictions(userData.allergyRestrictions || '');
         setCalorieRequirements(userData.calorieRequirements || '');
-        setProteinRequirements(userData.proteinRequirements || '');
+        setProteinPreferences(userData.proteinPreferences || '');
+        setNutritionalGoals(userData.nutritionalGoals || '');
         setReligionChoice(userData.religionChoice || '');
         setAvailableIngredients(userData.availableIngredients || '');
+        setSkillLevel(userData.skillLevel || '');
+        setHealthConditions(userData.healthConditions || '');
+        setKitchenEquipment(userData.kitchenEquipment || '');
+        setCookingRestrictions(userData.setCookingRestrictions || '');
+        setOtherInstructions(userData.otherInstructions || '');
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -175,117 +200,253 @@ const EditSettings = () => {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { firstName }, { merge: true });
-
+  
     } catch (error) {
       console.error('Error saving first name:', error);
     }
   };
-
+  
   const handleSaveLastName = async () => {
     if (!currentUser) {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { lastName }, { merge: true });
-
+  
     } catch (error) {
       console.error('Error saving last name:', error);
     }
   };
 
-  const handleDietaryRestrictions = async () => {
+  const handleSaveAge = async () => {
     if (!currentUser) {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { age }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving age:', error);
+    }
+  };
 
+  const handleSaveDietaryRestrictions = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
       await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
-
+  
     } catch (error) {
       console.error('Error saving dietary restrictions:', error);
     }
   };
 
-  const handleCalorieRequirements = async () => {
+  const handleSaveAllergyRestrictions = async () => {
     if (!currentUser) {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { allergyRestrictions }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving allergy restrictions:', error);
+    }
+  };
 
+  const handleSaveCalorieRequirements = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
       await setDoc(userDocRef, { calorieRequirements }, { merge: true });
-
+  
     } catch (error) {
       console.error('Error saving calorie requirements:', error);
     }
   };
 
-  const handleProteinRequirements = async () => {
+  const handleSaveProteinPreferences = async () => {
     if (!currentUser) {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
-      await setDoc(userDocRef, { proteinRequirements }, { merge: true });
-
+  
+      await setDoc(userDocRef, { proteinPreferences }, { merge: true });
+  
     } catch (error) {
-      console.error('Error saving protein requirements:', error);
+      console.error('Error saving protein preferences:', error);
     }
   };
 
-  const handleReligionChoice = async () => {
+  const handleSaveNutritionalGoals = async () => {
     if (!currentUser) {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { nutritionalGoals }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving nutritional goals:', error);
+    }
+  };
 
+  const handleSaveReligionChoice = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
       await setDoc(userDocRef, { religionChoice }, { merge: true });
-
+  
     } catch (error) {
       console.error('Error saving religion choice:', error);
     }
   };
 
-  const handleAvailableIngredients = async () => {
+  const handleSaveAvailableIngredients = async () => {
     if (!currentUser) {
       console.error('No current user found');
       return;
     }
-
+  
     try {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
-
+  
       await setDoc(userDocRef, { availableIngredients }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving available ingredients:', error);
+    }
+  };
+
+  const handleSaveSkillLevel = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { skillLevel }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving skill level:', error);
+    }
+  };
+
+  const handleSaveHealthConditions = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { healthConditions }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving health conditions:', error);
+    }
+  };
+
+  const handleSaveKitchenEquipment = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { kitchenEquipment }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving kitchen equipment:', error);
+    }
+  };
+
+  const handleSaveCookingRestrictions = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { cookingRestrictions }, { merge: true });
+  
+    } catch (error) {
+      console.error('Error saving cooking restrictions:', error);
+    }
+  };
+
+  const handleSaveOtherInstructions = async () => {
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { otherInstructions }, { merge: true });
 
     } catch (error) {
-      console.error('Error saving available ingredients', error);
+      console.error('Error saving other instructions:', error);
     }
   };
 
@@ -307,18 +468,23 @@ const EditSettings = () => {
       <br></br>
       <Container>
         <Card>
-          <Question>What is your first name?</Question>
+          <h3>Question #1 - First Name</h3>
+          <p>What is your first name?</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
-          <Button onClick={handleSaveFirstName}>Save</Button>
-        </Card>
+            <Button onClick={handleSaveFirstName}>Save</Button>
+          </Card>
 
-        <Card>
-          <Question>What is your last name?</Question>
+          <Card>
+          <h3>Question #2 - Last Name</h3>
+          <p>What is your last name?</p>
+        
+        <div>
           <InputField
             type="text"
             placeholder="Enter your response"
@@ -326,77 +492,190 @@ const EditSettings = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
           <Button onClick={handleSaveLastName}>Save</Button>
+          </div>
+          <br></br>
         </Card>
 
         <Card>
-          <Question>Do you follow a specific diet? Ex. Vegetarian, Vegan, Keto, Paleo. Type none if applicable</Question>
+          <h3>Question #3 - Age</h3>
+          <p>What is your age?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+          <Button onClick={handleSaveAge}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #4 - Dietary Restrictions</h3>
+          <p>Do you follow a specific diet (e.g., vegetarian, vegan, keto, paleo)?</p>
+        
           <InputField
             type="text"
             placeholder="Enter your response"
             value={dietaryRestrictions}
-            onChange={(e) => {
-              // Allow alphabetical characters, spaces, and special characters, but not digits
-              const newValue = e.target.value.replace(/[0-9]/g, '');
-              setDietaryRestrictions(newValue);
-            }}
+            onChange={(e) => setDietaryRestrictions(e.target.value)}
           />
-          <Button onClick={handleDietaryRestrictions}>Save</Button>
+          <Button onClick={handleSaveDietaryRestrictions}>Save</Button>
+          <br></br>
         </Card>
 
         <Card>
-          <Question>What is your calorie requirements per recipe? Answer in calories</Question>
+          <h3>Question #5 - Allergy Restrictions</h3>
+          <p>Do you have any food allergies or intolerances (e.g., gluten, dairy, nuts)?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={allergyRestrictions}
+            onChange={(e) => setAllergyRestrictions(e.target.value)}
+          />
+          <Button onClick={handleSaveAllergyRestrictions}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #6 - Calorie Requirements</h3>
+          <p>Do you have any specific calorie requirements or goals (e.g., low-calorie, high-protein)?</p>
+        
           <InputField
             type="text"
             placeholder="Enter your response"
             value={calorieRequirements}
-            onChange={(e) => {
-            // Remove non-numeric characters using regex
-            const newValue = e.target.value.replace(/[^0-9]/g, '');
-            setCalorieRequirements(newValue);
-          }}
+            onChange={(e) => setCalorieRequirements(e.target.value)}
           />
-          <Button onClick={handleCalorieRequirements}>Save</Button>
+          <Button onClick={handleSaveCalorieRequirements}>Save</Button>
+          <br></br>
         </Card>
 
         <Card>
-          <Question>What is your protein requirements per recipe? Answer in grams</Question>
+          <h3>Question #7 - Protein Preferences</h3>
+          <p>Do you prefer certain types of protein, such as chicken, beef, pork, fish, tofu, or legumes? What is your protein requirements?</p>
+        
           <InputField
             type="text"
             placeholder="Enter your response"
-            value={proteinRequirements}
-            onChange={(e) => {
-              // Remove non-numeric characters using regex
-              const newValue = e.target.value.replace(/[^0-9]/g, '');
-              setProteinRequirements(newValue);
-            }}
+            value={proteinPreferences}
+            onChange={(e) => setProteinPreferences(e.target.value)}
           />
-          <Button onClick={handleProteinRequirements}>Save</Button>
+          <Button onClick={handleSaveProteinPreferences}>Save</Button>
+          <br></br>
         </Card>
 
         <Card>
-          <Question>Do you follow any religion?</Question>
+          <h3>Question #8 - Nutritional Goals</h3>
+          <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={nutritionalGoals}
+            onChange={(e) => setNutritionalGoals(e.target.value)}
+          />
+          <Button onClick={handleSaveNutritionalGoals}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #9 - Religion Choice</h3>
+          <p>Do you follow any religion practices (Ex. Christianity, Hinduism, Islamic, etc.)?</p>
+        
           <InputField
             type="text"
             placeholder="Enter your response"
             value={religionChoice}
-            onChange={(e) => {
-              // Remove non-alphabetical characters using regex
-              const newValue = e.target.value.replace(/[^a-zA-Z ]/g, '');
-              setReligionChoice(newValue);
-            }}
+            onChange={(e) => setReligionChoice(e.target.value)}
           />
-          <Button onClick={handleReligionChoice}>Save</Button>
+          <Button onClick={handleSaveReligionChoice}>Save</Button>
+          <br></br>
         </Card>
 
         <Card>
-          <Question>What available ingredients you have?</Question>
+          <h3>Question #10 - Available Ingredients</h3>
+          <p>What ingredients do you currently have available?</p>
+        
           <InputField
             type="text"
             placeholder="Enter your response"
             value={availableIngredients}
             onChange={(e) => setAvailableIngredients(e.target.value)}
           />
-          <Button onClick={handleAvailableIngredients}>Save</Button>
+          <Button onClick={handleSaveAvailableIngredients}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #11 - Skill Level</h3>
+          <p>What is your cooking skill level (e.g., beginner, intermediate, advanced)?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={skillLevel}
+            onChange={(e) => setSkillLevel(e.target.value)}
+          />
+          <Button onClick={handleSaveSkillLevel}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #12 - Health Conditions</h3>
+          <p>Do you have any health conditions that influence your diet, such as diabetes, high blood pressure, or cholesterol? Explain</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={healthConditions}
+            onChange={(e) => setHealthConditions(e.target.value)}
+          />
+          <Button onClick={handleSaveHealthConditions}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #13 - Kitchen Equipment</h3>
+          <p>Do you have any special kitchen equipment you’d like to use, such as an Instant Pot, air fryer, or sous-vide machine?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={kitchenEquipment}
+            onChange={(e) => setKitchenEquipment(e.target.value)}
+          />
+          <Button onClick={handleSaveKitchenEquipment}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #14 - Cooking Restrictions</h3>
+          <p>Are there any cooking methods or equipment you don’t have or prefer not to use (e.g., oven,  blender)?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={cookingRestrictions}
+            onChange={(e) => setCookingRestrictions(e.target.value)}
+          />
+          <Button onClick={handleSaveCookingRestrictions}>Save</Button>
+          <br></br>
+        </Card>
+
+        <Card>
+          <h3>Question #15 - Other Instructions</h3>
+          <p>Do you have any other specific notes or instructions?</p>
+        
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={otherInstructions}
+            onChange={(e) => setOtherInstructions(e.target.value)}
+          />
+          <Button onClick={handleSaveOtherInstructions}>Save</Button>
+          <br></br>
         </Card>
       </Container>
     </PageContainer>

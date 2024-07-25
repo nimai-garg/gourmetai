@@ -187,6 +187,7 @@ const Landing = () => {
 
   const handleSignOut = async () => {
     try {
+      navigate('/login');
       await logOut();
     } catch (error) {
       console.error("Error signing out:", error);

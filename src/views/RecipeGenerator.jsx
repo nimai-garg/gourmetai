@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db, auth } from '../firebaseConfig'; // Import auth from firebaseConfig.js
 
 // Styled Components
 const PageContainer = styled.div`
@@ -8,6 +11,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   padding: 20px;
+  box-sizing: border-box; /* Include padding in the height calculation */
 `;
 
 const HeaderContainer = styled.div`
@@ -33,8 +37,8 @@ const Header = styled.div`
 
 const NavigationButtonDiv = styled.div`
   display: flex;
-  gap: 10px; /* Adjust the gap as needed */
-`
+  gap: 10px;
+`;
 
 const ActionButton = styled.button`
   color: #fff;
@@ -54,29 +58,14 @@ const ActionButton = styled.button`
   }
 
   &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
+    transform: scale(1.03);
   }
 `;
 
-const SignOutButton = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  padding: 9px 19px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-
-  @media (max-width: 768px) {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
+const SignOutButton = styled(ActionButton)`
+  background-color: #f00;
 
   &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
     background-color: red;
   }
 `;
@@ -84,25 +73,30 @@ const SignOutButton = styled.button`
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin: 40px auto;
+  width: calc(100% - 40px); /* Full width with padding on both sides */
+  max-width: 800px; /* Adjust as needed */
+  height: calc(100vh - 80px); /* Full height minus header and input container space */
+  max-height: 600px; /* Optional: set a max-height */
+  margin: 0 auto; /* Center the container */
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  box-sizing: border-box; /* Include padding in the width and height calculation */
 `;
 
 const MessageList = styled.div`
   flex-grow: 1;
   width: 100%;
-  margin-bottom: 20px;
   overflow-y: auto;
-  max-height: 400px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-sizing: border-box; /* Include padding in the width calculation */
 `;
 
 const Message = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: ${({ isUser }) => (isUser ? 'flex-end' : 'flex-start')};
   margin-bottom: 10px;
 `;
@@ -116,11 +110,19 @@ const MessageBubble = styled.div`
   font-family: 'Inter', sans-serif;
 `;
 
+const AssistantTitle = styled.div`
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+`;
+
 const InputContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
   width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 `;
 
 const TextInput = styled.input`
@@ -134,34 +136,100 @@ const TextInput = styled.input`
 
 const SendButton = styled(ActionButton)`
   background-color: #000;
-
-  &:hover {
-    transform: scale(1.03); /* Expand the button slightly on hover */
-  }
 `;
 
 const RecipeGenerator = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const assistantName = "GourmetBot"; // Name of the assistant
+  const [age, setAge] = useState('');
+  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [allergyRestrictions, setAllergyRestrictions] = useState('');
+  const [calorieRequirements, setCalorieRequirements] = useState('');
+  const [proteinPreferences, setProteinPreferences] = useState('')
+  const [nutritionalGoals, setNutritionalGoals] = useState('');
+  const [religionChoice, setReligionChoice] = useState('');
+  const [availableIngredients, setAvailableIngredients] = useState('');
+  const [skillLevel, setSkillLevel] = useState('');
+  const [healthConditions, setHealthConditions] = useState('');
+  const [kitchenEquipment, setKitchenEquipment] = useState('');
+  const [cookingRestrictions, setCookingRestrictions] = useState('');
+  const [otherInstructions, setOtherInstructions] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const sendMessage = async () => {
-    if (input.trim()) {
-      const newMessage = { type: 'user', text: input };
-      setMessages([...messages, newMessage]);
+  useEffect(() => {
+    const sendStaticPrompt = async () => {
 
-      // Call the backend API to get the response
-      const response = await fetch('http://localhost:3000/recipeGenerator', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: input }),
-      });
+      const userId = currentUser.uid;
+      const userDocRef = doc(db, 'users', userId);
+      const docSnap = await getDoc(userDocRef);
 
-      const data = await response.json();
-      const botMessage = { type: 'bot', text: data.reply };
-      setMessages([...messages, newMessage, botMessage]);
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        const {
+          age,
+          dietaryRestrictions,
+          allergyRestrictions,
+          calorieRequirements,
+          proteinPreferences,
+          nutritionalGoals,
+          religionChoice,
+          availableIngredients,
+          skillLevel,
+          healthConditions,
+          kitchenEquipment,
+          cookingRestrictions,
+          otherInstructions
+        } = userData;
+      }
+
+      const combinedPrompt = `${staticText}
+          Age: ${age}
+          Dietary Restrictions: ${dietaryRestrictions}
+          Allergy Restrictions: ${allergyRestrictions}
+          Calorie Requirements: ${calorieRequirements}
+          Protein Preferences: ${proteinPreferences}
+          Nutritional Goals: ${nutritionalGoals}
+          Religion Choice: ${religionChoice}
+          Available Ingredients: ${availableIngredients}
+          Skill Level: ${skillLevel}
+          Health Conditions: ${healthConditions}
+          Kitchen Equipment: ${kitchenEquipment}
+          Cooking Restrictions: ${cookingRestrictions}
+          Other Instructions: ${otherInstructions}`;
+
+      const staticText = "Make recipes based on this";
+
+      try {
+        const response = await axios.post('http://localhost:5001/updatePrompt', { prompt: combinedPrompt });
+        const data = response.data;
+
+        setMessages(prevMessages => [
+          ...prevMessages,
+          { type: 'bot', text: data.choices[0].message.content.trim() }
+        ]);
+      } catch (error) {
+        console.error('Error sending static prompt to backend:', error);
+      }
+    };
+
+    sendStaticPrompt();
+  }, []);
+
+  const handleSendMessage = async () => {
+    if (!input) return;
+
+    try {
+      const response = await axios.post('http://localhost:5001/updatePrompt', { prompt: input });
+      const data = response.data;
+
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { type: 'bot', text: data.choices[0].message.content.trim() }
+      ]);
       setInput('');
+    } catch (error) {
+      console.error('Error sending user message to ChatGPT:', error);
     }
   };
 
@@ -178,6 +246,9 @@ const RecipeGenerator = () => {
         <MessageList>
           {messages.map((message, index) => (
             <Message key={index} isUser={message.type === 'user'}>
+              {!message.type === 'user' && (
+                <AssistantTitle>{assistantName}</AssistantTitle>
+              )}
               <MessageBubble isUser={message.type === 'user'}>
                 {message.text}
               </MessageBubble>
@@ -191,7 +262,7 @@ const RecipeGenerator = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
           />
-          <SendButton onClick={sendMessage}>Send</SendButton>
+          <SendButton onClick={handleSendMessage}>Send</SendButton>
         </InputContainer>
       </ChatContainer>
     </PageContainer>

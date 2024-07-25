@@ -163,8 +163,6 @@ const Setup = () => {
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinPreferences, setProteinPreferences] = useState('')
   const [nutritionalGoals, setNutritionalGoals] = useState('');
-  const [favoriteFoods, setFavoriteFoods] = useState('');
-  const [leastFavoriteFoods, setLeastFavoriteFoods] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
   const [availableIngredients, setAvailableIngredients] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
@@ -194,8 +192,6 @@ const Setup = () => {
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinPreferences(userData.proteinPreferences || '');
           setNutritionalGoals(userData.nutritionalGoals || '');
-          setFavoriteFoods(userData.favoriteFoods || '');
-          setLeastFavoriteFoods(userData.leastFavoriteFoods || '');
           setReligionChoice(userData.religionChoice || '');
           setAvailableIngredients(userData.availableIngredients || '');
           setSkillLevel(userData.skillLevel || '');
@@ -236,8 +232,6 @@ const Setup = () => {
         setCalorieRequirements(userData.calorieRequirements || '');
         setProteinPreferences(userData.proteinPreferences || '');
         setNutritionalGoals(userData.nutritionalGoals || '');
-        setFavoriteFoods(userData.favoriteFoods || '');
-        setLeastFavoriteFoods(userData.leastFavoriteFoods || '');
         setReligionChoice(userData.religionChoice || '');
         setAvailableIngredients(userData.availableIngredients || '');
         setSkillLevel(userData.skillLevel || '');
@@ -394,42 +388,6 @@ const Setup = () => {
       console.error('Error saving nutritional goals:', error);
     }
   };
-  
-  const handleSaveFavoriteFoods = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-  
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-  
-      await setDoc(userDocRef, { favoriteFoods }, { merge: true });
-  
-      setCurrentCard(11); // Move to the next card
-    } catch (error) {
-      console.error('Error saving favorite foods:', error);
-    }
-  };
-
-  const handleSaveLeastFavoriteFoods = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-  
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-  
-      await setDoc(userDocRef, { leastFavoriteFoods }, { merge: true });
-  
-      setCurrentCard(12); // Move to the next card
-    } catch (error) {
-      console.error('Error saving least favorite foods:', error);
-    }
-  };
 
   const handleSaveReligionChoice = async () => {
     if (!currentUser) {
@@ -443,7 +401,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { religionChoice }, { merge: true });
   
-      setCurrentCard(13); // Move to the next card
+      setCurrentCard(11); // Move to the next card
     } catch (error) {
       console.error('Error saving religion choice:', error);
     }
@@ -461,7 +419,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { availableIngredients }, { merge: true });
   
-      setCurrentCard(14); // Move to the next card
+      setCurrentCard(12); // Move to the next card
     } catch (error) {
       console.error('Error saving available ingredients:', error);
     }
@@ -479,7 +437,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { skillLevel }, { merge: true });
   
-      setCurrentCard(15); // Move to the next card
+      setCurrentCard(13); // Move to the next card
     } catch (error) {
       console.error('Error saving skill level:', error);
     }
@@ -497,7 +455,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { healthConditions }, { merge: true });
   
-      setCurrentCard(16); // Move to the next card
+      setCurrentCard(14); // Move to the next card
     } catch (error) {
       console.error('Error saving health conditions:', error);
     }
@@ -515,7 +473,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { kitchenEquipment }, { merge: true });
   
-      setCurrentCard(17); // Move to the next card
+      setCurrentCard(15); // Move to the next card
     } catch (error) {
       console.error('Error saving kitchen equipment:', error);
     }
@@ -533,7 +491,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { cookingRestrictions }, { merge: true });
   
-      setCurrentCard(18); // Move to the next card
+      setCurrentCard(16); // Move to the next card
     } catch (error) {
       console.error('Error saving cooking restrictions:', error);
     }
@@ -551,7 +509,7 @@ const Setup = () => {
   
       await setDoc(userDocRef, { otherInstructions }, { merge: true });
   
-      setCurrentCard(19); // Move to the next card
+      setCurrentCard(17); // Move to the next card
     } catch (error) {
       console.error('Error saving other instructions:', error);
     }
@@ -1003,7 +961,7 @@ const Setup = () => {
       {currentCard === 17 && (
         <Card>
           <h3>Awesome! Thanks for completing the questions</h3>
-          <p>You may change your answerrs anytime at the "Edit Setup" page located through the dashboard</p>
+          <p>You may change your answers anytime at the "Edit Setup" page located through the dashboard</p>
           <GoBackButton onClick={handleGoBack16}>Go Back</GoBackButton>
           <Button onClick={handleSaveSetup}>Finish</Button>
         </Card>

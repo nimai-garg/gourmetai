@@ -1,0 +1,60 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const axios = require('axios');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const port = 5001; // Ensure this port is available
+
+app.use(cors());
+app.use(bodyParser.json());
+
+const filePath = path.join(__dirname, 'userPrompt.txt');
+
+app.post('/updatePrompt', async (req, res) => {
+  const { prompt } = req.body;
+  const assistantName = "GourmetBot"; // Replace with your desired name
+
+    // Add the assistant's name to the prompt
+    const fullPrompt = `You are ${assistantName}. ${prompt}`;
+
+  // Write the new prompt to the .txt file
+  fs.writeFile(filePath, prompt, 'utf8', (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      return res.status(500).json({ error: 'Failed to write to file' });
+    }
+
+    // Read the prompt from the .txt file
+    fs.readFile(filePath, 'utf8', async (err, data) => {
+      if (err) {
+        console.error('Error reading file:', err);
+        return res.status(500).json({ error: 'Failed to read file' });
+      }
+
+      // Send the prompt to the OpenAI API
+      try {
+        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: data }],
+        }, {
+          headers: {
+            'Authorization': `Bearer sk-proj-8AZWAIqvStj7BioLukFeT3BlbkFJV4LAip8PLsLsOfJ48Zly`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        res.json(response.data);
+      } catch (error) {
+        console.error('Error calling OpenAI API:', error);
+        res.status(500).json({ error: 'Failed to communicate with OpenAI API' });
+      }
+    });
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

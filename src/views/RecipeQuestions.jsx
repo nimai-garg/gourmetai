@@ -190,7 +190,7 @@ const RecipeQuestions = () => {
       {currentCard === 2 && (
         <Card>
            <Question1>Question #1</Question1>
-           <p>Do you have any country choice for the recipe? If yes, type it in. If no, type no</p>
+           <p>Do you have any cuisine choice for the recipe? If yes, type it in. If no, type no</p>
 
           <InputField
             type="text"
