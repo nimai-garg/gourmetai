@@ -197,7 +197,7 @@ const Landing = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Header>GourmetAI</Header>
+        <Header>GourmetChef</Header>
       
         <NavigationButtonDiv>
           <ActionButton onClick={handleEditSetupButton}>Edit Setup</ActionButton>
@@ -206,7 +206,7 @@ const Landing = () => {
       </HeaderContainer>
 
       <WelcomeContainer>
-        <CenterText>Welcome to GourmetAI</CenterText>
+        <CenterText>Welcome to GourmetChef</CenterText>
         <SubCenterText>Choose a feature below to get started</SubCenterText>
         
         <ButtonContainer>

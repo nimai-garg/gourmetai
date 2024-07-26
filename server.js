@@ -11,24 +11,25 @@ const port = 5001; // Ensure this port is available
 app.use(cors());
 app.use(bodyParser.json());
 
-const filePath = path.join(__dirname, 'userPrompt.txt');
+const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
+const nonStaticPromptPath = path.join(__dirname, 'userPrompt.txt');
 
-app.post('/updatePrompt', async (req, res) => {
+app.post('/updateStaticPrompt', async (req, res) => {
   const { prompt } = req.body;
   const assistantName = "GourmetBot"; // Replace with your desired name
 
-    // Add the assistant's name to the prompt
-    const fullPrompt = `You are ${assistantName}. ${prompt}`;
+  // Add the assistant's name to the prompt
+  const fullPrompt = `You are ${assistantName}. ${prompt}`;
 
-  // Write the new prompt to the .txt file
-  fs.writeFile(filePath, prompt, 'utf8', (err) => {
+  // Write the new static prompt to the .txt file
+  fs.writeFile(staticPromptPath, fullPrompt, 'utf8', async (err) => {
     if (err) {
       console.error('Error writing to file:', err);
       return res.status(500).json({ error: 'Failed to write to file' });
     }
 
     // Read the prompt from the .txt file
-    fs.readFile(filePath, 'utf8', async (err, data) => {
+    fs.readFile(staticPromptPath, 'utf8', async (err, data) => {
       if (err) {
         console.error('Error reading file:', err);
         return res.status(500).json({ error: 'Failed to read file' });
@@ -42,6 +43,48 @@ app.post('/updatePrompt', async (req, res) => {
         }, {
           headers: {
             'Authorization': `Bearer sk-proj-8AZWAIqvStj7BioLukFeT3BlbkFJV4LAip8PLsLsOfJ48Zly`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        res.json(response.data);
+      } catch (error) {
+        console.error('Error calling OpenAI API:', error);
+        res.status(500).json({ error: 'Failed to communicate with OpenAI API' });
+      }
+    });
+  });
+});
+
+app.post('/updateNonStaticPrompt', async (req, res) => {
+  const { prompt } = req.body;
+  const assistantName = "GourmetBot"; // Replace with your desired name
+
+  // Add the assistant's name to the prompt
+  const fullPrompt = `You are ${assistantName}. ${prompt}`;
+
+  // Write the new non-static prompt to the .txt file
+  fs.writeFile(nonStaticPromptPath, fullPrompt, 'utf8', async (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      return res.status(500).json({ error: 'Failed to write to file' });
+    }
+
+    // Read the prompt from the .txt file
+    fs.readFile(nonStaticPromptPath, 'utf8', async (err, data) => {
+      if (err) {
+        console.error('Error reading file:', err);
+        return res.status(500).json({ error: 'Failed to read file' });
+      }
+
+      // Send the prompt to the OpenAI API
+      try {
+        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: data }],
+        }, {
+          headers: {
+            'Authorization': `Bearer YOUR_OPENAI_API_KEY`,
             'Content-Type': 'application/json',
           },
         });

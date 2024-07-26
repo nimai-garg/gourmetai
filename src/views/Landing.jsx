@@ -41,9 +41,9 @@ const CenterText = styled.h1`
   display: flex;
   margin-top: 100px;
   
-  // background: linear-gradient(to right, #ffcccc, #ff6699);
-  // -webkit-background-clip: text; /* Clip the gradient to the text */
-  // -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  background: linear-gradient(90deg, #ff4757, #1e90ff);
+  -webkit-background-clip: text; /* Clip the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -83,38 +83,40 @@ const CenterTextButtonDiv = styled.div`
 `;
 
 const LeftCenterTextButton = styled.button`
-  color: #000000;
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 30px;
-  padding: 10px 20px;
-  width: 150px;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 21px;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: bold;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  &:hover {
-    color: #fff;
-    background-color: #000;
-    border-color: white;
+  font-weight: 500;
+  width: 150px; /* Set a consistent width for buttons */
+  gap: 1rem;
+  
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
   }
 `;
 
 const RightCenterTextButton = styled.button`
-  color: #000000;
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 30px;
-  padding: 10px 20px;
-  width: 150px;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 21px;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: bold;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  &:hover {
-    color: #fff;
-    background-color: #000;
-    border-color: white;
+  font-weight: 500;
+  width: 150px; /* Set a consistent width for buttons */
+  gap: 1rem;
+  
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
   }
 `;
 
@@ -184,6 +186,20 @@ const BoxHeader = styled.h1`
   }
 `;
 
+const MiddleBoxHeader = styled.h1`
+  align-items: flex-start;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  background: linear-gradient(90deg, #ff4757, #ff6348);
+  -webkit-background-clip: text; /* Clip the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
+
 const BoxParagraph = styled.p`
   @media (max-width: 768px) {
     font-size: 0.9rem;
@@ -216,29 +232,28 @@ const Landing = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Header>GourmetAI</Header>
+        <Header>GourmetChef</Header>
         <ActionButton onClick={handleActionButton}>Create</ActionButton>
       </HeaderContainer>
       <CenterText>Find inspiration for your next recipe</CenterText>
-      <SubCenterText>Add something here. Powered by GPT 4o Mini, no cost, no pricing plans</SubCenterText>
+      <SubCenterText>Create, Learn, Gourmet. Powered by GPT 4o Mini. No cost. No pricing plans</SubCenterText>
       <CenterTextButtonDiv>
-        <LeftCenterTextButton onClick={handleActionButton}>Let's innovate</LeftCenterTextButton>
-        <RightCenterTextButton>Learn more</RightCenterTextButton>
+        <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
       </CenterTextButtonDiv>
       <SecondDiv>
         <Box>
-          <BoxHeader>What is Gourmet AI?</BoxHeader>
-          <BoxParagraph>GourmetAI is an AI that helps you think of new recipes to create with your available ingredients in your house. In addition to this, we use your preferences to give you recipes that suit your needs!</BoxParagraph>
+          <BoxHeader>Nutritional Data</BoxHeader>
+          <BoxParagraph>You can find all the nutritional information on any food item you want including those at fast food, restaurants, packaged, overall, and other types verified by the USDA</BoxParagraph>
         </Box>
 
         <Box>
-          <BoxHeader>Explain the Personalization</BoxHeader>
-          <BoxParagraph>In addition to the available ingredients, we ask you for your dietary needs, calorie/protein requirements, religion needs, and any other special requirements to give you the best recipes crafted by us.</BoxParagraph>
+          <MiddleBoxHeader>AI Personalized Recipes</MiddleBoxHeader>
+          <BoxParagraph>GourmetChef offers you personalized, creative, and innovative recipes based on 25 short questions. The AI uses GPT 4o Mini, the latest released model from OpenAI</BoxParagraph>
         </Box>
 
         <Box>
-          <BoxHeader>How does this work?</BoxHeader>
-          <BoxParagraph>First, you will sign up with Google for secure authentication, then answer our setup personalization questions. You can start creating recipes by clicking the appropriate button. Happy creating! </BoxParagraph>
+          <BoxHeader>Cooking Tips</BoxHeader>
+          <BoxParagraph>First time cooking or need want some tips when cooking? Look at our Cooking Tips where we prepared the best tips for you and verified from sources including long time home cooks</BoxParagraph>
         </Box>
         <br></br>
       </SecondDiv>

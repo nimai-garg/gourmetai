@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db, auth } from '../firebaseConfig'; // Import auth from firebaseConfig.js
+import { doc, getDoc } from 'firebase/firestore';
+import { db, auth } from '../firebaseConfig';
 
 // Styled Components
 const PageContainer = styled.div`
@@ -11,7 +11,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   padding: 20px;
-  box-sizing: border-box; /* Include padding in the height calculation */
+  box-sizing: border-box;
 `;
 
 const HeaderContainer = styled.div`
@@ -70,18 +70,27 @@ const SignOutButton = styled(ActionButton)`
   }
 `;
 
+const TrashButton = styled(ActionButton)`
+  background-color: #f00; // Red color
+  margin-left: 10px;
+
+  &:hover, &:focus {
+    background-color: darkred;
+  }
+`;
+
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100% - 40px); /* Full width with padding on both sides */
-  max-width: 800px; /* Adjust as needed */
-  height: calc(100vh - 80px); /* Full height minus header and input container space */
-  max-height: 600px; /* Optional: set a max-height */
-  margin: 0 auto; /* Center the container */
+  width: calc(100% - 40px);
+  max-width: 800px;
+  height: calc(100vh - 80px);
+  max-height: 600px;
+  margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-sizing: border-box; /* Include padding in the width and height calculation */
+  box-sizing: border-box;
 `;
 
 const MessageList = styled.div`
@@ -91,7 +100,7 @@ const MessageList = styled.div`
   background-color: #fff;
   padding: 10px;
   border-radius: 8px;
-  box-sizing: border-box; /* Include padding in the width calculation */
+  box-sizing: border-box;
 `;
 
 const Message = styled.div`
@@ -108,6 +117,7 @@ const MessageBubble = styled.div`
   background-color: ${({ isUser }) => (isUser ? '#007bff' : '#f1f1f1')};
   color: ${({ isUser }) => (isUser ? '#fff' : '#000')};
   font-family: 'Inter', sans-serif;
+  white-space: pre-wrap;
 `;
 
 const AssistantTitle = styled.div`
@@ -125,128 +135,168 @@ const InputContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const TextInput = styled.input`
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-right: 10px;
-  font-family: 'Inter', sans-serif;
-`;
-
 const SendButton = styled(ActionButton)`
   background-color: #000;
+  margin-left: 10px;
+`;
+
+const LoadingMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
 `;
 
 const RecipeGenerator = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const assistantName = "GourmetBot"; // Name of the assistant
-  const [age, setAge] = useState('');
-  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
-  const [allergyRestrictions, setAllergyRestrictions] = useState('');
-  const [calorieRequirements, setCalorieRequirements] = useState('');
-  const [proteinPreferences, setProteinPreferences] = useState('')
-  const [nutritionalGoals, setNutritionalGoals] = useState('');
-  const [religionChoice, setReligionChoice] = useState('');
-  const [availableIngredients, setAvailableIngredients] = useState('');
-  const [skillLevel, setSkillLevel] = useState('');
-  const [healthConditions, setHealthConditions] = useState('');
-  const [kitchenEquipment, setKitchenEquipment] = useState('');
-  const [cookingRestrictions, setCookingRestrictions] = useState('');
-  const [otherInstructions, setOtherInstructions] = useState('');
-  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [isFetchingResponse, setIsFetchingResponse] = useState(false); // State to track if a response is being fetched
 
-  useEffect(() => {
-    const sendStaticPrompt = async () => {
+  const fetchUserData = useCallback(async (userId) => {
+    const userDocRef = doc(db, 'users', userId);
+    const docSnap = await getDoc(userDocRef);
 
-      const userId = currentUser.uid;
-      const userDocRef = doc(db, 'users', userId);
-      const docSnap = await getDoc(userDocRef);
-
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        const {
-          age,
-          dietaryRestrictions,
-          allergyRestrictions,
-          calorieRequirements,
-          proteinPreferences,
-          nutritionalGoals,
-          religionChoice,
-          availableIngredients,
-          skillLevel,
-          healthConditions,
-          kitchenEquipment,
-          cookingRestrictions,
-          otherInstructions
-        } = userData;
-      }
-
-      const combinedPrompt = `${staticText}
-          Age: ${age}
-          Dietary Restrictions: ${dietaryRestrictions}
-          Allergy Restrictions: ${allergyRestrictions}
-          Calorie Requirements: ${calorieRequirements}
-          Protein Preferences: ${proteinPreferences}
-          Nutritional Goals: ${nutritionalGoals}
-          Religion Choice: ${religionChoice}
-          Available Ingredients: ${availableIngredients}
-          Skill Level: ${skillLevel}
-          Health Conditions: ${healthConditions}
-          Kitchen Equipment: ${kitchenEquipment}
-          Cooking Restrictions: ${cookingRestrictions}
-          Other Instructions: ${otherInstructions}`;
-
-      const staticText = "Make recipes based on this";
-
-      try {
-        const response = await axios.post('http://localhost:5001/updatePrompt', { prompt: combinedPrompt });
-        const data = response.data;
-
-        setMessages(prevMessages => [
-          ...prevMessages,
-          { type: 'bot', text: data.choices[0].message.content.trim() }
-        ]);
-      } catch (error) {
-        console.error('Error sending static prompt to backend:', error);
-      }
-    };
-
-    sendStaticPrompt();
+    if (docSnap.exists()) {
+      setUserData(docSnap.data());
+    } else {
+      console.error('No such document!');
+    }
+    setLoading(false);
   }, []);
 
-  const handleSendMessage = async () => {
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchUserData(user.uid);
+      } else {
+        setLoading(false); // If there's no user, stop loading
+      }
+    });
+  }, [fetchUserData]);
+
+  useEffect(() => {
+    if (userData) {
+      const sendStaticPrompt = async () => {
+        const staticText = "Give the dish name, and details based , but not the recipe please";
+
+        const combinedPrompt = `${staticText}
+          Age: ${userData.age || ''}
+          Dietary Restrictions: ${userData.dietaryRestrictions || ''}
+          Allergy Restrictions: ${userData.allergyRestrictions || ''}
+          Calorie Requirements: ${userData.calorieRequirements || ''}
+          Protein Preferences: ${userData.proteinPreferences || ''}
+          Nutritional Goals: ${userData.nutritionalGoals || ''}
+          Religion Choice: ${userData.religionChoice || ''}
+          Available Ingredients: ${userData.availableIngredients || ''}
+          Skill Level: ${userData.skillLevel || ''}
+          Health Conditions: ${userData.healthConditions || ''}
+          Kitchen Equipment: ${userData.kitchenEquipment || ''}
+          Cooking Restrictions: ${userData.cookingRestrictions || ''}
+          Other Instructions: ${userData.otherInstructions || ''}`;
+
+        try {
+          setIsFetchingResponse(true); // Start fetching response
+          const response = await axios.post('http://localhost:5001/updateStaticPrompt', { prompt: combinedPrompt });
+          const data = response.data;
+
+          setMessages(prevMessages => [
+            ...prevMessages,
+            { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
+          ]);
+        } catch (error) {
+          console.error('Error sending static prompt to backend:', error);
+        } finally {
+          setIsFetchingResponse(false); // Stop fetching response
+        }
+      };
+
+      sendStaticPrompt();
+    }
+  }, [userData]);
+
+  const handleNextDish = async () => {
     if (!input) return;
 
     try {
-      const response = await axios.post('http://localhost:5001/updatePrompt', { prompt: input });
+      setIsFetchingResponse(true); // Start fetching response
+      const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: "Next Recipe" });
       const data = response.data;
 
       setMessages(prevMessages => [
         ...prevMessages,
-        { type: 'bot', text: data.choices[0].message.content.trim() }
+        { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
       ]);
       setInput('');
     } catch (error) {
       console.error('Error sending user message to ChatGPT:', error);
+    } finally {
+      setIsFetchingResponse(false); // Stop fetching response
     }
   };
+
+  const handleHeaderClick = async () => {
+
+  }
+
+  const handleGiveInstructions = async () => {
+    if (!input) return;
+
+    try {
+      setIsFetchingResponse(true); // Start fetching response
+      const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: "Give me the recipe for this" });
+      const data = response.data;
+
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
+      ]);
+      setInput('');
+    } catch (error) {
+      console.error('Error sending user message to ChatGPT:', error);
+    } finally {
+      setIsFetchingResponse(false); // Stop fetching response
+    }
+  };
+
+  const handleClearChat = () => {
+    setMessages([]);
+  };
+
+  const formatMessage = (message) => {
+    // Format the message to include proper spacing and list formatting
+    return message
+      .replace(/\n/g, '\n\n') // Add extra line breaks for spacing
+      .replace(/(\d+)\./g, '\n$1.'); // Add new lines before numbered lists
+  };
+
+  if (loading) {
+    return (
+      <PageContainer>
+        <LoadingMessage>Loading...</LoadingMessage>
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>
       <HeaderContainer>
-        <Header>GourmetAI</Header>
+        <Header onClick={handleHeaderClick}>GourmetChef</Header>
         <NavigationButtonDiv>
           <ActionButton>Edit Setup</ActionButton>
           <SignOutButton>Sign Out</SignOutButton>
+
         </NavigationButtonDiv>
       </HeaderContainer>
       <ChatContainer>
         <MessageList>
           {messages.map((message, index) => (
             <Message key={index} isUser={message.type === 'user'}>
-              {!message.type === 'user' && (
+              {message.type !== 'user' && (
                 <AssistantTitle>{assistantName}</AssistantTitle>
               )}
               <MessageBubble isUser={message.type === 'user'}>
@@ -256,13 +306,9 @@ const RecipeGenerator = () => {
           ))}
         </MessageList>
         <InputContainer>
-          <TextInput
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-          />
-          <SendButton onClick={handleSendMessage}>Send</SendButton>
+          <SendButton onClick={handleGiveInstructions}>Instructions</SendButton>
+          <SendButton onClick={handleNextDish}>Next Dish</SendButton>
+          <TrashButton onClick={handleClearChat}>Delete Conversation</TrashButton>
         </InputContainer>
       </ChatContainer>
     </PageContainer>

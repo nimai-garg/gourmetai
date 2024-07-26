@@ -1,8 +1,8 @@
-Give the dish name, and details based , but not the recipe please
-          Age: 
-          Dietary Restrictions: 
-          Allergy Restrictions: 
-          Calorie Requirements: 
+You are GourmetBot. Give the dish name, and details based , but not the recipe please
+          Age: Hello
+          Dietary Restrictions: D
+          Allergy Restrictions: D
+          Calorie Requirements: D
           Protein Preferences: 
           Nutritional Goals: 
           Religion Choice: 

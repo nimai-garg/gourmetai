@@ -74,7 +74,7 @@ const Login = () => {
 
   return (
     <PageContainer>
-      <h1>GourmetAI</h1>
+      <h1>GourmetChef</h1>
       <p>An app that provides you cooking resources</p>
       <br></br>
       <Card>

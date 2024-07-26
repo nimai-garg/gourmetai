@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
-import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
 
 const PageContainer = styled.div`
   display: flex;
@@ -13,19 +12,6 @@ const PageContainer = styled.div`
   height: 100vh;
   background-color: #FFF;
   font-family: 'Inter', sans-serif;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-radius: 5px;
-  gap: 50px;
-
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
 `;
 
 const Header = styled.h1`
@@ -80,23 +66,30 @@ const Button = styled.button`
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
+  margin: 0 1rem; /* Add this line for a gap */
+
   &:hover {
     color: #fff;
     background-color: #000;
     border-color: white;
   }
-  font-family: 'Inter', sans-serif;
-  margin: 0 1rem; /* Add this line for a gap */
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
 `;
 
 const InputField = styled.textarea`
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid ${props => (props.isInvalid ? 'red' : '#ccc')};
   border-radius: 5px;
   margin-bottom: 1rem;
   width: 300px;
   font-size: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter Tight', sans-serif;
+  resize: vertical;
+  max-width: 100%;
+  max-height: 200%;
 `;
 
 const GoBackButton = styled.button`
@@ -117,13 +110,71 @@ const GoBackButton = styled.button`
   }
 `;
 
+const SkipQuestion = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin: 0 1rem; /* Add this line for a gap */
+
+  &:hover, &:focus {
+    transform: scale(1.03); /* Expand the button slightly on hover */
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const HorizontalButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Add gap between buttons */
+  margin-top: 1rem; /* Add some space above the buttons */
+`;
+
+const SkipSetup = styled(Button)`
+  width: auto; /* Adjust width for smaller buttons */
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+`;
+
 const ReviewSettings = () => {
   const navigate = useNavigate();
+  const [age, setAge] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [allergyRestrictions, setAllergyRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
-  const [proteinRequirements, setProteinRequirements] = useState('');
+  const [proteinPreferences, setProteinPreferences] = useState('')
+  const [nutritionalGoals, setNutritionalGoals] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
   const [availableIngredients, setAvailableIngredients] = useState('');
+  const [skillLevel, setSkillLevel] = useState('');
+  const [healthConditions, setHealthConditions] = useState('');
+  const [kitchenEquipment, setKitchenEquipment] = useState('');
+  const [cookingRestrictions, setCookingRestrictions] = useState('');
+  const [otherInstructions, setOtherInstructions] = useState('');
+  const [isAgeValid, setIsAgeValid] = useState(true);
+  const [isDietaryRestrictionsValid, setIsDietaryRestrictionsValid] = useState(true);
+  const [isAllergyRestrictionsValid, setIsAllergyRestrictionsValid] = useState(true);
+  const [isCalorieRequirementsValid, setIsCalorieRequirementsValid] = useState(true);
+  const [isProteinPreferencesValid, setIsProteinPreferencesValid] = useState(true);
+  const [isNutritionalGoalsValid, setIsNutritionalGoalsValid] = useState(true);
+  const [isReligionChoiceValid, setIsReligionChoiceValid] = useState(true);
+  const [isAvailableIngredientsValid, setIsAvailableIngredientsValid] = useState(true);
+  const [isSkillLevelValid, setIsSkillLevelValid] = useState(true);
+  const [isHealthConditionsValid, setIsHealthConditionsValid] = useState(true);
+  const [isKitchenEquipmentValid, setIsKitchenEquipmentValid] = useState(true);
+  const [isCookingRestrictionsValid, setIsCookingRestrictionsValid] = useState(true);
+  const [isOtherInstructionsValid, setIsOtherInstructionsValid] = useState(true);
   const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -138,10 +189,19 @@ const ReviewSettings = () => {
 
         if (docSnap.exists()) {
           const userData = docSnap.data();
+          setAge(userData.age || '');
           setDietaryRestrictions(userData.dietaryRestrictions || '');
+          setAllergyRestrictions(userData.allergyRestrictions || '');
           setCalorieRequirements(userData.calorieRequirements || '');
-          setProteinRequirements(userData.proteinRequirements || '');
+          setProteinPreferences(userData.proteinPreferences || '');
+          setNutritionalGoals(userData.nutritionalGoals || '');
           setReligionChoice(userData.religionChoice || '');
+          setAvailableIngredients(userData.availableIngredients || '');
+          setSkillLevel(userData.skillLevel || '');
+          setHealthConditions(userData.healthConditions || '');
+          setKitchenEquipment(userData.kitchenEquipment || '');
+          setCookingRestrictions(userData.setCookingRestrictions || '');
+          setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -167,17 +227,56 @@ const ReviewSettings = () => {
 
       if (docSnap.exists()) {
         const userData = docSnap.data();
-        setDietaryRestrictions(userData.dietaryRestrictions || '');
-        setCalorieRequirements(userData.calorieRequirements || '');
-        setProteinRequirements(userData.proteinRequirements || '');
-        setReligionChoice(userData.religionChoice || '');
+        setAge(userData.age || '');
+          setDietaryRestrictions(userData.dietaryRestrictions || '');
+          setAllergyRestrictions(userData.allergyRestrictions || '');
+          setCalorieRequirements(userData.calorieRequirements || '');
+          setProteinPreferences(userData.proteinPreferences || '');
+          setNutritionalGoals(userData.nutritionalGoals || '');
+          setReligionChoice(userData.religionChoice || '');
+          setAvailableIngredients(userData.availableIngredients || '');
+          setSkillLevel(userData.skillLevel || '');
+          setHealthConditions(userData.healthConditions || '');
+          setKitchenEquipment(userData.kitchenEquipment || '');
+          setCookingRestrictions(userData.setCookingRestrictions || '');
+          setOtherInstructions(userData.otherInstructions || '');
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
 
-  const handleDietaryRestrictions = async () => {
+  const handleSaveAge = async () => {
+    if (!age.trim()) {
+      setIsAgeValid(false);
+      return;
+    }
+    setIsAgeValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { age }, { merge: true });
+  
+      setCurrentCard(3); // Move to the next card
+    } catch (error) {
+      console.error('Error saving age:', error);
+    }
+  };
+
+  const handleSaveDietaryRestrictions = async () => {
+    if (!dietaryRestrictions.trim()) {
+      setIsDietaryRestrictionsValid(false);
+      return;
+    }
+    setIsDietaryRestrictionsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -188,15 +287,44 @@ const ReviewSettings = () => {
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
-      fetchUserData();
   
-      setCurrentCard(3); // Move to the next card
+      setCurrentCard(4); // Move to the next card
     } catch (error) {
       console.error('Error saving dietary restrictions:', error);
     }
   };
 
-  const handleCalorieRequirements = async () => {
+  const handleSaveAllergyRestrictions = async () => {
+    if (!allergyRestrictions.trim()) {
+      setIsAllergyRestrictionsValid(false);
+      return;
+    }
+    setIsAllergyRestrictionsValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { allergyRestrictions }, { merge: true });
+  
+      setCurrentCard(5); // Move to the next card
+    } catch (error) {
+      console.error('Error saving allergy restrictions:', error);
+    }
+  };
+
+  const handleSaveCalorieRequirements = async () => {
+    if (!calorieRequirements.trim()) {
+      setIsCalorieRequirementsValid(false);
+      return;
+    }
+    setIsCalorieRequirementsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -207,15 +335,20 @@ const ReviewSettings = () => {
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { calorieRequirements }, { merge: true });
-      fetchUserData();
   
-      setCurrentCard(4); // Move to the next card
+      setCurrentCard(6); // Move to the next card
     } catch (error) {
       console.error('Error saving calorie requirements:', error);
     }
   };
 
-  const handleProteinRequirements = async () => {
+  const handleSaveProteinPreferences = async () => {
+    if (!proteinPreferences.trim()) {
+      setIsProteinPreferencesValid(false);
+      return;
+    }
+    setIsProteinPreferencesValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -225,16 +358,45 @@ const ReviewSettings = () => {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
   
-      await setDoc(userDocRef, { proteinRequirements }, { merge: true });
-      fetchUserData();
-
-      setCurrentCard(5); // Move to the next card
+      await setDoc(userDocRef, { proteinPreferences }, { merge: true });
+  
+      setCurrentCard(7); // Move to the next card
     } catch (error) {
-      console.error('Error saving protein requirements:', error);
+      console.error('Error saving protein preferences:', error);
     }
   };
 
-  const handleReligionChoice = async () => {
+  const handleSaveNutritionalGoals = async () => {
+    if (!nutritionalGoals.trim()) {
+      setIsNutritionalGoalsValid(false);
+      return;
+    }
+    setIsNutritionalGoalsValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { nutritionalGoals }, { merge: true });
+  
+      setCurrentCard(8); // Move to the next card
+    } catch (error) {
+      console.error('Error saving nutritional goals:', error);
+    }
+  };
+
+  const handleSaveReligionChoice = async () => {
+    if (!religionChoice.trim()) {
+      setIsReligionChoiceValid(false);
+      return;
+    }
+    setIsReligionChoiceValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -245,15 +407,20 @@ const ReviewSettings = () => {
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { religionChoice }, { merge: true });
-      fetchUserData();
-
-      setCurrentCard(6);
+  
+      setCurrentCard(9); // Move to the next card
     } catch (error) {
       console.error('Error saving religion choice:', error);
     }
   };
 
-  const handleAvailableIngredients = async () => {
+  const handleSaveAvailableIngredients = async () => {
+    if (!availableIngredients.trim()) {
+      setIsAvailableIngredientsValid(false);
+      return;
+    }
+    setIsAvailableIngredientsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -264,26 +431,132 @@ const ReviewSettings = () => {
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { availableIngredients }, { merge: true });
-      fetchUserData();
-
-      navigate("/recipeQuestions");
+  
+      setCurrentCard(10); // Move to the next card
     } catch (error) {
       console.error('Error saving available ingredients:', error);
     }
   };
 
-  const handleContinueButton = async () => {
-    setCurrentCard(2);
-    fetchUserData();
-  }
+  const handleSaveSkillLevel = async () => {
+    if (!skillLevel.trim()) {
+      setIsSkillLevelValid(false);
+      return;
+    }
+    setIsSkillLevelValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { skillLevel }, { merge: true });
+  
+      setCurrentCard(11); // Move to the next card
+    } catch (error) {
+      console.error('Error saving skill level:', error);
+    }
+  };
 
-  const homePage = async () => {
-    navigate('/dashboard');
-  }
+  const handleSaveHealthConditions = async () => {
+    if (!healthConditions.trim()) {
+      setIsHealthConditionsValid(false);
+      return;
+    }
+    setIsHealthConditionsValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { healthConditions }, { merge: true });
+  
+      setCurrentCard(12); // Move to the next card
+    } catch (error) {
+      console.error('Error saving health conditions:', error);
+    }
+  };
 
-  const handleGoBack1 = async () => {
-    setCurrentCard(1);
-  }
+  const handleSaveKitchenEquipment = async () => {
+    if (!kitchenEquipment.trim()) {
+      setIsKitchenEquipmentValid(false);
+      return;
+    }
+    setIsKitchenEquipmentValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { kitchenEquipment }, { merge: true });
+  
+      setCurrentCard(13); // Move to the next card
+    } catch (error) {
+      console.error('Error saving kitchen equipment:', error);
+    }
+  };
+
+  const handleSaveCookingRestrictions = async () => {
+    if (!cookingRestrictions.trim()) {
+      setIsCookingRestrictionsValid(false);
+      return;
+    }
+    setIsCookingRestrictionsValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { cookingRestrictions }, { merge: true });
+  
+      setCurrentCard(14); // Move to the next card
+    } catch (error) {
+      console.error('Error saving cooking restrictions:', error);
+    }
+  };
+
+  const handleSaveOtherInstructions = async () => {
+    if (!otherInstructions.trim()) {
+      setIsOtherInstructionsValid(false);
+      return;
+    }
+    setIsOtherInstructionsValid(true);
+  
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+  
+    try {
+      const userId = currentUser.uid; // Get the user ID
+      const userDocRef = doc(db, 'users', userId);
+  
+      await setDoc(userDocRef, { otherInstructions }, { merge: true });
+  
+      setCurrentCard(15); // Move to the next card
+    } catch (error) {
+      console.error('Error saving other instructions:', error);
+    }
+  };
 
   const handleGoBack2 = async () => {
     setCurrentCard(2);
@@ -301,103 +574,402 @@ const ReviewSettings = () => {
     setCurrentCard(5);
   }
 
+  const handleGoBack6 = async () => {
+    setCurrentCard(6);
+  }
+
+  const handleGoBack7 = async () => {
+    setCurrentCard(7);
+  }
+
+  const handleGoBack8 = async () => {
+    setCurrentCard(8);
+  }
+
+  const handleGoBack9 = async () => {
+    setCurrentCard(9);
+  }
+
+  const handleGoBack10 = async () => {
+    setCurrentCard(10);
+  }
+
+  const handleGoBack11 = async () => {
+    setCurrentCard(11);
+  }
+
+  const handleGoBack12 = async () => {
+    setCurrentCard(12);
+  }
+
+  const handleGoBack13 = async () => {
+    setCurrentCard(13);
+  }
+
+  const handleGoBack14 = async () => {
+    setCurrentCard(14);
+  }
+
+  const handleSkipSetup = async () => {
+    navigate('/recipeQuestions')
+  }
+
+  const handleGoForward2 = async () => {
+    setCurrentCard(3);
+  }
+
+  const handleGoForward3 = async () => {
+    setCurrentCard(4);
+  }
+
+  const handleGoForward4 = async () => {
+    setCurrentCard(5);
+  }
+
+  const handleGoForward5 = async () => {
+    setCurrentCard(6);
+  }
+
+  const handleGoForward6 = async () => {
+    setCurrentCard(7);
+  }
+
+  const handleGoForward7 = async () => {
+    setCurrentCard(8);
+  }
+
+  const handleGoForward8 = async () => {
+    setCurrentCard(9);
+  }
+
+  const handleGoForward9 = async () => {
+    setCurrentCard(10);
+  }
+
+  const handleGoForward10 = async () => {
+    setCurrentCard(11);
+  }
+
+  const handleGoForward11 = async () => {
+    setCurrentCard(12);
+  }
+
+  const handleGoForward12 = async () => {
+    setCurrentCard(13);
+  }
+
+  const handleGoForward13 = async () => {
+    setCurrentCard(14);
+  }
+  
+  const handleGoForward14 = async () => {
+    setCurrentCard(15);
+  }
+  
+  const handleSaveSetup = async () => {
+    navigate('/recipeQuestions')
+  }
+
+  const handleContinueButton = async () => {
+    setCurrentCard(2);
+  }
+
   return (
     <PageContainer>
       <Header>Review Settings</Header>
+      <SkipSetup onClick={handleSkipSetup}>Skip Review</SkipSetup>
+      <br></br>
       <br></br>
 
       {currentCard === 1 && (
         <Card>
-          <CardHeader>Let's start off by reviewing your setup</CardHeader>
-          <br></br>
+          <h3>Please review your settings</h3>
+          <p></p>
           <ContinueButton onClick={handleContinueButton}>Continue</ContinueButton>
+          <Button onClick={handleSkipSetup}>Skip Review</Button>
         </Card>
       )}
 
       {currentCard === 2 && (
         <Card>
-           <h3>Question #1</h3>
-           <p>Do you follow a specific diet? Ex. Vegetarian, Vegan, Keto, Paleo. Type none if applicable</p>
-
+          <h3>Question #1 - Age</h3>
+          <p>What is your age?</p>
           <InputField
             type="text"
             placeholder="Enter your response"
-            value={dietaryRestrictions}
-            onChange={(e) => setDietaryRestrictions(e.target.value)}
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            isInvalid={!isAgeValid}
           />
-          <Button onClick={handleDietaryRestrictions}>Confirm</Button>
-          <br></br>
-          <GoBackButton onClick={handleGoBack1}>Go back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveAge}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward2}>Skip Question</SkipQuestion>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
       {currentCard === 3 && (
         <Card>
-           <h3>Question #2</h3>
-           <p>Do you have any calorie requirements per recipe? Type N/A if applicable</p>
-
+          <h3>Question #2 - Dietary Restrictions</h3>
+          <p>Do you follow a specific diet (e.g., vegetarian, vegan, keto, paleo)?</p>
           <InputField
             type="text"
             placeholder="Enter your response"
-            value={calorieRequirements}
-            onChange={(e) => setCalorieRequirements(e.target.value)}
+            value={dietaryRestrictions}
+            onChange={(e) => setDietaryRestrictions(e.target.value)}
+            isInvalid={!isDietaryRestrictionsValid}
           />
-          <Button onClick={handleCalorieRequirements}>Confirm</Button>
-          <br></br>
-          <GoBackButton onClick={handleGoBack2}>Go back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveDietaryRestrictions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward3}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack2}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
       {currentCard === 4 && (
         <Card>
-           <h3>Question #3</h3>
-           <p>Do you have any protein requirements per recipe? Type N/A if applicable</p>
-
+          <h3>Question #3 - Allergy Restrictions</h3>
+          <p>Do you have any food allergies or intolerances (e.g., gluten, dairy, nuts)?</p>
           <InputField
             type="text"
             placeholder="Enter your response"
-            value={proteinRequirements}
-            onChange={(e) => setProteinRequirements(e.target.value)}
+            value={allergyRestrictions}
+            onChange={(e) => setAllergyRestrictions(e.target.value)}
+            isInvalid={!isAllergyRestrictionsValid}
           />
-          <Button onClick={handleProteinRequirements}>Confirm</Button>
-          <br></br>
-          <GoBackButton onClick={handleGoBack3}>Go back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveAllergyRestrictions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward4}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack3}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
       {currentCard === 5 && (
         <Card>
-          <h3>Question #4</h3>
-           <p>What religion are you? Type none if applicable</p>
-
+          <h3>Question #4 - Calorie Requirements</h3>
+          <p>Do you have any specific calorie requirements or goals (e.g., low-calorie, high-protein)?</p>
           <InputField
             type="text"
             placeholder="Enter your response"
-            value={religionChoice}
-            onChange={(e) => setReligionChoice(e.target.value)}
+            value={calorieRequirements}
+            onChange={(e) => setCalorieRequirements(e.target.value)}
+            isInvalid={!isCalorieRequirementsValid}
           />
-          <Button onClick={handleReligionChoice}>Confirm</Button>
-          <br></br>
-          <GoBackButton onClick={handleGoBack4}>Go back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveCalorieRequirements}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward5}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack4}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
       {currentCard === 6 && (
         <Card>
-          <h3>Question #5</h3>
-           <p>What are available ingredients you have?</p>
+          <h3>Question #5 - Protein Preferences</h3>
+          <p>Do you prefer certain types of protein, such as chicken, beef, pork, fish, tofu, or legumes? What is your protein requirements?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={proteinPreferences}
+            onChange={(e) => setProteinPreferences(e.target.value)}
+            isInvalid={!isProteinPreferencesValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveProteinPreferences}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward6}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack5}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
 
+      {currentCard === 7 && (
+        <Card>
+          <h3>Question #6 - Nutritional Goals</h3>
+          <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={nutritionalGoals}
+            onChange={(e) => setNutritionalGoals(e.target.value)}
+            isInvalid={!isNutritionalGoalsValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveNutritionalGoals}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 8 && (
+        <Card>
+          <h3>Question #7 - Religion Choice</h3>
+          <p>Do you follow any religion practices (Ex. Christianity, Hinduism, Islamic, etc.)?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={religionChoice}
+            onChange={(e) => setReligionChoice(e.target.value)}
+            isInvalid={!isReligionChoiceValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveReligionChoice}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward8}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack7}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 9 && (
+        <Card>
+          <h3>Question #8 - Available Ingredients</h3>
+          <p>What ingredients do you currently have available?</p>
           <InputField
             type="text"
             placeholder="Enter your response"
             value={availableIngredients}
             onChange={(e) => setAvailableIngredients(e.target.value)}
+            isInvalid={!isAvailableIngredientsValid}
           />
-          <Button onClick={handleAvailableIngredients}>Finish</Button>
-          <br></br>
-          <GoBackButton onClick={handleGoBack5}>Go back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveAvailableIngredients}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward9}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack8}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
-      )} 
+      )}
+
+      {currentCard === 10 && (
+        <Card>
+          <h3>Question #9 - Skill Level</h3>
+          <p>What is your cooking skill level (e.g., beginner, intermediate, advanced)?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={skillLevel}
+            onChange={(e) => setSkillLevel(e.target.value)}
+            isInvalid={!isSkillLevelValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveSkillLevel}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward10}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack9}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 11 && (
+        <Card>
+          <h3>Question #10 - Health Conditions</h3>
+          <p>Do you have any health conditions that influence your diet, such as diabetes, high blood pressure, or cholesterol? Explain</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={healthConditions}
+            onChange={(e) => setHealthConditions(e.target.value)}
+            isInvalid={!isHealthConditionsValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveHealthConditions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward11}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack10}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 12 && (
+        <Card>
+          <h3>Question #11 - Kitchen Equipment</h3>
+          <p>Do you have any special kitchen equipment you’d like to use, such as an Instant Pot, air fryer, or sous-vide machine?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={kitchenEquipment}
+            onChange={(e) => setKitchenEquipment(e.target.value)}
+            isInvalid={!isKitchenEquipmentValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveKitchenEquipment}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward12}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack11}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 13 && (
+        <Card>
+          <h3>Question #12 - Cooking Restrictions</h3>
+          <p>Are there any cooking methods or equipment you don’t have or prefer not to use (e.g., oven, blender)?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={cookingRestrictions}
+            onChange={(e) => setCookingRestrictions(e.target.value)}
+            isInvalid={!isCookingRestrictionsValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveCookingRestrictions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward13}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack12}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 14 && (
+        <Card>
+          <h3>Question #13 - Other Instructions</h3>
+          <p>Do you have any other specific notes or instructions?</p>
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={otherInstructions}
+            onChange={(e) => setOtherInstructions(e.target.value)}
+            isInvalid={!isOtherInstructionsValid}
+          />
+          <ButtonContainer>
+            <Button onClick={handleSaveOtherInstructions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward14}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack13}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
+        </Card>
+      )}
+
+      {currentCard === 15 && (
+        <Card>
+          <h3>Thanks for confirming your questions</h3>
+          <p>Next, we will ask you the specifics of your recipe</p>
+          <GoBackButton onClick={handleGoBack14}>Go Back</GoBackButton>
+          <Button onClick={handleSaveSetup}>Continue</Button>
+        </Card>
+      )}
     </PageContainer>
   )
 }

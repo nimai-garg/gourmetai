@@ -5,26 +5,14 @@ import Landing from './views/Landing';
 import Login from './views/Login';
 import Setup from './views/Setup';
 import Dashboard from './views/Dashboard';
-import EditSettings from './views/EditSettings'
-import ReviewSettings from './views/ReviewSettings'
-import RecipeQuestions from './views/RecipeQuestions'
+import EditSettings from './views/EditSettings';
+import ReviewSettings from './views/ReviewSettings';
+import RecipeQuestions from './views/RecipeQuestions';
 import RecipeGenerator from './views/RecipeGenerator';
-import NutritionalData from './views/NutritionalData'
-import CookingTips from './views/CookingTips'
+import NutritionalData from './views/NutritionalData';
+import CookingTips from './views/CookingTips';
 import GlobalStyle from './GlobalStyles';
-
-// const handleFavoriteRecipes = () => {
-//   navigate('/favoriteRecipes');
-// }
-
-// const handleMealPlanning = () => {
-//   navigate('/mealPlanning');
-// }
-
-// const handleCookingTips = () => {
-//   navigate('/cookingTips');
-// }
-
+import NotFound from './views/NotFound'; // Import the NotFound component
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -40,17 +28,17 @@ const App = () => {
     <Router>
       <GlobalStyle />
       <Routes>
-        <Route path="" element={<Landing/>} />
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={user ? <Setup /> : <Navigate to="/login" />} />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate tou="/login" />} />
-        <Route path="/editSettings" element={<EditSettings/>} />
-        <Route path="/reviewSettings" element={<ReviewSettings/>} />
-        <Route path="/recipeQuestions" element={<RecipeQuestions/>} />
-        <Route path='/recipeGenerator' element={<RecipeGenerator/>} />
-        <Route path="/nutritionalData" element={<NutritionalData/>} />
-        <Route path="/cookingTips" element={<CookingTips/>} />
-        <Route path="*" element={<Navigate to={user ? "/setup" : "/login"} />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/editSettings" element={<EditSettings />} />
+        <Route path="/reviewSettings" element={<ReviewSettings />} />
+        <Route path="/recipeQuestions" element={<RecipeQuestions />} />
+        <Route path="/recipeGenerator" element={<RecipeGenerator />} />
+        <Route path="/nutritionalData" element={<NutritionalData />} />
+        <Route path="/cookingTips" element={<CookingTips />} />
+        <Route path="*" element={<NotFound />} /> {/* Add this line */}
       </Routes>
     </Router>
   );

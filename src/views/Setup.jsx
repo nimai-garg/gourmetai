@@ -49,6 +49,7 @@ const Button = styled.button`
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   width: 150px; /* Set a consistent width for buttons */
+  gap: 1rem;
   
   &:hover, &:focus {
     transform: scale(1.03); /* Expand the button slightly on hover */
@@ -57,7 +58,7 @@ const Button = styled.button`
 
 const InputField = styled.textarea`
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid ${props => (props.isInvalid ? 'red' : '#ccc')};
   border-radius: 5px;
   margin-bottom: 1rem;
   width: 300px;
@@ -68,48 +69,18 @@ const InputField = styled.textarea`
   max-height: 200%;
 `;
 
-const GoBackButton = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  padding: 0.6rem 1rem;
-  font-size: 0.75rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  margin: 0 1rem; /* Add this line for a gap */
-
-  &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
-}
-
+const GoBackButton = styled(Button)`
   width: auto; /* Adjust width for smaller buttons */
   padding: 0.6rem 1rem;
   font-size: 0.75rem;
+  margin: 0 1rem; /* Add this line for a gap */
 `;
 
-const SkipQuestion = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
+const SkipQuestion = styled(Button)`
+  width: auto; /* Adjust width for smaller buttons */
   padding: 0.6rem 1rem;
   font-size: 0.75rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
   margin: 0 1rem; /* Add this line for a gap */
-
-  &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
-  }
-
-    width: auto; /* Adjust width for smaller buttons */
-  padding: 0.6rem 1rem;
-  font-size: 0.75rem;
 `;
 
 const HorizontalButtonContainer = styled.div`
@@ -136,21 +107,10 @@ const SignOutButton = styled.button`
   }
 `;
 
-const SkipSetup = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
+const SkipSetup = styled(Button)`
+  width: auto; /* Adjust width for smaller buttons */
   padding: 0.6rem 1rem;
   font-size: 0.75rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-
-  &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
-  }
 `;
 
 const Setup = () => {
@@ -170,6 +130,21 @@ const Setup = () => {
   const [kitchenEquipment, setKitchenEquipment] = useState('');
   const [cookingRestrictions, setCookingRestrictions] = useState('');
   const [otherInstructions, setOtherInstructions] = useState('');
+  const [isFirstNameValid, setIsFirstNameValid] = useState(true);
+  const [isLastNameValid, setIsLastNameValid] = useState(true);
+  const [isAgeValid, setIsAgeValid] = useState(true);
+  const [isDietaryRestrictionsValid, setIsDietaryRestrictionsValid] = useState(true);
+  const [isAllergyRestrictionsValid, setIsAllergyRestrictionsValid] = useState(true);
+  const [isCalorieRequirementsValid, setIsCalorieRequirementsValid] = useState(true);
+  const [isProteinPreferencesValid, setIsProteinPreferencesValid] = useState(true);
+  const [isNutritionalGoalsValid, setIsNutritionalGoalsValid] = useState(true);
+  const [isReligionChoiceValid, setIsReligionChoiceValid] = useState(true);
+  const [isAvailableIngredientsValid, setIsAvailableIngredientsValid] = useState(true);
+  const [isSkillLevelValid, setIsSkillLevelValid] = useState(true);
+  const [isHealthConditionsValid, setIsHealthConditionsValid] = useState(true);
+  const [isKitchenEquipmentValid, setIsKitchenEquipmentValid] = useState(true);
+  const [isCookingRestrictionsValid, setIsCookingRestrictionsValid] = useState(true);
+  const [isOtherInstructionsValid, setIsOtherInstructionsValid] = useState(true);
   const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -246,6 +221,12 @@ const Setup = () => {
   };
 
   const handleSaveFirstName = async () => {
+    if (!firstName.trim()) {
+      setIsFirstNameValid(false);
+      return;
+    }
+    setIsFirstNameValid(true);
+
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -264,6 +245,12 @@ const Setup = () => {
   };
   
   const handleSaveLastName = async () => {
+    if (!lastName.trim()) {
+      setIsLastNameValid(false);
+      return;
+    }
+    setIsLastNameValid(true);
+
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -282,6 +269,12 @@ const Setup = () => {
   };
 
   const handleSaveAge = async () => {
+    if (!age.trim()) {
+      setIsAgeValid(false);
+      return;
+    }
+    setIsAgeValid(true);
+    
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -300,6 +293,12 @@ const Setup = () => {
   };
 
   const handleSaveDietaryRestrictions = async () => {
+    if (!dietaryRestrictions.trim()) {
+      setIsDietaryRestrictionsValid(false);
+      return;
+    }
+    setIsDietaryRestrictionsValid(true);
+
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -318,6 +317,12 @@ const Setup = () => {
   };
 
   const handleSaveAllergyRestrictions = async () => {
+    if (!allergyRestrictions.trim()) {
+      setIsAllergyRestrictionsValid(false);
+      return;
+    }
+    setIsAllergyRestrictionsValid(true);
+
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -336,6 +341,12 @@ const Setup = () => {
   };
 
   const handleSaveCalorieRequirements = async () => {
+    if (!calorieRequirements.trim()) {
+      setIsCalorieRequirementsValid(false);
+      return;
+    }
+    setIsCalorieRequirementsValid(true);
+    
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -354,6 +365,12 @@ const Setup = () => {
   };
 
   const handleSaveProteinPreferences = async () => {
+    if (!proteinPreferences.trim()) {
+      setIsProteinPreferencesValid(false);
+      return;
+    }
+    setIsProteinPreferencesValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -372,6 +389,12 @@ const Setup = () => {
   };
 
   const handleSaveNutritionalGoals = async () => {
+    if (!nutritionalGoals.trim()) {
+      setIsNutritionalGoalsValid(false);
+      return;
+    }
+    setIsNutritionalGoalsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -390,6 +413,12 @@ const Setup = () => {
   };
 
   const handleSaveReligionChoice = async () => {
+    if (!religionChoice.trim()) {
+      setIsReligionChoiceValid(false);
+      return;
+    }
+    setIsReligionChoiceValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -408,6 +437,12 @@ const Setup = () => {
   };
 
   const handleSaveAvailableIngredients = async () => {
+    if (!availableIngredients.trim()) {
+      setIsAvailableIngredientsValid(false);
+      return;
+    }
+    setIsAvailableIngredientsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -426,6 +461,12 @@ const Setup = () => {
   };
 
   const handleSaveSkillLevel = async () => {
+    if (!skillLevel.trim()) {
+      setIsSkillLevelValid(false);
+      return;
+    }
+    setIsSkillLevelValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -444,6 +485,12 @@ const Setup = () => {
   };
 
   const handleSaveHealthConditions = async () => {
+    if (!healthConditions.trim()) {
+      setIsHealthConditionsValid(false);
+      return;
+    }
+    setIsHealthConditionsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -462,6 +509,12 @@ const Setup = () => {
   };
 
   const handleSaveKitchenEquipment = async () => {
+    if (!kitchenEquipment.trim()) {
+      setIsKitchenEquipmentValid(false);
+      return;
+    }
+    setIsKitchenEquipmentValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -480,6 +533,12 @@ const Setup = () => {
   };
 
   const handleSaveCookingRestrictions = async () => {
+    if (!cookingRestrictions.trim()) {
+      setIsCookingRestrictionsValid(false);
+      return;
+    }
+    setIsCookingRestrictionsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -498,6 +557,12 @@ const Setup = () => {
   };
 
   const handleSaveOtherInstructions = async () => {
+    if (!otherInstructions.trim()) {
+      setIsOtherInstructionsValid(false);
+      return;
+    }
+    setIsOtherInstructionsValid(true);
+  
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -670,6 +735,7 @@ const Setup = () => {
       </HorizontalButtonContainer>
       
       <br></br>
+      <br></br>
 
       {currentCard === 1 && (
         <Card>
@@ -677,29 +743,31 @@ const Setup = () => {
           <p>Click the button below to continue, if you skip setup you can always change your options
             in the settings page of the application</p>
         
+        <HorizontalButtonContainer>
           <Button onClick={handleGoForward1}>Continue</Button>
           <Button onClick={handleSkipSetup}>Skip Setup</Button>
+        </HorizontalButtonContainer>
         </Card>
       )}
 
       {currentCard === 2 && (
         <Card>
-        <h3>Question #1 - First Name</h3>
-        <p>What is your first name?</p>
+          <h3>Question #1 - First Name</h3>
+          <p>What is your first name?</p>
 
-        <InputField
-          type="text"
-          placeholder="Enter your response"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-    
+          <InputField
+            type="text"
+            placeholder="Enter your response"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            isInvalid={!isFirstNameValid}
+          />
           <ButtonContainer>
             <Button onClick={handleSaveFirstName}>Next</Button>
-            <InlineButtonContainer>
+            <HorizontalButtonContainer>
               <SkipQuestion onClick={handleGoForward2}>Skip Question</SkipQuestion>
               <GoBackButton onClick={handleGoBack1}>Go Back</GoBackButton>
-            </InlineButtonContainer>
+            </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
@@ -708,37 +776,43 @@ const Setup = () => {
         <Card>
           <h3>Question #2 - Last Name</h3>
           <p>What is your last name?</p>
-        
-        <div>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            isInvalid={!isLastNameValid}
           />
-          <Button onClick={handleSaveLastName}>Next</Button>
-          </div>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward3}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack2}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveLastName}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward3}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack2}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
-      
+
       {currentCard === 4 && (
         <Card>
           <h3>Question #3 - Age</h3>
           <p>What is your age?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={age}
             onChange={(e) => setAge(e.target.value)}
+            isInvalid={!isAgeValid}
           />
-          <Button onClick={handleSaveAge}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward4}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack3}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveAge}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward4}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack3}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -746,17 +820,21 @@ const Setup = () => {
         <Card>
           <h3>Question #4 - Dietary Restrictions</h3>
           <p>Do you follow a specific diet (e.g., vegetarian, vegan, keto, paleo)?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={dietaryRestrictions}
             onChange={(e) => setDietaryRestrictions(e.target.value)}
+            isInvalid={!isDietaryRestrictionsValid}
           />
-          <Button onClick={handleSaveDietaryRestrictions}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward5}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack4}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveDietaryRestrictions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward5}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack4}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -764,17 +842,21 @@ const Setup = () => {
         <Card>
           <h3>Question #5 - Allergy Restrictions</h3>
           <p>Do you have any food allergies or intolerances (e.g., gluten, dairy, nuts)?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={allergyRestrictions}
             onChange={(e) => setAllergyRestrictions(e.target.value)}
+            isInvalid={!isAllergyRestrictionsValid}
           />
-          <Button onClick={handleSaveAllergyRestrictions}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward6}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack5}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveAllergyRestrictions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward6}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack5}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -782,17 +864,21 @@ const Setup = () => {
         <Card>
           <h3>Question #6 - Calorie Requirements</h3>
           <p>Do you have any specific calorie requirements or goals (e.g., low-calorie, high-protein)?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={calorieRequirements}
             onChange={(e) => setCalorieRequirements(e.target.value)}
+            isInvalid={!isCalorieRequirementsValid}
           />
-          <Button onClick={handleSaveCalorieRequirements}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveCalorieRequirements}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -800,17 +886,21 @@ const Setup = () => {
         <Card>
           <h3>Question #7 - Protein Preferences</h3>
           <p>Do you prefer certain types of protein, such as chicken, beef, pork, fish, tofu, or legumes? What is your protein requirements?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={proteinPreferences}
             onChange={(e) => setProteinPreferences(e.target.value)}
+            isInvalid={!isProteinPreferencesValid}
           />
-          <Button onClick={handleSaveProteinPreferences}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward8}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack7}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveProteinPreferences}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward8}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack7}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -818,35 +908,43 @@ const Setup = () => {
         <Card>
           <h3>Question #8 - Nutritional Goals</h3>
           <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={nutritionalGoals}
             onChange={(e) => setNutritionalGoals(e.target.value)}
+            isInvalid={!isNutritionalGoalsValid}
           />
-          <Button onClick={handleSaveNutritionalGoals}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward9}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack8}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveNutritionalGoals}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward9}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack8}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
-      
+
       {currentCard === 10 && (
         <Card>
           <h3>Question #9 - Religion Choice</h3>
           <p>Do you follow any religion practices (Ex. Christianity, Hinduism, Islamic, etc.)?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={religionChoice}
             onChange={(e) => setReligionChoice(e.target.value)}
+            isInvalid={!isReligionChoiceValid}
           />
-          <Button onClick={handleSaveReligionChoice}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward10}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack9}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveReligionChoice}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward10}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack9}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -854,17 +952,21 @@ const Setup = () => {
         <Card>
           <h3>Question #10 - Available Ingredients</h3>
           <p>What ingredients do you currently have available?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={availableIngredients}
             onChange={(e) => setAvailableIngredients(e.target.value)}
+            isInvalid={!isAvailableIngredientsValid}
           />
-          <Button onClick={handleSaveAvailableIngredients}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward11}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack10}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveAvailableIngredients}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward11}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack10}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -872,17 +974,21 @@ const Setup = () => {
         <Card>
           <h3>Question #11 - Skill Level</h3>
           <p>What is your cooking skill level (e.g., beginner, intermediate, advanced)?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={skillLevel}
             onChange={(e) => setSkillLevel(e.target.value)}
+            isInvalid={!isSkillLevelValid}
           />
-          <Button onClick={handleSaveSkillLevel}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward12}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack11}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveSkillLevel}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward12}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack11}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -890,53 +996,65 @@ const Setup = () => {
         <Card>
           <h3>Question #12 - Health Conditions</h3>
           <p>Do you have any health conditions that influence your diet, such as diabetes, high blood pressure, or cholesterol? Explain</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={healthConditions}
             onChange={(e) => setHealthConditions(e.target.value)}
+            isInvalid={!isHealthConditionsValid}
           />
-          <Button onClick={handleSaveHealthConditions}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward13}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack12}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveHealthConditions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward13}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack12}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
-      
+
       {currentCard === 14 && (
         <Card>
           <h3>Question #13 - Kitchen Equipment</h3>
           <p>Do you have any special kitchen equipment you’d like to use, such as an Instant Pot, air fryer, or sous-vide machine?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={kitchenEquipment}
             onChange={(e) => setKitchenEquipment(e.target.value)}
+            isInvalid={!isKitchenEquipmentValid}
           />
-          <Button onClick={handleSaveKitchenEquipment}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward14}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack13}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveKitchenEquipment}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward14}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack13}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
       {currentCard === 15 && (
         <Card>
           <h3>Question #14 - Cooking Restrictions</h3>
-          <p>Are there any cooking methods or equipment you don’t have or prefer not to use (e.g., oven,  blender)?</p>
-        
+          <p>Are there any cooking methods or equipment you don’t have or prefer not to use (e.g., oven, blender)?</p>
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={cookingRestrictions}
             onChange={(e) => setCookingRestrictions(e.target.value)}
+            isInvalid={!isCookingRestrictionsValid}
           />
-          <Button onClick={handleSaveCookingRestrictions}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward15}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack14}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveCookingRestrictions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward15}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack14}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
@@ -944,17 +1062,21 @@ const Setup = () => {
         <Card>
           <h3>Question #15 - Other Instructions</h3>
           <p>Do you have any other specific notes or instructions?</p>
-        
+
           <InputField
             type="text"
             placeholder="Enter your response"
             value={otherInstructions}
             onChange={(e) => setOtherInstructions(e.target.value)}
+            isInvalid={!isOtherInstructionsValid}
           />
-          <Button onClick={handleSaveOtherInstructions}>Next</Button>
-          <br></br>
-          <SkipQuestion onClick={handleGoForward16}>Skip Question</SkipQuestion>
-          <GoBackButton onClick={handleGoBack15}>Go Back</GoBackButton>
+          <ButtonContainer>
+            <Button onClick={handleSaveOtherInstructions}>Next</Button>
+            <HorizontalButtonContainer>
+              <SkipQuestion onClick={handleGoForward16}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack15}>Go Back</GoBackButton>
+            </HorizontalButtonContainer>
+          </ButtonContainer>
         </Card>
       )}
 
