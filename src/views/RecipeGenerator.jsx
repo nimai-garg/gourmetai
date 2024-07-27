@@ -155,7 +155,7 @@ const RecipeGenerator = () => {
   const assistantName = "GourmetBot"; // Name of the assistant
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
-  const [isFetchingResponse, setIsFetchingResponse] = useState(false); // State to track if a response is being fetched
+  const [setIsFetchingResponse] = useState(false); // State to track if a response is being fetched
 
   const fetchUserData = useCallback(async (userId) => {
     const userDocRef = doc(db, 'users', userId);
@@ -217,7 +217,7 @@ const RecipeGenerator = () => {
 
       sendStaticPrompt();
     }
-  }, [userData]);
+  }, [userData, setIsFetchingResponse]);
 
   const handleNextDish = async () => {
     if (!input) return;

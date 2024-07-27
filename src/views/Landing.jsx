@@ -101,24 +101,24 @@ const LeftCenterTextButton = styled.button`
   }
 `;
 
-const RightCenterTextButton = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  padding: 11px 21px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  width: 150px; /* Set a consistent width for buttons */
-  gap: 1rem;
+// const RightCenterTextButton = styled.button`
+//   color: #fff;
+//   background-color: #000;
+//   border: none;
+//   border-radius: 10px;
+//   padding: 11px 21px;
+//   font-size: 1rem;
+//   font-weight: bold;
+//   cursor: pointer;
+//   font-family: 'Inter', sans-serif;
+//   font-weight: 500;
+//   width: 150px; /* Set a consistent width for buttons */
+//   gap: 1rem;
   
-  &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
-  }
-`;
+//   &:hover, &:focus {
+//     transform: scale(1.03); /* Expand the button slightly on hover */
+//   }
+// `;
 
 const ActionButton = styled.button`
   color: #fff;

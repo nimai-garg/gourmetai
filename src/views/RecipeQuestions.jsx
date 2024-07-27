@@ -110,28 +110,28 @@ const HorizontalButtonContainer = styled.div`
   margin-top: 1rem; /* Add some space above the buttons */
 `;
 
-const SignOutButton = styled.button`
-  cursor: pointer;
-  background-color: red;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 0.75rem;
-  border: 2px solid red; // Use red color for border
+// const SignOutButton = styled.button`
+//   cursor: pointer;
+//   background-color: red;
+//   color: #fff;
+//   padding: 0.5rem 1rem;
+//   border: none;
+//   border-radius: 10px;
+//   font-family: 'Inter', sans-serif;
+//   font-weight: 500;
+//   font-size: 0.75rem;
+//   border: 2px solid red; // Use red color for border
 
-  &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
-  }
-`;
+//   &:hover, &:focus {
+//     transform: scale(1.03); /* Expand the button slightly on hover */
+//   }
+// `;
 
-const SkipSetup = styled(Button)`
-  width: auto; /* Adjust width for smaller buttons */
-  padding: 0.6rem 1rem;
-  font-size: 0.75rem;
-`;
+// const SkipSetup = styled(Button)`
+//   width: auto; /* Adjust width for smaller buttons */
+//   padding: 0.6rem 1rem;
+//   font-size: 0.75rem;
+// `;
 
 const RecipeQuestions = () => {
   const navigate = useNavigate();
@@ -197,32 +197,32 @@ const RecipeQuestions = () => {
   return () => unsubscribe(); // Cleanup on component unmount
 }, [currentUser]);
 
-const fetchUserData = async () => {
-  try {
-    if (!currentUser) return;
+// const fetchUserData = async () => {
+//   try {
+//     if (!currentUser) return;
     
-    const userId = currentUser.uid;
-    const userDocRef = doc(db, 'users', userId);
-    const docSnap = await getDoc(userDocRef);
+//     const userId = currentUser.uid;
+//     const userDocRef = doc(db, 'users', userId);
+//     const docSnap = await getDoc(userDocRef);
 
-    if (docSnap.exists()) {
-      const userData = docSnap.data();
-      setCuisinePreference(userData.cuisinePreference || '');
-      setFlavorPreference(userData.flavorPreference || '');
-      setCookingTime(userData.cookingTime || '');
-      setSpecialOccasion(userData.specialOccasion || '');
-      setServingsNeeded(userData.servingsNeeded || '');
-      setMealType(userData.mealType || '');
-      setBudget(userData.budget || '');
-      setMealPrep(userData.mealPrep || '');
-      setAgeCheck(userData.ageCheck || '');
-      setSpiceLevel(userData.spiceLevel || '');
-      setSweetnessLevel(userData.sweetnessLevel || '');
-    }
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-  }
-};
+//     if (docSnap.exists()) {
+//       const userData = docSnap.data();
+//       setCuisinePreference(userData.cuisinePreference || '');
+//       setFlavorPreference(userData.flavorPreference || '');
+//       setCookingTime(userData.cookingTime || '');
+//       setSpecialOccasion(userData.specialOccasion || '');
+//       setServingsNeeded(userData.servingsNeeded || '');
+//       setMealType(userData.mealType || '');
+//       setBudget(userData.budget || '');
+//       setMealPrep(userData.mealPrep || '');
+//       setAgeCheck(userData.ageCheck || '');
+//       setSpiceLevel(userData.spiceLevel || '');
+//       setSweetnessLevel(userData.sweetnessLevel || '');
+//     }
+//   } catch (error) {
+//     console.error('Error fetching user data:', error);
+//   }
+// };
 
 const handleSaveCuisinePreference = async () => {
   if (!cuisinePreference.trim()) {
@@ -544,9 +544,9 @@ const handleGoBack12 = async () => {
   setCurrentCard(12);
 }
 
-const handleSkipSetup = async () => {
-  navigate('/dashboard')
-}
+// const handleSkipSetup = async () => {
+//   navigate('/dashboard')
+// }
 
 const handleGoForward2 = async () => {
   setCurrentCard(3);

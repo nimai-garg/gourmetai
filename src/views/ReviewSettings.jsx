@@ -19,10 +19,10 @@ const Header = styled.h1`
   font-weight: 700;
 `;
 
-const CardHeader = styled.h2`
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-`;
+// const CardHeader = styled.h2`
+//   font-family: 'Inter', sans-serif;
+//   font-weight: 600;
+// `;
 
 const ContinueButton = styled.button`
   color: #fff;
@@ -217,34 +217,34 @@ const ReviewSettings = () => {
     return () => unsubscribe(); // Cleanup on component unmount
   }, [currentUser]);
 
-  const fetchUserData = async () => {
-    try {
-      if (!currentUser) return;
+  // const fetchUserData = async () => {
+  //   try {
+  //     if (!currentUser) return;
       
-      const userId = currentUser.uid;
-      const userDocRef = doc(db, 'users', userId);
-      const docSnap = await getDoc(userDocRef);
+  //     const userId = currentUser.uid;
+  //     const userDocRef = doc(db, 'users', userId);
+  //     const docSnap = await getDoc(userDocRef);
 
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        setAge(userData.age || '');
-          setDietaryRestrictions(userData.dietaryRestrictions || '');
-          setAllergyRestrictions(userData.allergyRestrictions || '');
-          setCalorieRequirements(userData.calorieRequirements || '');
-          setProteinPreferences(userData.proteinPreferences || '');
-          setNutritionalGoals(userData.nutritionalGoals || '');
-          setReligionChoice(userData.religionChoice || '');
-          setAvailableIngredients(userData.availableIngredients || '');
-          setSkillLevel(userData.skillLevel || '');
-          setHealthConditions(userData.healthConditions || '');
-          setKitchenEquipment(userData.kitchenEquipment || '');
-          setCookingRestrictions(userData.setCookingRestrictions || '');
-          setOtherInstructions(userData.otherInstructions || '');
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
+  //     if (docSnap.exists()) {
+  //       const userData = docSnap.data();
+  //       setAge(userData.age || '');
+  //         setDietaryRestrictions(userData.dietaryRestrictions || '');
+  //         setAllergyRestrictions(userData.allergyRestrictions || '');
+  //         setCalorieRequirements(userData.calorieRequirements || '');
+  //         setProteinPreferences(userData.proteinPreferences || '');
+  //         setNutritionalGoals(userData.nutritionalGoals || '');
+  //         setReligionChoice(userData.religionChoice || '');
+  //         setAvailableIngredients(userData.availableIngredients || '');
+  //         setSkillLevel(userData.skillLevel || '');
+  //         setHealthConditions(userData.healthConditions || '');
+  //         setKitchenEquipment(userData.kitchenEquipment || '');
+  //         setCookingRestrictions(userData.setCookingRestrictions || '');
+  //         setOtherInstructions(userData.otherInstructions || '');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching user data:', error);
+  //   }
+  // };
 
   const handleSaveAge = async () => {
     if (!age.trim()) {

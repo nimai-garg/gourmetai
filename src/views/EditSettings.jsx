@@ -55,11 +55,11 @@ const Card = styled.div`
   text-align: center;
 `;
 
-const Question = styled.h3`
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  margin-bottom: 1rem;
-`;
+// const Question = styled.h3`
+//   font-family: 'Inter', sans-serif;
+//   font-weight: 500;
+//   margin-bottom: 1rem;
+// `;
 
 const InputField = styled.textarea`
   padding: 0.5rem;
