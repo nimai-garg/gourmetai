@@ -143,6 +143,25 @@ const ActionButton = styled.button`
   }
 `;
 
+const FeatureHeader = styled.h2`
+  font-size: 3rem;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 100px;
+  
+  background: linear-gradient(90deg, #008080, #FF7F50);
+  -webkit-background-clip: text; /* Clip the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    margin-top: 50px;
+  }
+`;
+
 const SecondDiv = styled.div`
   margin-top: 80px;
   display: flex;
@@ -240,6 +259,7 @@ const Landing = () => {
       <CenterTextButtonDiv>
         <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
       </CenterTextButtonDiv>
+      <FeatureHeader>Take a look at the features</FeatureHeader>
       <SecondDiv>
         <Box>
           <BoxHeader>Nutritional Data</BoxHeader>
