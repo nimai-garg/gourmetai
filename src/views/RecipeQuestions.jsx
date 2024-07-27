@@ -584,8 +584,20 @@ const handleGoForward10 = async () => {
   setCurrentCard(11);
 }
 
+const handleGoForward11 = async () => {
+  setCurrentCard(12);
+}
+
+const handleGoForward12 = async () => {
+  setCurrentCard(13);
+}
+
 const handleContinueButton = async () => {
   setCurrentCard(2);
+}
+
+const handleSaveSetup = async () => {
+  navigate('/recipeGenerator');
 }
 
   return (
