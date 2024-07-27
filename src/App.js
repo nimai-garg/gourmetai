@@ -11,8 +11,8 @@ import RecipeQuestions from './views/RecipeQuestions';
 import RecipeGenerator from './views/RecipeGenerator';
 import NutritionalData from './views/NutritionalData';
 import CookingTips from './views/CookingTips';
+import NotFound from './views/NotFound';
 import GlobalStyle from './GlobalStyles';
-import NotFound from './views/NotFound'; // Import the NotFound component
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -38,7 +38,7 @@ const App = () => {
         <Route path="/recipeGenerator" element={<RecipeGenerator />} />
         <Route path="/nutritionalData" element={<NutritionalData />} />
         <Route path="/cookingTips" element={<CookingTips />} />
-        <Route path="*" element={<NotFound />} /> {/* Add this line */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
