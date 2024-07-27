@@ -133,7 +133,7 @@ const CookingTips = () => {
             <VerticalMenu>
               <TipButton onClick={() => setSelectedTip('Tip 1')}>Tip 1</TipButton>
               <TipButton onClick={() => setSelectedTip('Tip 2')}>Tip 2</TipButton>
-              <TipButton onClick={() => setSelectedTip('Tip 3')}>Tip 3</TipButton>
+              <TipButton onClick={() => setSelectedTip('Tip 3')}>Tips from a 70 year old cook</TipButton>
               {/* Add more TipButtons as needed */}
             </VerticalMenu>
             <ContentArea>
@@ -142,7 +142,59 @@ const CookingTips = () => {
                 {/* Content for the selected tip */}
                 {selectedTip === 'Tip 1' && <p>Details for Tip 1...</p>}
                 {selectedTip === 'Tip 2' && <p>Details for Tip 2...</p>}
-                {selectedTip === 'Tip 3' && <p>Details for Tip 3...</p>}
+                {selectedTip === 'Tip 3' && <p>stay away from diet food
+
+eat ur greens first
+
+cook at home more often
+
+Bake or roast instead of grilling or frying
+
+Healthier cooking methods include:
+
+baking
+broiling
+poaching
+pressure cooking
+simmering
+slow cooking
+stewing
+sous-vide
+
+Add Greek yogurt to your diet
+
+Eat your fruits instead of drinking them
+
+Whole grains are also a good source of:
+
+fiber
+B vitamins
+zinc
+iron
+magnesium
+manganese
+
+Choose baked potatoes over french fries
+
+Pick popcorn instead of chips
+
+Drinking enough water is important for your health.
+
+Drinking enough water is important for your health.
+
+Drinking enough water is important for your health.
+
+Good nutrition and exercise often go hand in hand. Exercise has been shown to improve your mood, as well as decrease feelings of
+
+Base your meals on higher fibre starchy carbohydrates. ...
+Eat lots of fruit and veg. ...
+Eat more fish, including a portion of oily fish. ...
+Cut down on saturated fat and sugar. ...
+Eat less salt: no more than 6g a day for adults. ...
+Get active and be a healthy weight. ...
+Do not get thirsty. ...
+Do not skip breakfast.
+</p>}
               </div>
             </ContentArea>
           </div>
