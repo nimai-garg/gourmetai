@@ -181,10 +181,6 @@ const Landing = () => {
     navigate('/nutritionalData');
   }
 
-  const handleTesting = async () => {
-    navigate('/recipeGenerator');
-  }
-
   const handleSignOut = async () => {
     try {
       navigate('/login');
@@ -217,7 +213,6 @@ const Landing = () => {
 
         <ButtonContainer>
           <OptionButton onClick={handleCookingTips}>Cooking Tips</OptionButton>
-          <OptionButton onClick={handleTesting}>Testing</OptionButton>
         </ButtonContainer>
       </WelcomeContainer>
       
