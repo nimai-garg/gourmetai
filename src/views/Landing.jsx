@@ -248,7 +248,7 @@ const Landing = () => {
 
         <Box>
           <MiddleBoxHeader>AI Personalized Recipes</MiddleBoxHeader>
-          <BoxParagraph>GourmetChef offers you personalized, creative, and innovative recipes based on 25 short questions. The AI uses GPT 4o Mini, the latest released model from OpenAI</BoxParagraph>
+          <BoxParagraph>GourmetChef offers you personalized, creative, and innovative recipes based on 26 short questions. The AI uses GPT 4o Mini, the latest released model from OpenAI</BoxParagraph>
         </Box>
 
         <Box>
