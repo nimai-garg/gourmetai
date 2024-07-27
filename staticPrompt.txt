@@ -1,14 +1,14 @@
 You are GourmetBot. Give the dish name, and details based , but not the recipe please
-          Age: 15
-          Dietary Restrictions: Keto
-          Allergy Restrictions: Dairy
-          Calorie Requirements: 50 calories
-          Protein Preferences: No Chicken, only fish
-          Nutritional Goals: Shed off weight
-          Religion Choice: Hinduism
-          Available Ingredients: Any
-          Skill Level: Intermediate
-          Health Conditions: Overweight
-          Kitchen Equipment: Instant Pot
-          Cooking Restrictions: None
-          Other Instructions: None
+      Age: 15
+      Dietary Restrictions: Keto
+      Allergy Restrictions: None
+      Calorie Requirements: 50 calories
+      Protein Preferences: No Chicken, only fish
+      Nutritional Goals: Shed off weight
+      Religion Choice: Hinduism
+      Available Ingredients: Any
+      Skill Level: Intermediate
+      Health Conditions: Overweight
+      Kitchen Equipment: Instant Pot
+      Cooking Restrictions: None
+      Other Instructions: None

@@ -179,65 +179,67 @@ const RecipeGenerator = () => {
     });
   }, [fetchUserData]);
 
-  useEffect(() => {
-    if (userData) {
-      const sendStaticPrompt = async () => {
-        const staticText = "Give the dish name, and details based , but not the recipe please";
-
-        const combinedPrompt = `${staticText}
-          Age: ${userData.age || ''}
-          Dietary Restrictions: ${userData.dietaryRestrictions || ''}
-          Allergy Restrictions: ${userData.allergyRestrictions || ''}
-          Calorie Requirements: ${userData.calorieRequirements || ''}
-          Protein Preferences: ${userData.proteinPreferences || ''}
-          Nutritional Goals: ${userData.nutritionalGoals || ''}
-          Religion Choice: ${userData.religionChoice || ''}
-          Available Ingredients: ${userData.availableIngredients || ''}
-          Skill Level: ${userData.skillLevel || ''}
-          Health Conditions: ${userData.healthConditions || ''}
-          Kitchen Equipment: ${userData.kitchenEquipment || ''}
-          Cooking Restrictions: ${userData.cookingRestrictions || ''}
-          Other Instructions: ${userData.otherInstructions || ''}`;
-
-        try {
-          setIsFetchingResponse(true); // Start fetching response
-          const response = await axios.post('http://localhost:5001/updateStaticPrompt', { prompt: combinedPrompt });
-          const data = response.data;
-
-          setMessages(prevMessages => [
-            ...prevMessages,
-            { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
-          ]);
-        } catch (error) {
-          console.error('Error sending static prompt to backend:', error);
-        } finally {
-          setIsFetchingResponse(false); // Stop fetching response
-        }
-      };
-
-      sendStaticPrompt();
-    }
-  }, [userData, setIsFetchingResponse]);
-
-  const handleNextDish = async () => {
-    if (!input) return;
-
+  const sendStaticPrompt = async () => {
+    const staticText = "Give the dish name, and details based , but not the recipe please";
+  
+    const combinedPrompt = `${staticText}
+      Age: ${userData.age || ''}
+      Dietary Restrictions: ${userData.dietaryRestrictions || 'None'}
+      Allergy Restrictions: ${userData.allergyRestrictions || 'None'}
+      Calorie Requirements: ${userData.calorieRequirements || 'None'}
+      Protein Preferences: ${userData.proteinPreferences || 'None'}
+      Nutritional Goals: ${userData.nutritionalGoals || 'None'}
+      Religion Choice: ${userData.religionChoice || 'None'}
+      Available Ingredients: ${userData.availableIngredients || 'None'}
+      Skill Level: ${userData.skillLevel || 'None'}
+      Health Conditions: ${userData.healthConditions || 'None'}
+      Kitchen Equipment: ${userData.kitchenEquipment || 'None'}
+      Cooking Restrictions: ${userData.cookingRestrictions || 'None'}
+      Other Instructions: ${userData.otherInstructions || 'None'}`;
+  
     try {
       setIsFetchingResponse(true); // Start fetching response
-      isSetFetchingResponse(true);
-      const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: "Next Recipe" });
+      const response = await axios.post('http://localhost:5001/updateStaticPrompt', { prompt: combinedPrompt });
       const data = response.data;
-
+  
       setMessages(prevMessages => [
         ...prevMessages,
         { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
       ]);
-      setInput('');
     } catch (error) {
-      console.error('Error sending user message to ChatGPT:', error);
+      console.error('Error sending static prompt to backend:', error);
     } finally {
       setIsFetchingResponse(false); // Stop fetching response
     }
+  };
+
+  useEffect(() => {
+    if (userData) {
+      sendStaticPrompt();
+    }
+  }, [userData]);
+
+  const handleNextDish = async () => {
+    await sendStaticPrompt();
+    
+    // const prompt1 = "Next Recipe"
+
+    // try {
+    //   setIsFetchingResponse(true); // Start fetching response
+    //   //isSetFetchingResponse(true);
+    //   const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: prompt1 });
+    //   const data = response.data;
+
+    //   setMessages(prevMessages => [
+    //     ...prevMessages,
+    //     { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
+    //   ]);
+    //   setInput('');
+    // } catch (error) {
+    //   console.error('Error sending user message to ChatGPT:', error);
+    // } finally {
+    //   setIsFetchingResponse(false); // Stop fetching response
+    // }
   };
 
   const handleHeaderClick = async () => {

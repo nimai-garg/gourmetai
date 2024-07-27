@@ -15,6 +15,7 @@ const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
 const nonStaticPromptPath = path.join(__dirname, 'userPrompt.txt');
 
 app.post('/updateStaticPrompt', async (req, res) => {
+  console.log('Received request at /updateNonStaticPrompt');
   const { prompt } = req.body;
   const assistantName = "GourmetBot"; // Replace with your desired name
 
@@ -57,6 +58,7 @@ app.post('/updateStaticPrompt', async (req, res) => {
 });
 
 app.post('/updateNonStaticPrompt', async (req, res) => {
+  console.log('Received request at /updateNonStaticPrompt');
   const { prompt } = req.body;
   const assistantName = "GourmetBot"; // Replace with your desired name
 
