@@ -155,7 +155,7 @@ const RecipeGenerator = () => {
   const assistantName = "GourmetBot"; // Name of the assistant
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
-  const [setIsFetchingResponse] = useState(false); // State to track if a response is being fetched
+  const [isSetFetchingResponse, setIsFetchingResponse] = useState(false); // State to track if a response is being fetched
 
   const fetchUserData = useCallback(async (userId) => {
     const userDocRef = doc(db, 'users', userId);
@@ -224,6 +224,7 @@ const RecipeGenerator = () => {
 
     try {
       setIsFetchingResponse(true); // Start fetching response
+      isSetFetchingResponse(true);
       const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: "Next Recipe" });
       const data = response.data;
 
