@@ -84,7 +84,7 @@ app.post('/updateNonStaticPrompt', async (req, res) => {
           messages: [{ role: 'user', content: data }],
         }, {
           headers: {
-            'Authorization': `Bearer YOUR_OPENAI_API_KEY`,
+            'Authorization': `Bearer sk-proj-8AZWAIqvStj7BioLukFeT3BlbkFJV4LAip8PLsLsOfJ48Zly`,
             'Content-Type': 'application/json',
           },
         });
