@@ -179,8 +179,11 @@ const RecipeGenerator = () => {
     });
   }, [fetchUserData]);
 
-  const sendStaticPrompt = async () => {
-    const staticText = "Give the dish name, and details based , but not the recipe please";
+  // Memoize sendStaticPrompt with useCallback
+  const sendStaticPrompt = useCallback(async () => {
+    if (!userData) return; // Ensure userData is available
+
+    const staticText = "Give the dish name, and details based, but not the recipe please";
   
     const combinedPrompt = `${staticText}
       Age: ${userData.age || ''}
@@ -211,39 +214,20 @@ const RecipeGenerator = () => {
     } finally {
       setIsFetchingResponse(false); // Stop fetching response
     }
-  };
+  }, [userData]); // Include userData in the dependency array
 
   useEffect(() => {
     if (userData) {
       sendStaticPrompt();
     }
-  }, [userData]);
+  }, [userData, sendStaticPrompt]); // Include sendStaticPrompt in the dependency array
 
   const handleNextDish = async () => {
     await sendStaticPrompt();
-    
-    // const prompt1 = "Next Recipe"
-
-    // try {
-    //   setIsFetchingResponse(true); // Start fetching response
-    //   //isSetFetchingResponse(true);
-    //   const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: prompt1 });
-    //   const data = response.data;
-
-    //   setMessages(prevMessages => [
-    //     ...prevMessages,
-    //     { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
-    //   ]);
-    //   setInput('');
-    // } catch (error) {
-    //   console.error('Error sending user message to ChatGPT:', error);
-    // } finally {
-    //   setIsFetchingResponse(false); // Stop fetching response
-    // }
   };
 
   const handleHeaderClick = async () => {
-
+    isSetFetchingResponse();
   }
 
   const handleGiveInstructions = async () => {

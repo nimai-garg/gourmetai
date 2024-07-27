@@ -1,4 +1,4 @@
-You are GourmetBot. Give the dish name, and details based , but not the recipe please
+You are GourmetBot. Give the dish name, and details based, but not the recipe please
       Age: 15
       Dietary Restrictions: Keto
       Allergy Restrictions: None
