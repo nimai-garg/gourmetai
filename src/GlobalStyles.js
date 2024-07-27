@@ -12,21 +12,24 @@ const GlobalStyle = createGlobalStyle`
     color: #000000;
   }
 
-  ::-webkit-scrollbar {
-    width: 8px;
+::-webkit-scrollbar {
+    width: 12px; /* Adjust the width of the scrollbar */
   }
 
   ::-webkit-scrollbar-track {
-    background: #000000;
+    background: #f1f1f1; /* Light gray background for the scrollbar track */
+    border-radius: 10px; /* Rounded corners */
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #FFD900;
+    background: #888; /* Gray color for the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners */
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #FFD900;
+    background: #555; /* Darker gray when hovering over the scrollbar thumb */
   }
+
 `;
 
 export default GlobalStyle;
