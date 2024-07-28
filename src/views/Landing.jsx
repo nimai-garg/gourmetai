@@ -181,7 +181,7 @@ const Box = styled.div`
   background-color: #f5f5f5;
   padding: 1rem 2rem;
   border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
   font-family: 'Inter', sans-serif;
   margin-left: 50px;
   max-width: 400px;

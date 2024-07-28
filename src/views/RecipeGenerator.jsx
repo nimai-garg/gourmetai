@@ -202,7 +202,7 @@ const RecipeGenerator = () => {
   
     try {
       setIsFetchingResponse(true); // Start fetching response
-      const response = await axios.post('http://localhost:5001/updateStaticPrompt', { prompt: combinedPrompt });
+      const response = await axios.post('https://6221-24-130-163-161.ngrok-free.app/updateStaticPrompt', { prompt: combinedPrompt });
       const data = response.data;
   
       setMessages(prevMessages => [

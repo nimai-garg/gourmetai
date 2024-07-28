@@ -12,7 +12,7 @@ import RecipeGenerator from './views/RecipeGenerator';
 import NutritionalData from './views/NutritionalData';
 import CookingTips from './views/CookingTips';
 import NotFound from './views/NotFound';
-// import GlobalStyle from './GlobalStyles';
+import GlobalStyle from './GlobalStyles';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -23,10 +23,10 @@ const App = () => {
     });
     return () => unsubscribe();
   }, []);
-
+  
   return (
     <Router>
-      {/* <GlobalStyle /> */}
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
