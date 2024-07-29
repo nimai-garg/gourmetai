@@ -8,7 +8,9 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 5001; // Default to 5001 if PORT is not set
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://gourmet-chef-bea3cf55230d.herokuapp.com' // Set this to your frontend URL
+}));
 app.use(bodyParser.json());
 
 const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
