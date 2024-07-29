@@ -6,18 +6,13 @@ const fs = require('fs');
  const path = require('path');
 
  const app = express();
- const PORT = process.env.PORT || 5001;
+ const port = 5001; // Ensure this port is available
 
  app.use(cors());
  app.use(bodyParser.json());
   
 const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
 const nonStaticPromptPath = path.join(__dirname, 'userPrompt.txt');
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
 
 app.post('/updateStaticPrompt', async (req, res) => {
   console.log('Received request at /updateNonStaticPrompt');
@@ -93,7 +88,6 @@ app.post('/updateNonStaticPrompt', async (req, res) => {
     });
   });
 });
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
