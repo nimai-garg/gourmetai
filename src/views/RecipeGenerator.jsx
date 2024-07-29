@@ -202,7 +202,7 @@ const RecipeGenerator = () => {
   
     try {
       setIsFetchingResponse(true); // Start fetching response
-      const response = await axios.post('https://6221-24-130-163-161.ngrok-free.app/updateStaticPrompt', { prompt: combinedPrompt });
+      const response = await axios.post('https://gourmet-chef-bea3cf55230d.herokuapp.com/updateStaticPrompt', { prompt: combinedPrompt });
       const data = response.data;
   
       setMessages(prevMessages => [
