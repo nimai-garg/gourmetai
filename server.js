@@ -6,7 +6,7 @@ const fs = require('fs');
  const path = require('path');
 
  const app = express();
- const port = 5001; // Ensure this port is available
+ const port = process.env.PORT || 5001; // Default to 3000 for local development
 
  app.use(cors());
  app.use(bodyParser.json());
