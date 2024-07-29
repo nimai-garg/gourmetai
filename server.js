@@ -6,11 +6,13 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 5001; // Default to 5001 if PORT is not set
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
-app.use(cors({
-  origin: 'https://gourmet-chef-bea3cf55230d.herokuapp.com' // Set this to your frontend URL
-}));
+app.use(cors());  // Allow requests from any origin
+app.use(express.json());
 app.use(bodyParser.json());
 
 const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
@@ -57,6 +59,7 @@ app.post('/updateStaticPrompt', async (req, res) => {
       }
     });
   });
+  res.send('Request received');
 });
 
 app.post('/updateNonStaticPrompt', async (req, res) => {
