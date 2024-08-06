@@ -13,6 +13,7 @@ import NutritionalData from './views/NutritionalData';
 import CookingTips from './views/CookingTips';
 import NotFound from './views/NotFound';
 import GlobalStyle from './GlobalStyles';
+// persist localStorage, useReducer React.JS StackOverflow Comment
 
 const App = () => {
   const [user, setUser] = useState(null);

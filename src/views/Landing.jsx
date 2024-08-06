@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import logoImage from './logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const PageContainer = styled.div`
@@ -22,7 +23,20 @@ const HeaderContainer = styled.div`
   }
 `;
 
+const Logo = styled.img`
+  height: 90px;
+  width: 100px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    height: 30px;
+    width: 30px;
+  }
+`;
+
 const Header = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 1.7rem;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -251,7 +265,10 @@ const Landing = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Header>GourmetChef</Header>
+        <Header>
+          <Logo src={logoImage} alt="GourmetChef Logo" />
+          GourmetChef
+        </Header>
         <ActionButton onClick={handleActionButton}>Create</ActionButton>
       </HeaderContainer>
       <CenterText>Find inspiration for your next recipe</CenterText>
