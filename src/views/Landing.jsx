@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import logoImage from './logo.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const PageContainer = styled.div`
   background-color: #FFF;
@@ -43,6 +43,30 @@ const Header = styled.div`
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Adjust the gap as needed */
+`;
+
+const ActionButton = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 9px 19px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+    font-size: 0.8rem;
   }
 `;
 
@@ -112,48 +136,6 @@ const LeftCenterTextButton = styled.button`
   
   &:hover, &:focus {
     transform: scale(1.03); /* Expand the button slightly on hover */
-  }
-`;
-
-// const RightCenterTextButton = styled.button`
-//   color: #fff;
-//   background-color: #000;
-//   border: none;
-//   border-radius: 10px;
-//   padding: 11px 21px;
-//   font-size: 1rem;
-//   font-weight: bold;
-//   cursor: pointer;
-//   font-family: 'Inter', sans-serif;
-//   font-weight: 500;
-//   width: 150px; /* Set a consistent width for buttons */
-//   gap: 1rem;
-  
-//   &:hover, &:focus {
-//     transform: scale(1.03); /* Expand the button slightly on hover */
-//   }
-// `;
-
-const ActionButton = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 9px 19px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  // &:hover {
-  //   color: #000;
-  //   background-color: #fff;
-  //   border-color: white;
-  // }
-
-  @media (max-width: 768px) {
-    padding: 5px 10px;
-    font-size: 0.8rem;
   }
 `;
 
@@ -247,10 +229,28 @@ const Footer = styled.p`
   font-family: 'Inter', sans-serif;
   &:hover {
     font-weight: bold;
+    cursor: pointer;
   }
 
   @media (max-width: 768px) {
     margin-left: 0;
+    font-size: 0.9rem;
+  }
+`;
+
+const PricingLink = styled(Link)`
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
     font-size: 0.9rem;
   }
 `;
@@ -262,6 +262,14 @@ const Landing = () => {
     navigate('/login');
   }
 
+  const handlePricingButton = () => {
+    navigate('/pricing');
+  }
+
+  const handleFooter = () => {
+    window.open('https://linkedin.com/in/nimaigarg', '_blank');
+  }
+
   return (
     <PageContainer>
       <HeaderContainer>
@@ -269,10 +277,13 @@ const Landing = () => {
           <Logo src={logoImage} alt="GourmetChef Logo" />
           GourmetChef
         </Header>
-        <ActionButton onClick={handleActionButton}>Create</ActionButton>
+        <ButtonGroup>
+          <PricingLink onClick={handlePricingButton}>Pricing</PricingLink>
+          <ActionButton onClick={handleActionButton}>Create</ActionButton>
+        </ButtonGroup>
       </HeaderContainer>
       <CenterText>Find inspiration for your next recipe</CenterText>
-      <SubCenterText>Create, Learn, Gourmet. Powered by GPT 4o Mini. No cost. No pricing plans</SubCenterText>
+      <SubCenterText>Create, Learn, Gourmet. Powered by GPT 4o Mini. Try for free</SubCenterText>
       <CenterTextButtonDiv>
         <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
       </CenterTextButtonDiv>
@@ -294,7 +305,7 @@ const Landing = () => {
         </Box>
         <br></br>
       </SecondDiv>
-      <Footer>© 2024 - Created by Nimai Garg</Footer>
+      <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg</Footer>
       <br></br>
     </PageContainer>
   )
