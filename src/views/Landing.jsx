@@ -4,11 +4,13 @@ import logoImage from './logo.png';
 import { useNavigate, Link } from 'react-router-dom';
 
 const PageContainer = styled.div`
-  background-color: #FFF;
+  background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding: 0 20px; /* Add padding for small screens */
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  width: 100%; /* Ensure it covers the full viewport width */
+  padding: 0; /* Remove any padding */
+  margin: 0; /* Remove any margin */
 `;
 
 const HeaderContainer = styled.div`
@@ -40,6 +42,7 @@ const Header = styled.div`
   font-size: 1.7rem;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
+  color: #fff;
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -49,7 +52,7 @@ const Header = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px; /* Adjust the gap as needed */
+  gap: 20px; /* Adjust the gap as needed */
 `;
 
 const ActionButton = styled.button`
@@ -79,7 +82,7 @@ const CenterText = styled.h1`
   display: flex;
   margin-top: 100px;
   
-  background: linear-gradient(90deg, #ff4757, #1e90ff);
+background: linear-gradient(to right, #008080, #ADD8E6);
   -webkit-background-clip: text; /* Clip the gradient to the text */
   -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
@@ -93,13 +96,13 @@ const SubCenterText = styled.h3`
   font-size: 1.2rem;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  background: black;
   justify-content: center;
   align-items: center;
   display: flex;
   margin-bottom: 60px;
-  -webkit-background-clip: text; /* Clip the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  color: #fff;
+  // -webkit-background-clip: text; /* Clip the gradient to the text */
+  // -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -148,9 +151,9 @@ const FeatureHeader = styled.h2`
   display: flex;
   margin-top: 100px;
   
-  background: linear-gradient(90deg, #008080, #FF7F50);
-  -webkit-background-clip: text; /* Clip the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  color: #fff;
+  // -webkit-background-clip: text; /* Clip the gradient to the text */
+  // -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -159,6 +162,7 @@ const FeatureHeader = styled.h2`
 `;
 
 const SecondDiv = styled.div`
+background: linear-gradient(to right, #FF7F7F, #FFD580);
   margin-top: 80px;
   display: flex;
   justify-content: center;
@@ -174,6 +178,7 @@ const SecondDiv = styled.div`
 `;
 
 const Box = styled.div`
+
   background-color: #f5f5f5;
   padding: 1rem 2rem;
   border-radius: 15px;
@@ -222,10 +227,12 @@ const BoxParagraph = styled.p`
 `;
 
 const Footer = styled.p`
+background: linear-gradient(to right, #FF7F7F, #FFD580);
   justify-content: center;
   align-items: center;
   display: flex;
   margin-left: 60px;
+  color: #fff;
   font-family: 'Inter', sans-serif;
   &:hover {
     font-weight: bold;
@@ -239,7 +246,7 @@ const Footer = styled.p`
 `;
 
 const PricingLink = styled(Link)`
-  color: #000;
+  color: #fff;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 1rem;
