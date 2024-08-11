@@ -285,7 +285,7 @@ const Landing = () => {
           GourmetChef
         </Header>
         <ButtonGroup>
-          <PricingLink onClick={handlePricingButton}>Pricing</PricingLink>
+          <PricingLink to="/pricing">Pricing</PricingLink>
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>

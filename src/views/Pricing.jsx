@@ -43,7 +43,7 @@ const Button = styled.button`
 const Pricing = () => {
 
     const handleJoinToday = () => {
-        window.open('https://getwaitlist.com', '_blank');
+        window.open('https://getwaitlist.com/waitlist/19450', '_blank');
       }
       
   return (
