@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Landing Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Login Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/login</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Setup Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/setup</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Dashboard Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/dashboard</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Pricing Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/pricing</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Edit Settings Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/editSettings</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Review Settings Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/reviewSettings</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Recipe Questions Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/recipeQuestions</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Recipe Generator Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/recipeGenerator</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Nutritional Data Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/nutritionalData</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Cooking Tips Page -->
+  <url>
+    <loc>http://www.gourmetchef.app/cookingTips</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
