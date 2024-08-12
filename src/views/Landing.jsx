@@ -1,16 +1,25 @@
 import React from 'react'
 import styled from 'styled-components';
 import logoImage from './logo.png';
+import mockupImage from './mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
+
+// const PageContainer = styled.div`
+//   background: linear-gradient(to right, #FF7F7F, #FFD580);
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh; /* Ensure it covers the full viewport height */
+//   width: 100%; /* Ensure it covers the full viewport width */
+//   padding: 0; /* Remove any padding */
+//   margin: 0; /* Remove any margin */
+// `;
 
 const PageContainer = styled.div`
   background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensure it covers the full viewport height */
-  width: 100%; /* Ensure it covers the full viewport width */
-  padding: 0; /* Remove any padding */
-  margin: 0; /* Remove any margin */
+  height: 100vh;
+  padding: 0 20px; /* Add padding for small screens */
 `;
 
 const HeaderContainer = styled.div`
@@ -33,19 +42,6 @@ const Logo = styled.img`
   @media (max-width: 768px) {
     height: 30px;
     width: 30px;
-  }
-`;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 1.7rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  color: #fff;
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
   }
 `;
 
@@ -73,53 +69,93 @@ const ActionButton = styled.button`
   }
 `;
 
-const CenterText = styled.h1`
-  font-size: 4rem;
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 600;
-  justify-content: center;
-  align-items: center;
+const LandingContainer = styled.div`
+  background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
-  margin-top: 100px;
-  
-background: linear-gradient(to right, #008080, #ADD8E6);
-  -webkit-background-clip: text; /* Clip the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: #f7f7f7; /* Light background to make the text stand out */
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
-    margin-top: 50px;
+    flex-direction: column-reverse;
+    padding: 20px;
+  }
+`;
+
+const LeftLandingContainer = styled.div`
+  flex: 1;
+  padding-right: 50px;
+
+  @media (max-width: 768px) {
+    padding-right: 0;
+    text-align: center;
+    margin-top: 20px;
+  }
+`;
+
+const RightLandingContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
+
+const CenterText = styled.h1`
+  font-size: 4.5rem;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 700;
+  margin-top: 0;
+  background: linear-gradient(to right, #008080, #ADD8E6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  @media (max-width: 768px) {
+    font-size: 3rem;
+    margin-top: 0;
   }
 `;
 
 const SubCenterText = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  margin-bottom: 60px;
-  color: #fff;
-  // -webkit-background-clip: text; /* Clip the gradient to the text */
-  // -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  color: #555;
+  margin-bottom: 40px;
 
   @media (max-width: 768px) {
-    font-size: 1rem;
-    margin-bottom: 30px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
   }
 `;
 
 const CenterTextButtonDiv = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 20px;
-  gap: 50px; /* Adjust the gap as needed */
+  gap: 20px;
 
   @media (max-width: 768px) {
+    justify-content: center;
     flex-direction: column;
-    gap: 20px;
   }
 `;
 
@@ -128,19 +164,32 @@ const LeftCenterTextButton = styled.button`
   background-color: #000;
   border: none;
   border-radius: 10px;
-  padding: 11px 21px;
+  padding: 15px 30px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  width: 150px; /* Set a consistent width for buttons */
-  gap: 1rem;
-  
+  width: 160px;
+
   &:hover, &:focus {
-    transform: scale(1.03); /* Expand the button slightly on hover */
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
+
+const MockupImage = styled.img`
+  max-width: 110%;
+  max-height: 110%;
+  border-radius: 10px;
+
+  @media (max-width: 768px) {
+    max-width: 80%;
+  }
+`;
+
 
 const FeatureHeader = styled.h2`
   font-size: 3rem;
@@ -151,7 +200,7 @@ const FeatureHeader = styled.h2`
   display: flex;
   margin-top: 100px;
   
-  color: #fff;
+  color: #000;
   // -webkit-background-clip: text; /* Clip the gradient to the text */
   // -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
@@ -162,7 +211,6 @@ const FeatureHeader = styled.h2`
 `;
 
 const SecondDiv = styled.div`
-background: linear-gradient(to right, #FF7F7F, #FFD580);
   margin-top: 80px;
   display: flex;
   justify-content: center;
@@ -227,12 +275,11 @@ const BoxParagraph = styled.p`
 `;
 
 const Footer = styled.p`
-background: linear-gradient(to right, #FF7F7F, #FFD580);
   justify-content: center;
   align-items: center;
   display: flex;
   margin-left: 60px;
-  color: #fff;
+  color: #000;
   font-family: 'Inter', sans-serif;
   &:hover {
     font-weight: bold;
@@ -269,9 +316,9 @@ const Landing = () => {
     navigate('/login');
   }
 
-  const handlePricingButton = () => {
-    navigate('/pricing');
-  }
+  // const handlePricingButton = () => {
+  //   navigate('/pricing');
+  // }
 
   const handleFooter = () => {
     window.open('https://linkedin.com/in/nimaigarg', '_blank');
@@ -289,11 +336,21 @@ const Landing = () => {
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>
-      <CenterText>Find inspiration for your next recipe</CenterText>
-      <SubCenterText>Create, Learn, Gourmet. Powered by GPT 4o Mini. Try for free</SubCenterText>
-      <CenterTextButtonDiv>
-        <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
-      </CenterTextButtonDiv>
+<LandingContainer>
+  <LeftLandingContainer>
+    <CenterText>Find inspiration for your next recipe</CenterText>
+    <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
+    <CenterTextButtonDiv>
+      <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
+    </CenterTextButtonDiv>
+  </LeftLandingContainer>
+
+  <RightLandingContainer>
+    <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
+  </RightLandingContainer>
+</LandingContainer>
+
+
       <FeatureHeader>Take a look at the features</FeatureHeader>
       <SecondDiv>
         <Box>
