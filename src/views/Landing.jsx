@@ -14,23 +14,34 @@ import { useNavigate, Link } from 'react-router-dom';
 //   margin: 0; /* Remove any margin */
 // `;
 
+/* Page Container */
 const PageContainer = styled.div`
-  background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding: 0 20px; /* Add padding for small screens */
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 `;
 
+/* Header Container with gradient */
 const HeaderContainer = styled.div`
+  background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  border-radius: 5px;
-
+  padding: 1.5em; /* Flexible padding for better scalability */
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+  
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 0.75em;
+  }
+
+  @media (max-width: 480px) { /* For very small devices */
+    padding: 0.5em;
+    flex-direction: column; /* Stack items vertically if needed */
+    align-items: flex-start; /* Align items to the start */
   }
 `;
 
@@ -48,7 +59,7 @@ const Logo = styled.img`
 const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px; /* Adjust the gap as needed */
+  gap: 20px;
 `;
 
 const ActionButton = styled.button`
@@ -61,7 +72,6 @@ const ActionButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
 
   @media (max-width: 768px) {
     padding: 5px 10px;
@@ -69,19 +79,15 @@ const ActionButton = styled.button`
   }
 `;
 
+/* Landing Container with gradient */
 const LandingContainer = styled.div`
   background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
-  border-radius: 5px;
-  background-color: #f7f7f7; /* Light background to make the text stand out */
-
-  @media (max-width: 768px) {
-    flex-direction: column-reverse;
-    padding: 20px;
-  }
+  padding: 50px;
+  flex: 1;
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
 `;
 
 const LeftLandingContainer = styled.div`
@@ -104,6 +110,16 @@ const RightLandingContainer = styled.div`
   @media (max-width: 768px) {
     margin-bottom: 20px;
   }
+`;
+
+const UnderneathLandingContainer = styled.div`
+  background: linear-gradient(to right, #FF7F7F, #FFD580);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  flex: 1;
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
 `;
 
 const Header = styled.div`
@@ -130,7 +146,6 @@ const CenterText = styled.h1`
 
   @media (max-width: 768px) {
     font-size: 3rem;
-    margin-top: 0;
   }
 `;
 
@@ -181,52 +196,74 @@ const LeftCenterTextButton = styled.button`
 `;
 
 const MockupImage = styled.img`
-  max-width: 110%;
-  max-height: 110%;
+  max-width: 100%; /* Ensure image stays within its container */
+  max-height: 100%;
   border-radius: 10px;
 
   @media (max-width: 768px) {
     max-width: 80%;
   }
+
+  /* Hide image on iPhones */
+  @media screen and (max-width: 767px) and (orientation: portrait) {
+    display: none;
+  }
 `;
 
+const ScrollDownContainer = styled.div`
+  background: linear-gradient(to right, #FF7F7F, #FFD580);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ScrollDownText = styled.h1`
+  font-size: 3rem;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  color: #000;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    margin-top: 30px;
+  }
+`;
 
 const FeatureHeader = styled.h2`
+  background: #fff;
   font-size: 3rem;
   font-family: 'Inter Tight', sans-serif;
   font-weight: 500;
   justify-content: center;
   align-items: center;
   display: flex;
-  margin-top: 100px;
-  
+  margin-top: 60px;
+
   color: #000;
-  // -webkit-background-clip: text; /* Clip the gradient to the text */
-  // -webkit-text-fill-color: transparent; /* Make the text color transparent */
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
-    margin-top: 50px;
+    margin-top: 30px;
   }
 `;
 
 const SecondDiv = styled.div`
-  margin-top: 80px;
+  background: #fff;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  gap: 20px; /* Adjust the gap as needed */
+  gap: 20px;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    margin-top: 40px;
+    margin-top: 20px;
     gap: 10px;
   }
 `;
 
 const Box = styled.div`
-
   background-color: #f5f5f5;
   padding: 1rem 2rem;
   border-radius: 15px;
@@ -260,8 +297,8 @@ const MiddleBoxHeader = styled.h1`
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   background: linear-gradient(90deg, #ff4757, #ff6348);
-  -webkit-background-clip: text; /* Clip the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -278,7 +315,6 @@ const Footer = styled.p`
   justify-content: center;
   align-items: center;
   display: flex;
-  margin-left: 60px;
   color: #000;
   font-family: 'Inter', sans-serif;
   &:hover {
@@ -287,7 +323,6 @@ const Footer = styled.p`
   }
 
   @media (max-width: 768px) {
-    margin-left: 0;
     font-size: 0.9rem;
   }
 `;
@@ -348,10 +383,15 @@ const Landing = () => {
   <RightLandingContainer>
     <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
   </RightLandingContainer>
+    <div></div>
 </LandingContainer>
+  
+<ScrollDownContainer>
+  <ScrollDownText>Hi</ScrollDownText>
+</ScrollDownContainer>
+<UnderneathLandingContainer></UnderneathLandingContainer>
 
-
-      <FeatureHeader>Take a look at the features</FeatureHeader>
+        <FeatureHeader>Take a look at the features</FeatureHeader>
       <SecondDiv>
         <Box>
           <BoxHeader>Nutritional Data</BoxHeader>

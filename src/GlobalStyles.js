@@ -13,22 +13,24 @@ const GlobalStyle = createGlobalStyle`
   }
 
 ::-webkit-scrollbar {
-    width: 12px; /* Adjust the width of the scrollbar */
-  }
+    width: 12px; /* Overall width of the scrollbar */
+}
 
-  ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: #f1f1f1; /* Light gray background for the scrollbar track */
     border-radius: 10px; /* Rounded corners */
-  }
+}
 
-  ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #888; /* Gray color for the scrollbar thumb */
     border-radius: 10px; /* Rounded corners */
-  }
+    width: 8px; /* Adjusted width for the thumb */
+    min-height: 20px; /* Ensure a minimum height for usability */
+}
 
-  ::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background: #555; /* Darker gray when hovering over the scrollbar thumb */
-  }
+}
 
 `;
 
