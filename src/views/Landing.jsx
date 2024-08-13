@@ -81,36 +81,48 @@ const ActionButton = styled.button`
 
 /* Landing Container with gradient */
 const LandingContainer = styled.div`
-  background: linear-gradient(to right, #FF7F7F, #FFD580);
+    background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Arrange items vertically */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
   padding: 50px;
   flex: 1;
   box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 const LeftLandingContainer = styled.div`
   flex: 1;
-  padding-right: 50px;
+  text-align: center; /* Center text inside the container */
+  padding-right: 0;
 
   @media (max-width: 768px) {
-    padding-right: 0;
-    text-align: center;
     margin-top: 20px;
   }
 `;
 
-const RightLandingContainer = styled.div`
-  flex: 1;
+// const RightLandingContainer = styled.div`
+//   flex: 1;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+//   @media (max-width: 768px) {
+//     margin-bottom: 20px;
+//   }
+// `;
+
+// Add a new container for the image below the create button
+const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    margin-bottom: 20px;
-  }
+  margin-top: 20px;
 `;
+
 
 const UnderneathLandingContainer = styled.div`
   background: linear-gradient(to right, #FF7F7F, #FFD580);
@@ -125,7 +137,8 @@ const UnderneathLandingContainer = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  font-size: 2rem;
+  justify-content: center;
+  font-size: 1.75rem;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   color: #333;
@@ -136,7 +149,7 @@ const Header = styled.div`
 `;
 
 const CenterText = styled.h1`
-  font-size: 4.5rem;
+  font-size: 5rem;
   font-family: 'Inter Tight', sans-serif;
   font-weight: 700;
   margin-top: 0;
@@ -150,7 +163,7 @@ const CenterText = styled.h1`
 `;
 
 const SubCenterText = styled.h3`
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   color: #555;
@@ -164,13 +177,13 @@ const SubCenterText = styled.h3`
 
 const CenterTextButtonDiv = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   gap: 20px;
+  flex-direction: column; /* Stack buttons vertically */
 
   @media (max-width: 768px) {
-    justify-content: center;
-    flex-direction: column;
+    gap: 10px;
   }
 `;
 
@@ -179,12 +192,12 @@ const LeftCenterTextButton = styled.button`
   background-color: #000;
   border: none;
   border-radius: 10px;
-  padding: 15px 30px;
-  font-size: 1rem;
+  padding: 20px 0px;
+  font-size: 1.3rem;
   font-weight: bold;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  width: 160px;
+  width: 200px;
 
   &:hover, &:focus {
     transform: scale(1.05);
@@ -195,39 +208,40 @@ const LeftCenterTextButton = styled.button`
   }
 `;
 
+// Update MockupImage to resize it and ensure it's centered
 const MockupImage = styled.img`
-  max-width: 100%; /* Ensure image stays within its container */
-  max-height: 100%;
+  max-width: 60%; /* Resize the image to be smaller */
+  max-height: 60%;
   border-radius: 10px;
+  margin-left: 70px;
 
   @media (max-width: 768px) {
-    max-width: 80%;
+    max-width: 60%; /* Further resize on smaller screens */
   }
 
-  /* Hide image on iPhones */
   @media screen and (max-width: 767px) and (orientation: portrait) {
-    display: none;
+    display: none; /* Hide image on small portrait devices */
   }
 `;
 
-const ScrollDownContainer = styled.div`
-  background: linear-gradient(to right, #FF7F7F, #FFD580);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const ScrollDownContainer = styled.div`
+//   background: linear-gradient(to right, #FF7F7F, #FFD580);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
-const ScrollDownText = styled.h1`
-  font-size: 3rem;
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  color: #000;
+// const ScrollDownText = styled.h1`
+//   font-size: 3rem;
+//   font-family: 'Inter Tight', sans-serif;
+//   font-weight: 500;
+//   color: #fff;
 
-  @media (max-width: 768px) {
-    font-size: 2.5rem;
-    margin-top: 30px;
-  }
-`;
+//   @media (max-width: 768px) {
+//     font-size: 2.5rem;
+//     margin-top: 30px;
+//   }
+// `;
 
 const FeatureHeader = styled.h2`
   background: #fff;
@@ -371,24 +385,28 @@ const Landing = () => {
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>
-<LandingContainer>
+      <LandingContainer>
   <LeftLandingContainer>
     <CenterText>Find inspiration for your next recipe</CenterText>
     <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
     <CenterTextButtonDiv>
       <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
     </CenterTextButtonDiv>
+    {/* Move the image container below the button */}
+    <ImageContainer>
+      <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
+    </ImageContainer>
   </LeftLandingContainer>
-
+</LandingContainer>
+{/* 
   <RightLandingContainer>
     <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
   </RightLandingContainer>
-    <div></div>
-</LandingContainer>
-  
-<ScrollDownContainer>
-  <ScrollDownText>Hi</ScrollDownText>
-</ScrollDownContainer>
+    <div></div> */}
+{/*   
+ <ScrollDownContainer>
+  <ScrollDownText>Scroll down for more information!</ScrollDownText>
+</ScrollDownContainer> */}
 <UnderneathLandingContainer></UnderneathLandingContainer>
 
         <FeatureHeader>Take a look at the features</FeatureHeader>
