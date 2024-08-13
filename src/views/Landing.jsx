@@ -125,16 +125,15 @@ const ImageContainer = styled.div`
   margin-top: 20px;
 `;
 
-
-const UnderneathLandingContainer = styled.div`
-  background: linear-gradient(to right, #FF7F7F, #FFD580);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px;
-  flex: 1;
-  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
-`;
+// const UnderneathLandingContainer = styled.div`
+//   background: linear-gradient(to right, #FF7F7F, #FFD580);
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 40px;
+//   flex: 1;
+//   box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+// `;
 
 const Header = styled.div`
   display: flex;
@@ -397,7 +396,7 @@ const Landing = () => {
 
       <LandingContainer>
         <LeftLandingContainer>
-          
+
         <CenterText>
           Find <span>inspiration</span> for your next recipe
         </CenterText>
