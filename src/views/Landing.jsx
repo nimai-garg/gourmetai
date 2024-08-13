@@ -204,7 +204,7 @@ const LeftCenterTextButton = styled.button`
   font-size: 1.3rem;
   font-weight: bold;
   cursor: pointer;
-font-family: 'Geist Sans', sans-serif;
+  font-family: 'Geist Sans', sans-serif;
   width: 200px;
 
   &:hover, &:focus {
@@ -254,8 +254,8 @@ const MockupImage = styled.img`
 const FeatureHeader = styled.h2`
   background: #fff;
   font-size: 3rem;
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
+ font-family: 'Geist Sans', sans-serif;
+  font-weight: 600;
   justify-content: center;
   align-items: center;
   display: flex;

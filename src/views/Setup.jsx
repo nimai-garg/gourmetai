@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig'; // Import auth from firebaseConfig.js
 import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
+import '@fontsource/geist-sans';
+import '@fontsource/geist-mono';
 
 const PageContainer = styled.div`
   display: flex;
