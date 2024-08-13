@@ -81,7 +81,7 @@ const ActionButton = styled.button`
 
 /* Landing Container with gradient */
 const LandingContainer = styled.div`
-    background: linear-gradient(to right, #FF7F7F, #FFD580);
+  background: linear-gradient(to right, #FF7F7F, #FFD580);
   display: flex;
   flex-direction: column; /* Arrange items vertically */
   justify-content: center; /* Center items vertically */
@@ -210,8 +210,8 @@ const LeftCenterTextButton = styled.button`
 
 // Update MockupImage to resize it and ensure it's centered
 const MockupImage = styled.img`
-  max-width: 60%; /* Resize the image to be smaller */
-  max-height: 60%;
+  max-width: 70%; /* Resize the image to be smaller */
+  max-height: 70%;
   border-radius: 10px;
   margin-left: 70px;
 
