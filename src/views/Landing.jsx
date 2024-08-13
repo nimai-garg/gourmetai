@@ -141,7 +141,7 @@ const Header = styled.div`
   font-size: 1.75rem;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  color: #333;
+  color: #fff;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -153,12 +153,19 @@ const CenterText = styled.h1`
   font-family: 'Inter Tight', sans-serif;
   font-weight: 700;
   margin-top: 0;
-  background: linear-gradient(to right, #008080, #ADD8E6);
+background: linear-gradient(to right, #008080, #6A0D91);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
   @media (max-width: 768px) {
     font-size: 3rem;
+  }
+
+  /* Add styling for the italic part */
+  span {
+    font-family: Arvo;
+    font-style: italic;
+    font-weight: 400;
   }
 `;
 
@@ -387,7 +394,9 @@ const Landing = () => {
       </HeaderContainer>
       <LandingContainer>
   <LeftLandingContainer>
-    <CenterText>Find inspiration for your next recipe</CenterText>
+  <CenterText>
+  Find <span>inspiration</span> for your next recipe
+</CenterText>
     <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
     <CenterTextButtonDiv>
       <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
@@ -407,7 +416,6 @@ const Landing = () => {
  <ScrollDownContainer>
   <ScrollDownText>Scroll down for more information!</ScrollDownText>
 </ScrollDownContainer> */}
-<UnderneathLandingContainer></UnderneathLandingContainer>
 
         <FeatureHeader>Take a look at the features</FeatureHeader>
       <SecondDiv>
