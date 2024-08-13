@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import logoImage from './logo.png';
 import mockupImage from './mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
+import '@fontsource/geist-sans';
+import '@fontsource/geist-mono';
 
 // const PageContainer = styled.div`
 //   background: linear-gradient(to right, #FF7F7F, #FFD580);
@@ -150,7 +152,7 @@ const Header = styled.div`
 
 const CenterText = styled.h1`
   font-size: 5rem;
-  font-family: 'Inter Tight', sans-serif;
+font-family: 'Geist Sans', sans-serif;
   font-weight: 700;
   margin-top: 0;
 background: linear-gradient(to right, #008080, #6A0D91);
@@ -171,7 +173,7 @@ background: linear-gradient(to right, #008080, #6A0D91);
 
 const SubCenterText = styled.h3`
   font-size: 2rem;
-  font-family: 'Inter', sans-serif;
+font-family: 'Geist Mono', monospace;
   font-weight: 400;
   color: #555;
   margin-bottom: 40px;
@@ -203,7 +205,7 @@ const LeftCenterTextButton = styled.button`
   font-size: 1.3rem;
   font-weight: bold;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+font-family: 'Geist Sans', sans-serif;
   width: 200px;
 
   &:hover, &:focus {
@@ -392,27 +394,33 @@ const Landing = () => {
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>
+
       <LandingContainer>
-  <LeftLandingContainer>
-  <CenterText>
-  Find <span>inspiration</span> for your next recipe
-</CenterText>
-    <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
-    <CenterTextButtonDiv>
-      <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
-    </CenterTextButtonDiv>
-    {/* Move the image container below the button */}
-    <ImageContainer>
-      <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
-    </ImageContainer>
-  </LeftLandingContainer>
-</LandingContainer>
+        <LeftLandingContainer>
+          
+        <CenterText>
+          Find <span>inspiration</span> for your next recipe
+        </CenterText>
+        
+        <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
+        
+        <CenterTextButtonDiv>
+            <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
+        </CenterTextButtonDiv>
+          
+        <ImageContainer>
+          <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
+        </ImageContainer>
+      
+        </LeftLandingContainer>
+      </LandingContainer>
+
 {/* 
   <RightLandingContainer>
     <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
   </RightLandingContainer>
-    <div></div> */}
-{/*   
+    <div></div>
+
  <ScrollDownContainer>
   <ScrollDownText>Scroll down for more information!</ScrollDownText>
 </ScrollDownContainer> */}
