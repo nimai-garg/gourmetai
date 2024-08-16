@@ -82,13 +82,16 @@ const ActionButton = styled.button`
   border-radius: 10px;
   padding: 9px 19px;
   font-size: 0.85rem;
-  font-weight: bold;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
 
   @media (max-width: 768px) {
     padding: 5px 10px;
     font-size: 0.8rem;
+  }
+
+  &:hover, &:focus {
+    transform: scale(1.05);
   }
 `;
 
@@ -175,7 +178,7 @@ span {
 `;
 
 const SubCenterText = styled.h3`
-  font-size: 2rem;
+  font-size: 1.7rem;
 font-family: 'SFPro-Regular', sans-serif;
   font-weight: 400;
   color: #555;
@@ -191,7 +194,7 @@ const CenterTextButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
   flex-direction: row; /* Stack buttons vertically */
 
   @media (max-width: 768px) {
@@ -200,45 +203,49 @@ const CenterTextButtonDiv = styled.div`
 `;
 
 const LeftCenterTextButton = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  padding: 17px 0px;
-  font-size: 1rem;
+  color: #fff; /* Text color: white */
+  background-color: #000; /* Background color: black */
+  border: none; /* No border */
+  border-radius: 6px; /* Border radius */
+  padding: 12px 32px; /* Adjust padding */
+  font-size: 16px; /* Increase font size */
   cursor: pointer;
-  font-family: '', sans-serif;
-  width: 120px;
+  font-family: 'Inter', sans-serif;
+  width: auto; /* Dynamic width */
 
   &:hover, &:focus {
-    transform: scale(1.05);
+    background-color: #333; /* Darker shade of black on hover */
+    border-color: #000; /* Keeps border color consistent */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
   }
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: 100%; /* Full width on smaller screens */
   }
 `;
 
 const RightCenterTextButton = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  padding: 17px 0px;
-  font-size: 1rem;
+  color: #24292f; /* Text color */
+  background-color: #ffffff; /* Background color */
+  border: 1px solid rgba(27, 31, 35, 0.15); /* Border style */
+  border-radius: 6px; /* Border radius */
+  padding: 12px 32px; /* Adjusted padding to match the height and width */
+  font-size: 16px; /* Increased font size */
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  font-family: '', sans-serif;
-  width: 120px;
+  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25); /* Subtle shadow */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
 
   &:hover, &:focus {
-    transform: scale(1.05);
+    background-color: #f6f8fa; /* Lighter background on hover */
+    border-color: rgba(27, 31, 35, 0.15);
+    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1); /* More pronounced shadow */
   }
 
   @media (max-width: 768px) {
     width: 100%;
   }
 `;
-
 // Update MockupImage to resize it and ensure it's centered
 const MockupImage = styled.img`
   max-width: 70%; /* Resize the image to be smaller */
