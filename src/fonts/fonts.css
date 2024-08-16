@@ -1,0 +1,53 @@
+/* src/fonts/fonts.css */
+@font-face {
+    font-family: 'CalSans-SemiBold';
+    src: url('./CalSans-SemiBold.otf') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-BlackItalic';
+    src: url('./SFPro-BlackItalic.OTF') format('opentype');
+  }
+  
+/* src/fonts/fonts.css */
+@font-face {
+    font-family: 'SFPro-Bold';
+    src: url('../fonts/SFPro-Bold.OTF') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'SFPro-HeavyItalic';
+    src: url('./SFPro-HeavyItalic.OTF') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-LightItalic';
+    src: url('./SFPro-LightItalic.OTF') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-Medium';
+    src: url('./SFPro-Medium.OTF') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-Regular';
+    src: url('./SFPro-Regular.OTF') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-SemiboldItalic';
+    src: url('./SFPro-SemiboldItalic.OTF') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-ThinItalic';
+    src: url('./SFPro-ThinItalic.OTF') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'SFPro-UltraLightItalic';
+    src: url('./SFPro-UltraLightItalic.OTF') format('opentype');
+  }

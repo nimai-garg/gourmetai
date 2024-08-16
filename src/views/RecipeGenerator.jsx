@@ -183,7 +183,7 @@ const RecipeGenerator = () => {
   const sendStaticPrompt = useCallback(async () => {
     if (!userData) return; // Ensure userData is available
 
-    const staticText = "Give the dish name, and details based, but not the recipe please";
+    const staticText = "Give the dish name, details, servings, ingredients, recipe steps, and nutritional information";
   
     const combinedPrompt = `${staticText}
       Age: ${userData.age || ''}

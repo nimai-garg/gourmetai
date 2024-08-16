@@ -5,6 +5,17 @@ import mockupImage from './mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
 import '@fontsource/geist-sans';
 import '@fontsource/geist-mono';
+import '../fonts/CalSans-SemiBold.otf';
+import '../fonts/SFPro-BlackItalic.OTF';
+import '../fonts/SFPro-Bold.OTF';
+import '../fonts/SFPro-HeavyItalic.OTF';
+import '../fonts/SFPro-LightItalic.OTF';
+import '../fonts/SFPro-Medium.OTF';
+import '../fonts/SFPro-Regular.OTF';
+import '../fonts/SFPro-SemiboldItalic.OTF';
+import '../fonts/SFPro-ThinItalic.OTF';
+import '../fonts/SFPro-UltraLightItalic.OTF';
+import '../fonts/fonts.css';
 
 // const PageContainer = styled.div`
 //   background: linear-gradient(to right, #FF7F7F, #FFD580);
@@ -29,7 +40,7 @@ const PageContainer = styled.div`
 
 /* Header Container with gradient */
 const HeaderContainer = styled.div`
-  background: linear-gradient(to right, #FF7F7F, #FFD580);
+  background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -83,7 +94,7 @@ const ActionButton = styled.button`
 
 /* Landing Container with gradient */
 const LandingContainer = styled.div`
-  background: linear-gradient(to right, #FF7F7F, #FFD580);
+  background: white;
   display: flex;
   flex-direction: column; /* Arrange items vertically */
   justify-content: center; /* Center items vertically */
@@ -142,7 +153,7 @@ const Header = styled.div`
   font-size: 1.75rem;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  color: #fff;
+  color: black;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -150,29 +161,22 @@ const Header = styled.div`
 `;
 
 const CenterText = styled.h1`
-  font-size: 5rem;
-font-family: 'Geist Sans', sans-serif;
-  font-weight: 700;
-  margin-top: 0;
-background: linear-gradient(to right, #008080, #6A0D91);
+  font-family: 'SFPro-Bold', sans-serif;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 16px;
+span {
+    font-family: 'SFPro-SemiboldItalic', sans-serif;
+  background: linear-gradient(to right, blue, hotpink);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  @media (max-width: 768px) {
-    font-size: 3rem;
-  }
-
-  /* Add styling for the italic part */
-  span {
-    font-family: Arvo;
-    font-style: italic;
-    font-weight: 400;
-  }
+}
 `;
 
 const SubCenterText = styled.h3`
   font-size: 2rem;
-font-family: 'Geist Mono', monospace;
+font-family: 'SFPro-Regular', sans-serif;
   font-weight: 400;
   color: #555;
   margin-bottom: 40px;
@@ -188,7 +192,7 @@ const CenterTextButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  flex-direction: column; /* Stack buttons vertically */
+  flex-direction: row; /* Stack buttons vertically */
 
   @media (max-width: 768px) {
     gap: 10px;
@@ -200,12 +204,31 @@ const LeftCenterTextButton = styled.button`
   background-color: #000;
   border: none;
   border-radius: 10px;
-  padding: 20px 0px;
-  font-size: 1.3rem;
-  font-weight: bold;
+  padding: 17px 0px;
+  font-size: 1rem;
   cursor: pointer;
-  font-family: 'Geist Sans', sans-serif;
-  width: 200px;
+  font-family: '', sans-serif;
+  width: 120px;
+
+  &:hover, &:focus {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const RightCenterTextButton = styled.button`
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 17px 0px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: '', sans-serif;
+  width: 120px;
 
   &:hover, &:focus {
     transform: scale(1.05);
@@ -350,7 +373,7 @@ const Footer = styled.p`
 `;
 
 const PricingLink = styled(Link)`
-  color: #fff;
+  color: black;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -371,6 +394,10 @@ const Landing = () => {
 
   const handleActionButton = () => {
     navigate('/login');
+  }
+
+  const handleLearnMore = () => {
+
   }
 
   // const handlePricingButton = () => {
@@ -405,6 +432,7 @@ const Landing = () => {
         
         <CenterTextButtonDiv>
             <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
+            <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
         </CenterTextButtonDiv>
           
         <ImageContainer>
