@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
 import logoImage from './logo.png';
 import mockupImage from './mockup.png';
@@ -396,6 +396,51 @@ const PricingLink = styled(Link)`
   }
 `;
 
+const AccordionContainer = styled.div`
+  max-width: 1000px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+`;
+
+const AccordionItem = styled.div`
+  margin-bottom: 10px; /* Gap between items */
+`;
+
+const AccordionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  background-color: #fff;
+  transition: background-color 0.2s ease; /* Faster transition */
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+`;
+
+const AccordionContent = styled.div`
+  padding: ${({ isOpen }) => (isOpen ? '20px 20px 20px 20px' : '0 20px')}; /* Padding on all sides when open */
+  max-height: ${({ isOpen }) => (isOpen ? '500px' : '0')};
+  overflow: hidden;
+  transition: max-height 0.2s ease, padding 0.2s ease; /* Faster transition */
+  color: #6c757d;
+`;
+
+const AccordionIcon = styled.span`
+  font-size: 24px;
+  transition: transform 0.2s ease; /* Faster transition */
+
+  ${({ isOpen }) => isOpen && `
+    transform: rotate(0deg);
+  `}
+`;
+
 const Landing = () => {
   const navigate = useNavigate();
 
@@ -414,6 +459,24 @@ const Landing = () => {
   const handleFooter = () => {
     window.open('https://linkedin.com/in/nimaigarg', '_blank');
   }
+
+  const [openSections, setOpenSections] = useState([]);
+
+  const toggleAccordion = (index) => {
+    if (openSections.includes(index)) {
+      setOpenSections(openSections.filter(i => i !== index));
+    } else {
+      setOpenSections([...openSections, index]);
+    }
+  };
+
+  const data = [
+    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit." },
+    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the second item." },
+    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the third item." },
+    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the fourth item." },
+    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the fifth item." }
+  ];
 
   return (
     <PageContainer>
@@ -477,6 +540,20 @@ const Landing = () => {
         </Box>
         <br></br>
       </SecondDiv>
+
+<AccordionContainer>
+      {data.map((item, index) => (
+        <AccordionItem key={index}>
+          <AccordionHeader onClick={() => toggleAccordion(index)}>
+            <span>{item.title}</span>
+            <AccordionIcon isOpen={openSections.includes(index)}>{openSections.includes(index) ? '-' : '+'}</AccordionIcon>
+          </AccordionHeader>
+          <AccordionContent isOpen={openSections.includes(index)}>
+            {item.content}
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </AccordionContainer>
       <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg</Footer>
       <br></br>
     </PageContainer>
