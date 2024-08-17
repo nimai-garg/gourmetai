@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from './logo.png';
 import mockupImage from './mockup.png';
@@ -169,12 +169,13 @@ const CenterText = styled.h1`
   font-weight: bold;
   color: #1f2937;
   margin-bottom: 16px;
-span {
+
+  span {
     font-family: 'SFPro-SemiboldItalic', sans-serif;
-  background: linear-gradient(to right, blue, hotpink);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    background: linear-gradient(to right, blue, hotpink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 const SubCenterText = styled.h3`
@@ -284,7 +285,7 @@ const MockupImage = styled.img`
 const FeatureHeader = styled.h2`
   background: #fff;
   font-size: 3rem;
- font-family: 'Geist Sans', sans-serif;
+  font-family: 'Geist Sans', sans-serif;
   font-weight: 600;
   justify-content: center;
   align-items: center;
@@ -335,7 +336,7 @@ const Box = styled.div`
 const BoxHeader = styled.h1`
   align-items: flex-start;
   white-space: nowrap;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Bold', sans-serif;
   font-weight: 600;
 
   @media (max-width: 768px) {
@@ -346,7 +347,7 @@ const BoxHeader = styled.h1`
 const MiddleBoxHeader = styled.h1`
   align-items: flex-start;
   white-space: nowrap;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Bold', sans-serif;
   font-weight: 600;
   background: linear-gradient(90deg, #ff4757, #ff6348);
   -webkit-background-clip: text;
@@ -358,6 +359,8 @@ const MiddleBoxHeader = styled.h1`
 `;
 
 const BoxParagraph = styled.p`
+  font-family: 'SFPro-Regular', sans-serif;
+  font-size: 1.2rem;
   @media (max-width: 768px) {
     font-size: 0.9rem;
   }
@@ -368,9 +371,10 @@ const Footer = styled.p`
   align-items: center;
   display: flex;
   color: #000;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Regular', sans-serif;
+  
   &:hover {
-    font-weight: bold;
+    font-family: 'SFPro-Bold', sans-serif;
     cursor: pointer;
   }
 
@@ -396,18 +400,25 @@ const PricingLink = styled(Link)`
   }
 `;
 
+
 const AccordionContainer = styled.div`
   max-width: 1000px;
   margin: 40px auto;
-  font-family: Arial, sans-serif;
+  font-family: SFPro-Regular, sans-serif;
   font-size: 18px;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
+  color: black;
+  background-color: #fff; /* White background for the entire accordion */
+  border: 1px solid #d0d0d0; /* Gray border around the entire container */
+  border-radius: 10px; /* Rounded edges for the container */
+  overflow: hidden; /* Ensures child elements do not overflow the container */
 `;
 
 const AccordionItem = styled.div`
-  margin-bottom: 10px; /* Gap between items */
+  border-bottom: 1px solid #e0e0e0; /* Gray line between items */
+  
+  &:last-child {
+    border-bottom: none; /* Remove bottom border from the last item */
+  }
 `;
 
 const AccordionHeader = styled.div`
@@ -416,8 +427,10 @@ const AccordionHeader = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 20px;
-  background-color: #fff;
+  background-color: #fff; /* White background for headers */
+  color: black;
   transition: background-color 0.2s ease; /* Faster transition */
+  font-size: 1.3rem;
 
   &:hover {
     background-color: #f9f9f9;
@@ -425,11 +438,12 @@ const AccordionHeader = styled.div`
 `;
 
 const AccordionContent = styled.div`
-  padding: ${({ isOpen }) => (isOpen ? '20px 20px 20px 20px' : '0 20px')}; /* Padding on all sides when open */
+  padding: ${({ isOpen }) => (isOpen ? '20px' : '0 20px')}; /* Padding on all sides when open */
   max-height: ${({ isOpen }) => (isOpen ? '500px' : '0')};
   overflow: hidden;
   transition: max-height 0.2s ease, padding 0.2s ease; /* Faster transition */
-  color: #6c757d;
+  color: #333;
+  font-size: 1.1rem;
 `;
 
 const AccordionIcon = styled.span`
@@ -437,9 +451,21 @@ const AccordionIcon = styled.span`
   transition: transform 0.2s ease; /* Faster transition */
 
   ${({ isOpen }) => isOpen && `
-    transform: rotate(0deg);
+    transform: rotate(360deg); /* Rotate the icon when open */
   `}
 `;
+
+// Define the fade-in animation
+// const fadeIn = keyframes`
+//   0% { opacity: 0; }
+//   100% { opacity: 1; }
+// `;
+
+// Create a styled component for the header with animation
+// const HeaderLine = styled.h1`
+//   animation: ${fadeIn} 5s forwards;
+//   font-family: 'SFPro-Regular', sans-serif;
+// `;
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -471,14 +497,35 @@ const Landing = () => {
   };
 
   const data = [
-    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit." },
-    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the second item." },
-    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the third item." },
-    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the fourth item." },
-    { title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", content: "Content for the fifth item." }
+    { title: "What is GourmetChef?", content: "GourmetChef is an AI-powered app that provides personalized cooking recipes based on your dietary needs, available ingredients, calorie requirements, and preferences. It helps you discover new recipes tailored to your unique requirements." },
+    { title: "Is GourmetChef free to use?", content: "GourmetChef is currently 100% free with no pricing plans at the moment. We plan to release the pricing plans in late 2024." },
+    { title: "How does GourmetChef customize recipes for me?", content: "GourmetChef uses AI to analyze your inputs such as available ingredients, dietary restrictions, calorie needs, and more. It then generates a recipe that matches your inputs with the description, ingredients, and recipe." },
+    { title: "Is my data secure with GourmetChef?", content: "Yes, we prioritize your privacy and security. GourmetChef uses encryption and secure protocols to protect your data and personal information. Your inputs are secured safely on Google Firebase which are accessible by Nimai (the founder of GourmetChef). The data you provide us will never be publicized without your consent. Your password is never shared with Google, GourmetChef, Nimai, or anyone. If you forgot your password, please contact Nimai at +1 650-272-7186 for assistance." },
+    { title: "How can I provide feedback or report a bug?", content: "You can provide feedback or report bugs directly through the app by navigating to the 'Feedback' section. Alternatively, you can email us at nimaigarg08@gmail.com" }
   ];
 
+  // const headers = [
+  //   "Personalize your",
+  //   "Calories",
+  //   "Protein",
+  //   "Nutritional Goals",
+  //   "Available Ingredients",
+  //   "Cuisine Preferences",
+  //   "and more!"
+  // ];
+
+  // const [currentHeader, setCurrentHeader] = useState(0);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentHeader(prevHeader => (prevHeader + 1) % headers.length);
+  //   }, 1500); // Switch header every 3 seconds
+
+  //   return () => clearInterval(interval); // Clean up the interval on component unmount
+  // }, [headers.length]);
+
   return (
+
     <PageContainer>
       <HeaderContainer>
         <Header>
@@ -504,6 +551,10 @@ const Landing = () => {
             <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
             <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
         </CenterTextButtonDiv>
+
+        {/* <HeaderLine>
+          {headers[currentHeader]}
+        </HeaderLine> */}
           
         <ImageContainer>
           <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
@@ -512,17 +563,18 @@ const Landing = () => {
         </LeftLandingContainer>
       </LandingContainer>
 
-{/* 
-  <RightLandingContainer>
-    <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
-  </RightLandingContainer>
-    <div></div>
+      {/* 
+        <RightLandingContainer>
+          <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
+        </RightLandingContainer>
+          <div></div>
 
- <ScrollDownContainer>
-  <ScrollDownText>Scroll down for more information!</ScrollDownText>
-</ScrollDownContainer> */}
+      <ScrollDownContainer>
+        <ScrollDownText>Scroll down for more information!</ScrollDownText>
+      </ScrollDownContainer> */}
 
-        <FeatureHeader>Take a look at the features</FeatureHeader>
+      <FeatureHeader>Take a look at the features</FeatureHeader>
+
       <SecondDiv>
         <Box>
           <BoxHeader>Nutritional Data</BoxHeader>
@@ -536,25 +588,26 @@ const Landing = () => {
 
         <Box>
           <BoxHeader>Cooking Tips</BoxHeader>
-          <BoxParagraph>First time cooking or need want some tips when cooking? Look at our Cooking Tips where we prepared the best tips for you and verified from sources including long time home cooks</BoxParagraph>
+          <BoxParagraph>First time cooking or need want some tips when cooking? Look at our Cooking Tips where we prepared the best tips for you and verified from sources including long time home cooks. Coming out on September 1st</BoxParagraph>
         </Box>
         <br></br>
       </SecondDiv>
 
-<AccordionContainer>
-      {data.map((item, index) => (
-        <AccordionItem key={index}>
-          <AccordionHeader onClick={() => toggleAccordion(index)}>
-            <span>{item.title}</span>
-            <AccordionIcon isOpen={openSections.includes(index)}>{openSections.includes(index) ? '-' : '+'}</AccordionIcon>
-          </AccordionHeader>
-          <AccordionContent isOpen={openSections.includes(index)}>
-            {item.content}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </AccordionContainer>
-      <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg</Footer>
+      <AccordionContainer>
+        {data.map((item, index) => (
+          <AccordionItem key={index}>
+            <AccordionHeader onClick={() => toggleAccordion(index)}>
+              <span>{item.title}</span>
+              <AccordionIcon isOpen={openSections.includes(index)}>{openSections.includes(index) ? '-' : '+'}</AccordionIcon>
+            </AccordionHeader>
+            <AccordionContent isOpen={openSections.includes(index)}>
+              {item.content}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </AccordionContainer>
+
+      <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com</Footer>
       <br></br>
     </PageContainer>
   )

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
+import SettingsImage from './settings-icon.png';
 
 const PageContainer = styled.div`
   background-color: #FFF;
@@ -95,7 +96,7 @@ const WelcomeContainer = styled.div`
 
 const CenterText = styled.h1`
   font-size: 2.5rem;
-  font-family: 'Inter Tight', sans-serif;
+  font-family: 'SFPro-Bold', sans-serif;
   font-weight: 600;
   text-align: center;
 
@@ -105,8 +106,8 @@ const CenterText = styled.h1`
 `;
 
 const SubCenterText = styled.h3`
-  font-size: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-family: 'SFPro-Regular', sans-serif;
   font-weight: 400;
   text-align: center;
   color: gray;
@@ -139,7 +140,7 @@ const OptionButton = styled.button`
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Semibold', sans-serif;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s; /* Add a smooth transition for hover effect */
 
@@ -154,11 +155,40 @@ const Footer = styled.p`
   justify-content: center;
   align-items: center;
   display: flex;
-  margin-top: auto;
-  font-family: 'Inter', sans-serif;
+  color: #000;
+  font-family: 'SFPro-Regular', sans-serif;
+  margin-top: 260px;
+  
+  &:hover {
+    font-family: 'SFPro-Bold', sans-serif;
+    cursor: pointer;
+  }
 
   @media (max-width: 768px) {
     font-size: 0.9rem;
+  }
+`;
+
+const SettingsCircle = styled.div`
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #ccc;
+  background-image: url(${SettingsImage});
+  background-size: 20px 20px; /* Resize the background image */
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #aaa;
+  }
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 25px;
+    background-size: 15px 15px; /* Adjust for smaller screens */
   }
 `;
 
@@ -173,12 +203,16 @@ const Landing = () => {
     navigate('/reviewSettings')
   };
   
-  const handleCookingTips = async () => {
-    navigate('/cookingTips');
-  };
+  // const handleCookingTips = async () => {
+  //   navigate('/cookingTips');
+  // };
 
   const handleNutritionalData = async () => {
     navigate('/nutritionalData');
+  }
+
+  const handleSettings = async() => {
+    navigate('/settings');
   }
 
   const handleSignOut = async () => {
@@ -196,9 +230,10 @@ const Landing = () => {
         <Header>GourmetChef</Header>
       
         <NavigationButtonDiv>
-          <ActionButton onClick={handleEditSetupButton}>Edit Setup</ActionButton>
-          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
-        </NavigationButtonDiv>
+  <ActionButton onClick={handleEditSetupButton}>Edit Setup</ActionButton>
+  <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+  <SettingsCircle onClick={handleSettings}/>
+</NavigationButtonDiv>
       </HeaderContainer>
 
       <WelcomeContainer>
@@ -211,12 +246,12 @@ const Landing = () => {
           <br></br>
         </ButtonContainer>
 
-        <ButtonContainer>
+        {/* <ButtonContainer>
           <OptionButton onClick={handleCookingTips}>Cooking Tips</OptionButton>
-        </ButtonContainer>
+        </ButtonContainer> */}
       </WelcomeContainer>
       
-      <Footer>© 2024 - Created by Nimai Garg</Footer>
+      <Footer>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com</Footer>
     </PageContainer>
   )
 }

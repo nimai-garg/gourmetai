@@ -12,6 +12,9 @@ import RecipeQuestions from './views/RecipeQuestions';
 import RecipeGenerator from './views/RecipeGenerator';
 import NutritionalData from './views/NutritionalData';
 import CookingTips from './views/CookingTips';
+import Feedback from './views/Feedback';
+import SignUp from './views/SignUp';
+import Settings from './views/Settings';
 import NotFound from './views/NotFound';
 import GlobalStyle from './GlobalStyles';
 // persist localStorage, useReducer React.JS StackOverflow Comment
@@ -31,6 +34,7 @@ const App = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={user ? <Setup /> : <Login/>} />
         <Route path="/dashboard" element={user ? <Dashboard /> : <Login/>} />
@@ -41,6 +45,8 @@ const App = () => {
         <Route path="/recipeGenerator" element={<RecipeGenerator />} />
         <Route path="/nutritionalData" element={<NutritionalData />} />
         <Route path="/cookingTips" element={<CookingTips />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

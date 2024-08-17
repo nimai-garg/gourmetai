@@ -1,6 +1,16 @@
+// Import Firebase functions
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, doc, updateDoc, setDoc } from "firebase/firestore";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signOut, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  updatePassword as firebaseUpdatePassword, 
+  deleteUser 
+} from "firebase/auth";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
@@ -47,6 +57,35 @@ const logOut = async () => {
   }
 };
 
+const createUser = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Optionally add additional user data to Firestore
+    const userDocRef = doc(db, "users", user.uid);
+    await setDoc(userDocRef, {
+      email: user.email,
+      // Add other fields if needed
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error creating user:", error.message); // Log any errors
+    throw error;
+  }
+};
+
+const signInWithEmail = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    console.error("Error signing in with email:", error);
+    throw error;
+  }
+};
+
 const updateUserProfile = async (uid, data) => {
   try {
     const userDocRef = doc(db, "users", uid);
@@ -69,4 +108,32 @@ const uploadAvatar = async (file, userId) => {
   }
 };
 
-export { auth, db, signInWithGoogle, logOut, updateUserProfile, uploadAvatar };
+const updatePassword = async (newPassword) => {
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      await firebaseUpdatePassword(user, newPassword);
+    } catch (error) {
+      console.error("Error updating password:", error);
+      throw error;
+    }
+  } else {
+    throw new Error("No user is signed in.");
+  }
+};
+
+const deleteUserAccount = async () => {
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      await deleteUser(user);
+    } catch (error) {
+      console.error("Error deleting user account:", error);
+      throw error;
+    }
+  } else {
+    throw new Error("No user is signed in.");
+  }
+};
+
+export { auth, db, signInWithGoogle, logOut, createUser, signInWithEmail, updateUserProfile, uploadAvatar, updatePassword, deleteUserAccount };

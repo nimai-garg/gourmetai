@@ -31,7 +31,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.7rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Bold', sans-serif;
   font-weight: bold;
 
   @media (max-width: 768px) {
@@ -51,7 +51,7 @@ const TextField = styled.input`
   margin-bottom: 1rem;
   width: calc(100% - 40px); /* Reduce width to ensure it doesn't hit the right edge */
   font-size: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Regular', sans-serif;
   resize: vertical;
   max-width: 100%;
 
@@ -62,6 +62,7 @@ const TextField = styled.input`
 `;
 
 const PoweredByText = styled.span`
+  font-family: 'SFPro-Bold', sans-serif;
   margin-right: 10px; /* Adjust spacing as needed */
   margin-left: 10px;
   font-size: 1rem;
@@ -153,16 +154,16 @@ const GridItem = styled.div`
 const NutrientValue = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Bold', sans-serif;
 `;
 
 const NutrientName = styled.div`
   font-size: 0.9rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'SFPro-Regular', sans-serif;
 `;
 
 const NutritionData = styled.p`
-
+  font-family: 'SFPro-Regular', sans-serif;
 `
 
 const NutritionalData = () => {
@@ -238,7 +239,7 @@ const NutritionalData = () => {
       
       {nutritionData && (
         <div>
-          <h2 style={{ fontFamily: 'Inter, sans-serif' }}>Nutritional Information for "{query}"</h2>
+          <h2 style={{ fontFamily: 'SFPro-Bold, sans-serif' }}>Nutritional Information for "{query}"</h2>
           <NutritionData>{nutritionData.description}</NutritionData>
           <GridContainer>
           <GridItem>
