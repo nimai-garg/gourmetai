@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import logoImage from './logo.png';
 import mockupImage from './mockup.png';
@@ -16,6 +16,7 @@ import '../fonts/SFPro-SemiboldItalic.OTF';
 import '../fonts/SFPro-ThinItalic.OTF';
 import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
+import hamburgerIcon from './hamburger-icon.svg'; // Update with the path to your hamburger icon
 
 // const PageContainer = styled.div`
 //   background: linear-gradient(to right, #FF7F7F, #FFD580);
@@ -67,12 +68,22 @@ const Logo = styled.img`
     height: 30px;
     width: 30px;
   }
+
+    @media (max-width: 600px) {
+    height: 75px;
+    width: 90px;
+  }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 const ActionButton = styled.button`
@@ -93,9 +104,12 @@ const ActionButton = styled.button`
   &:hover, &:focus {
     transform: scale(1.05);
   }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
-/* Landing Container with gradient */
 const LandingContainer = styled.div`
   background: white;
   display: flex;
@@ -121,33 +135,11 @@ const LeftLandingContainer = styled.div`
   }
 `;
 
-// const RightLandingContainer = styled.div`
-//   flex: 1;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-
-//   @media (max-width: 768px) {
-//     margin-bottom: 20px;
-//   }
-// `;
-
-// Add a new container for the image below the create button
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
 `;
-
-// const UnderneathLandingContainer = styled.div`
-//   background: linear-gradient(to right, #FF7F7F, #FFD580);
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 40px;
-//   flex: 1;
-//   box-sizing: border-box; /* Ensure padding doesn't cause overflow */
-// `;
 
 const Header = styled.div`
   display: flex;
@@ -247,7 +239,7 @@ const RightCenterTextButton = styled.button`
     width: 100%;
   }
 `;
-// Update MockupImage to resize it and ensure it's centered
+
 const MockupImage = styled.img`
   max-width: 70%; /* Resize the image to be smaller */
   max-height: 70%;
@@ -262,25 +254,6 @@ const MockupImage = styled.img`
     display: none; /* Hide image on small portrait devices */
   }
 `;
-
-// const ScrollDownContainer = styled.div`
-//   background: linear-gradient(to right, #FF7F7F, #FFD580);
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-// const ScrollDownText = styled.h1`
-//   font-size: 3rem;
-//   font-family: 'Inter Tight', sans-serif;
-//   font-weight: 500;
-//   color: #fff;
-
-//   @media (max-width: 768px) {
-//     font-size: 2.5rem;
-//     margin-top: 30px;
-//   }
-// `;
 
 const FeatureHeader = styled.h2`
   background: #fff;
@@ -398,6 +371,10 @@ const HeaderLink = styled(Link)`
   @media (max-width: 768px) {
     font-size: 0.9rem;
   }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const AccordionContainer = styled.div`
@@ -454,13 +431,76 @@ const AccordionIcon = styled.span`
   `}
 `;
 
+const HeaderWrapper = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  position: relative;
+
+  /* Media query for smaller devices */
+  @media (min-width: 768px) {
+    .menu-icon {
+      display: none; /* Hide hamburger icon on larger devices */
+    }
+    .menu-content {
+      display: none; /* Hide menu content on larger devices */
+    }
+  }
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MenuIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  /* Only show hamburger icon on smaller devices */
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const MenuContent = styled.div`
+  display: ${props => (props.open ? 'block' : 'none')};
+  position: absolute;
+  top: 60px; /* Adjust as needed */
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 200px;
+
+  /* Show menu content only on smaller devices */
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const MenuItem = styled.a`
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
 // Define the fade-in animation
 // const fadeIn = keyframes`
 //   0% { opacity: 0; }
 //   100% { opacity: 1; }
 // `;
 
-// Create a styled component for the header with animation
 // const HeaderLine = styled.h1`
 //   animation: ${fadeIn} 5s forwards;
 //   font-family: 'SFPro-Regular', sans-serif;
@@ -473,8 +513,12 @@ const Landing = () => {
     navigate('/login');
   }
 
-  const handleLearnMore = () => {
+  const secondDivRef = useRef(null);
 
+  const handleLearnMore = () => {
+    if (secondDivRef.current) {
+      secondDivRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   // const handlePricingButton = () => {
@@ -502,6 +546,10 @@ const Landing = () => {
     { title: "Is my data secure with GourmetChef?", content: "Yes, we prioritize your privacy and security. GourmetChef uses encryption and secure protocols to protect your data and personal information. Your inputs are secured safely on Google Firebase which are accessible by Nimai (the founder of GourmetChef). The data you provide us will never be publicized without your consent. Your password is never shared with Google, GourmetChef, Nimai, or anyone. If you forgot your password, please contact Nimai at +1 650-272-7186 for assistance." },
     { title: "How can I provide feedback or report a bug?", content: "You can provide feedback or report bugs directly through the app by navigating to the 'Feedback' section. Alternatively, you can email us at nimaigarg08@gmail.com" }
   ];
+  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   // const headers = [
   //   "Personalize your",
@@ -526,11 +574,23 @@ const Landing = () => {
   return (
 
     <PageContainer>
+
+
       <HeaderContainer>
         <Header>
           <Logo src={logoImage} alt="GourmetChef Logo" />
           GourmetChef
         </Header>
+        <HeaderWrapper>
+      <MenuWrapper>
+        <MenuIcon src={hamburgerIcon} alt="Menu" onClick={toggleMenu} />
+        <MenuContent open={isOpen}>
+          <MenuItem href="#pricing">Pricing</MenuItem>
+          <MenuItem href="#feedback">Feedback</MenuItem>
+          <MenuItem href="#action">Action Button</MenuItem>
+        </MenuContent>
+      </MenuWrapper>
+    </HeaderWrapper>
         <ButtonGroup>
           <HeaderLink to="/feedback">Feedback</HeaderLink>
           <HeaderLink to="/pricing">Pricing</HeaderLink>
@@ -573,7 +633,7 @@ const Landing = () => {
         <ScrollDownText>Scroll down for more information!</ScrollDownText>
       </ScrollDownContainer> */}
 
-      <FeatureHeader>Take a look at the features</FeatureHeader>
+      <FeatureHeader ref={secondDivRef}>Take a look at the features</FeatureHeader>
 
       <SecondDiv>
         <Box>
