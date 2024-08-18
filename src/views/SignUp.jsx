@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../firebaseConfig'; // Import the createUser function
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { auth } from '../firebaseConfig'; // Import the Firebase auth instance
 
 const PageContainer = styled.div`
   display: flex;
@@ -40,24 +41,24 @@ const Title = styled.h2`
 `;
 
 const Button = styled.button`
-  color: #fff; /* Text color: white */
-  background-color: #000; /* Background color: black */
-  border: none; /* No border */
-  border-radius: 6px; /* Border radius */
-  padding: 12px 32px; /* Adjust padding */
-  font-size: 15px; /* Increase font size */
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 15px;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  width: auto; /* Dynamic width */
+  width: auto;
 
   &:hover, &:focus {
-    background-color: #333; /* Darker shade of black on hover */
-    border-color: #000; /* Keeps border color consistent */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+    background-color: #333;
+    border-color: #000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 768px) {
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
   }
 `;
 
@@ -96,20 +97,29 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    console.log("Sign-Up button clicked");
-  
+    e.preventDefault();
+
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-  
+
     try {
-      const user = await createUser(email, password);
+      // Create a new user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Send email verification
+      await sendEmailVerification(user);
+      
       console.log("User created:", user);
-      navigate('/login'); // Redirect to login page
+      alert("Verification email sent! Please check your inbox.");
+
+      // Redirect to login page
+      navigate('/login');
     } catch (error) {
       console.error("Error signing up:", error.message);
+      alert(`Error: ${error.message}`);
     }
   };
 

@@ -15,6 +15,7 @@ import CookingTips from './views/CookingTips';
 import Feedback from './views/Feedback';
 import SignUp from './views/SignUp';
 import Settings from './views/Settings';
+import ForgotPassword from './views/ForgotPassword';
 import NotFound from './views/NotFound';
 import GlobalStyle from './GlobalStyles';
 // persist localStorage, useReducer React.JS StackOverflow Comment
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/cookingTips" element={<CookingTips />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

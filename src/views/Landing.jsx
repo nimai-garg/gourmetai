@@ -581,16 +581,18 @@ const Landing = () => {
           <Logo src={logoImage} alt="GourmetChef Logo" />
           GourmetChef
         </Header>
+
         <HeaderWrapper>
-      <MenuWrapper>
-        <MenuIcon src={hamburgerIcon} alt="Menu" onClick={toggleMenu} />
-        <MenuContent open={isOpen}>
-          <MenuItem href="#pricing">Pricing</MenuItem>
-          <MenuItem href="#feedback">Feedback</MenuItem>
-          <MenuItem href="#action">Action Button</MenuItem>
-        </MenuContent>
-      </MenuWrapper>
-    </HeaderWrapper>
+          <MenuWrapper>
+            <MenuIcon src={hamburgerIcon} alt="Menu" onClick={toggleMenu} />
+            <MenuContent open={isOpen}>
+              <MenuItem href="#pricing">Pricing</MenuItem>
+              <MenuItem href="#feedback">Feedback</MenuItem>
+              <MenuItem href="#action">Action Button</MenuItem>
+            </MenuContent>
+          </MenuWrapper>
+        </HeaderWrapper>
+
         <ButtonGroup>
           <HeaderLink to="/feedback">Feedback</HeaderLink>
           <HeaderLink to="/pricing">Pricing</HeaderLink>
@@ -601,24 +603,24 @@ const Landing = () => {
       <LandingContainer>
         <LeftLandingContainer>
 
-        <CenterText>
-          Find <span>inspiration</span> for your next recipe
-        </CenterText>
-        
-        <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
-        
-        <CenterTextButtonDiv>
-            <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
-            <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
-        </CenterTextButtonDiv>
-
-        {/* <HeaderLine>
-          {headers[currentHeader]}
-        </HeaderLine> */}
+          <CenterText>
+            Find <span>inspiration</span> for your next recipe
+          </CenterText>
           
-        <ImageContainer>
-          <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
-        </ImageContainer>
+          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
+          
+          <CenterTextButtonDiv>
+              <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
+              <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
+          </CenterTextButtonDiv>
+
+          {/* <HeaderLine>
+            {headers[currentHeader]}
+          </HeaderLine> */}
+            
+          <ImageContainer>
+            <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
+          </ImageContainer>
       
         </LeftLandingContainer>
       </LandingContainer>
