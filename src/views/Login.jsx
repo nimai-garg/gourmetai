@@ -3,84 +3,154 @@ import styled from 'styled-components';
 import { signInWithGoogle, signInWithEmail, auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import googleLogo from './google.png'; // Import your Google logo here
+import logoImage from './logo.png';
 
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
-  background-color: #fff; /* Slightly off-white background */
+  background-color: #fff;
   font-family: 'Inter', sans-serif;
 `;
 
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.5em;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 0.75em;
+  }
+
+  @media (max-width: 480px) { 
+    padding: 0.5em;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const LogoTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: black;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
+
+const Logo = styled.img`
+  height: 90px;
+  width: 100px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    height: 30px;
+    width: 30px;
+  }
+`;
+
+// const ButtonGroup = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 20px;
+// `;
+
+// const ActionButton = styled.button`
+//   color: #fff;
+//   background-color: #000;
+//   border: 2px solid black;
+//   border-radius: 10px;
+//   padding: 9px 19px;
+//   font-size: 0.85rem;
+//   cursor: pointer;
+
+//   @media (max-width: 768px) {
+//     padding: 5px 10px;
+//     font-size: 0.8rem;
+//   }
+
+//   &:hover, &:focus {
+//     transform: scale(1.05);
+//   }
+// `;
+
 const Card = styled.div`
   width: 100%;
-  max-width: 400px; /* Normal width, adjustable */
-  height: auto; /* Increased height */
+  max-width: 400px;
   background-color: #fff;
   padding: 2rem;
   border-radius: 15px;
-  border: 1px solid #ccc; /* Gray 2px border */
+  border: 1px solid #ccc;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   box-sizing: border-box;
+  margin-top: 60px; /* Adjust margin to move card down */
 `;
 
 const Title = styled.h2`
   margin: 0;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #ccc; /* Gray border below the title */
+  border-bottom: 2px solid #ccc;
   font-size: 1.5rem;
   color: #333;
   font-weight: bold;
-  font-family: 'SFPro-Regular', sans-serif;
 `;
 
 const Button = styled.button`
   color: #fff;
   background-color: #000;
   border: none;
-  border-radius: 10px;
-  padding: 15px 25px;
-  font-size: 0.85rem;
-  font-weight: bold;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 15px;
   cursor: pointer;
-  font-family: 'SFPro-Regular', sans-serif;
-
-  @media (max-width: 768px) {
-    padding: 10px 15px;
-    font-size: 0.8rem;
-  }
+  width: auto;
 
   &:hover, &:focus {
-    transform: scale(1.03);
+    background-color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
-  margin: 0 0.5rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const GoogleButton = styled.button`
-  color: #24292f; /* Text color */
-  background-color: #ffffff; /* Background color */
-  border: 1px solid rgba(27, 31, 35, 0.15); /* Border style */
-  border-radius: 6px; /* Border radius */
-  padding: 12px 32px; /* Adjusted padding to match the height and width */
-  font-size: 16px; /* Increased font size */
-  font-family: 'Inter', sans-serif;
+  color: #24292f;
+  background-color: #ffffff;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25); /* Subtle shadow */
-  transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover, &:focus {
-    background-color: #f6f8fa; /* Lighter background on hover */
-    border-color: rgba(27, 31, 35, 0.15);
-    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1); /* More pronounced shadow */
+    background-color: #f6f8fa;
+    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1);
   }
 
   @media (max-width: 768px) {
@@ -89,9 +159,9 @@ const GoogleButton = styled.button`
 `;
 
 const GoogleLogo = styled.img`
-  width: 20px; /* Adjust size as needed */
-  height: 20px; /* Adjust size as needed */
-  margin-right: 8px; /* Space between logo and text */
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
 `;
 
 const Input = styled.input`
@@ -102,7 +172,6 @@ const Input = styled.input`
   margin-bottom: 1rem;
   width: 100%;
   box-sizing: border-box;
-  font-family: 'SFPro-Regular', sans-serif;
 
   &:focus {
     border-color: #000;
@@ -113,8 +182,7 @@ const Input = styled.input`
 const SignUpLink = styled.a`
   color: #000;
   text-decoration: none;
-  font-size: 0.85rem;
-  font-family: 'SFPro-Regular', sans-serif;
+  font-size: 0.9rem;
   cursor: pointer;
 
   &:hover {
@@ -149,25 +217,35 @@ const Login = () => {
   }
 
   const handleEmailLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
       const user = await signInWithEmail(email, password);
-      console.log("User signed in:", user);
-      navigate('/setup'); // Redirect to setup page or desired page
+      console.log(user);
+      navigate('/setup');
     } catch (error) {
       console.error("Error signing in with email:", error);
     }
   }
 
+  const handleHomePage = async () => {
+    navigate('/');
+  }
+
   return (
     <PageContainer>
+      <HeaderContainer>
+        <LogoTextContainer onClick={handleHomePage}>
+          <Logo src={logoImage} alt="GourmetChef Logo" />
+          <Header>GourmetChef</Header>
+        </LogoTextContainer>
+      </HeaderContainer>
+
       <Card>
         <Title>Sign In</Title>
         <GoogleButton onClick={handleLogin}>
           <GoogleLogo src={googleLogo} alt="Google Logo" />
           Go with Google
         </GoogleButton>
-        <br />
         <form>
           <Input
             type="text"

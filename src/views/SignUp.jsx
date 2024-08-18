@@ -40,25 +40,25 @@ const Title = styled.h2`
 `;
 
 const Button = styled.button`
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 10px;
-  padding: 15px 25px;
-  font-size: 0.85rem;
-  font-weight: bold;
+  color: #fff; /* Text color: white */
+  background-color: #000; /* Background color: black */
+  border: none; /* No border */
+  border-radius: 6px; /* Border radius */
+  padding: 12px 32px; /* Adjust padding */
+  font-size: 15px; /* Increase font size */
   cursor: pointer;
-  font-family: 'SFPro-Regular', sans-serif;
-
-  @media (max-width: 768px) {
-    padding: 10px 15px;
-    font-size: 0.8rem;
-  }
+  font-family: 'Inter', sans-serif;
+  width: auto; /* Dynamic width */
 
   &:hover, &:focus {
-    transform: scale(1.03);
+    background-color: #333; /* Darker shade of black on hover */
+    border-color: #000; /* Keeps border color consistent */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
   }
-  margin: 0 0.5rem;
+
+  @media (max-width: 768px) {
+    width: 100%; /* Full width on smaller screens */
+  }
 `;
 
 const Input = styled.input`
@@ -80,7 +80,7 @@ const Input = styled.input`
 const SignUpLink = styled.a`
   color: #000;
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-family: 'SFPro-Regular', sans-serif;
   cursor: pointer;
 

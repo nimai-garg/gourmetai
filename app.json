@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "GourmetChef",
+    "slug": "gourmetchef",
+    "extra": {
+      "eas": {
+        "projectId": "fa03f8de-6176-4818-ad24-1f01ee597b8c"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.nimaigarg.gourmetchef"
+    }
+  }
+}
