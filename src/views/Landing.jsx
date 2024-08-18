@@ -372,7 +372,7 @@ const Footer = styled.p`
   display: flex;
   color: #000;
   font-family: 'SFPro-Regular', sans-serif;
-  
+
   &:hover {
     font-family: 'SFPro-Bold', sans-serif;
     cursor: pointer;
@@ -383,7 +383,7 @@ const Footer = styled.p`
   }
 `;
 
-const PricingLink = styled(Link)`
+const HeaderLink = styled(Link)`
   color: black;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -399,7 +399,6 @@ const PricingLink = styled(Link)`
     font-size: 0.9rem;
   }
 `;
-
 
 const AccordionContainer = styled.div`
   max-width: 1000px;
@@ -533,7 +532,8 @@ const Landing = () => {
           GourmetChef
         </Header>
         <ButtonGroup>
-          <PricingLink to="/pricing">Pricing</PricingLink>
+          <HeaderLink to="/feedback">Feedback</HeaderLink>
+          <HeaderLink to="/pricing">Pricing</HeaderLink>
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>
@@ -607,7 +607,7 @@ const Landing = () => {
         ))}
       </AccordionContainer>
 
-      <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com</Footer>
+      <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com - Version Beta 1.1</Footer>
       <br></br>
     </PageContainer>
   )

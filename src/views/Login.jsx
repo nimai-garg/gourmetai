@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { signInWithGoogle, signInWithEmail, auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import googleLogo from './google.png'; // Import your Google logo here
 
 const PageContainer = styled.div`
   display: flex;
@@ -72,6 +73,9 @@ const GoogleButton = styled.button`
   cursor: pointer;
   box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25); /* Subtle shadow */
   transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover, &:focus {
     background-color: #f6f8fa; /* Lighter background on hover */
@@ -82,6 +86,12 @@ const GoogleButton = styled.button`
   @media (max-width: 768px) {
     width: 100%;
   }
+`;
+
+const GoogleLogo = styled.img`
+  width: 20px; /* Adjust size as needed */
+  height: 20px; /* Adjust size as needed */
+  margin-right: 8px; /* Space between logo and text */
 `;
 
 const Input = styled.input`
@@ -154,7 +164,8 @@ const Login = () => {
       <Card>
         <Title>Sign In</Title>
         <GoogleButton onClick={handleLogin}>
-          Sign in with Google
+          <GoogleLogo src={googleLogo} alt="Google Logo" />
+          Go with Google
         </GoogleButton>
         <br />
         <form>
