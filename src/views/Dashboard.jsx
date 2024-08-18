@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
-import SettingsImage from './settings-icon.png';
+import SettingsImage from '../images/settings-icon.png';
 
 const PageContainer = styled.div`
   background-color: #FFF;

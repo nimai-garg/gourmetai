@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { signInWithGoogle, signInWithEmail, auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
-import googleLogo from './google.png'; // Import your Google logo here
-import logoImage from './logo.png';
+import googleLogo from '../images/google.png'; // Import your Google logo here
+import logoImage from '../images/logo.png';
 
 const PageContainer = styled.div`
   display: flex;

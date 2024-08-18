@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import logoImage from './logo.png';
-import mockupImage from './mockup.png';
+import logoImage from '../images/logo.png';
+import mockupImage from '../images/mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
 import '@fontsource/geist-sans';
 import '@fontsource/geist-mono';
@@ -16,7 +16,7 @@ import '../fonts/SFPro-SemiboldItalic.OTF';
 import '../fonts/SFPro-ThinItalic.OTF';
 import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
-import hamburgerIcon from './hamburger-icon.svg'; // Update with the path to your hamburger icon
+import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
 
 // const PageContainer = styled.div`
 //   background: linear-gradient(to right, #FF7F7F, #FFD580);
