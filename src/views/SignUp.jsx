@@ -3,15 +3,65 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../firebaseConfig'; // Import the Firebase auth instance
+import logoImage from '../images/logo.png';
 
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
   background-color: #fff;
   font-family: 'Inter', sans-serif;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.5em;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 0.75em;
+  }
+
+  @media (max-width: 480px) { 
+    padding: 0.5em;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const LogoTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: black;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
+
+const Logo = styled.img`
+  height: 90px;
+  width: 100px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    height: 30px;
+    width: 30px;
+  }
 `;
 
 const Card = styled.div`
@@ -28,6 +78,7 @@ const Card = styled.div`
   flex-direction: column;
   gap: 1rem;
   box-sizing: border-box;
+  margin-top: 60px; /* Adjust margin to move card down */
 `;
 
 const Title = styled.h2`
@@ -78,6 +129,22 @@ const Input = styled.input`
   }
 `;
 
+const PasswordInputContainer = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const TogglePasswordButton = styled.button`
+  position: absolute;
+  right: 35px;
+  top: 35%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem; /* Increase the font size */
+`;
+
 const SignUpLink = styled.a`
   color: #000;
   text-decoration: none;
@@ -94,6 +161,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -127,14 +195,47 @@ const SignUp = () => {
     navigate('/login');
   }
 
+  const handleHomePage = async () => {
+    navigate('/');
+  }
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <PageContainer>
+      <HeaderContainer>
+        <LogoTextContainer onClick={handleHomePage}>
+          <Logo src={logoImage} alt="GourmetChef Logo" />
+          <Header>GourmetChef</Header>
+        </LogoTextContainer>
+      </HeaderContainer>
+
       <Card>
         <Title>Sign Up</Title>
         <form onSubmit={handleSignUp}>
             <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <Input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            <PasswordInputContainer>
+              <Input 
+                type={passwordVisible ? "text" : "password"} 
+                placeholder="Password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+              />
+              <TogglePasswordButton type="button" onClick={togglePasswordVisibility}>
+                {passwordVisible ? '🙈' : '👁️'}
+              </TogglePasswordButton>
+            </PasswordInputContainer>
+            <Input 
+                type="password" 
+                placeholder="Confirm Password" 
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} 
+                onCopy={(e) => e.preventDefault()} 
+                onCut={(e) => e.preventDefault()} 
+                onPaste={(e) => e.preventDefault()} 
+              />
             <Button type="submit">Sign Up</Button>
         </form>
         <SignUpLink onClick={handleLogin}>Already have an account? Log in</SignUpLink>
@@ -143,4 +244,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUp; 

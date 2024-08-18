@@ -64,31 +64,6 @@ const Logo = styled.img`
   }
 `;
 
-// const ButtonGroup = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 20px;
-// `;
-
-// const ActionButton = styled.button`
-//   color: #fff;
-//   background-color: #000;
-//   border: 2px solid black;
-//   border-radius: 10px;
-//   padding: 9px 19px;
-//   font-size: 0.85rem;
-//   cursor: pointer;
-
-//   @media (max-width: 768px) {
-//     padding: 5px 10px;
-//     font-size: 0.8rem;
-//   }
-
-//   &:hover, &:focus {
-//     transform: scale(1.05);
-//   }
-// `;
-
 const Card = styled.div`
   width: 100%;
   max-width: 400px;

@@ -18,16 +18,6 @@ import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
 
-// const PageContainer = styled.div`
-//   background: linear-gradient(to right, #FF7F7F, #FFD580);
-//   display: flex;
-//   flex-direction: column;
-//   min-height: 100vh; /* Ensure it covers the full viewport height */
-//   width: 100%; /* Ensure it covers the full viewport width */
-//   padding: 0; /* Remove any padding */
-//   margin: 0; /* Remove any margin */
-// `;
-
 /* Page Container */
 const PageContainer = styled.div`
   display: flex;
