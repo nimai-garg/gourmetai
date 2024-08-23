@@ -206,6 +206,10 @@ const Login = () => {
     navigate('/');
   }
 
+  const handleForgotPassword = async () => {
+    navigate('/forgotPassword');
+  }
+
   return (
     <PageContainer>
       <HeaderContainer>
@@ -237,6 +241,7 @@ const Login = () => {
           <Button type="submit" onClick={handleEmailLogin}>Login</Button>
         </form>
         <SignUpLink onClick={handleSignUp}>Sign up</SignUpLink>
+        <SignUpLink onClick={handleForgotPassword}>Forgot Password</SignUpLink>
       </Card>
     </PageContainer>
   );
