@@ -115,12 +115,51 @@ const SkipSetup = styled(Button)`
   font-size: 0.75rem;
 `;
 
+const OtherInputField = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: 300px;
+  font-size: 1rem;
+  font-family: 'Inter Tight', sans-serif;
+  max-width: 100%;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; /* Add space between buttons */
+  justify-content: center; /* Center the buttons */
+  margin-bottom: 1rem;
+`;
+
+const DietaryButton = styled.button`
+  background-color: ${props => (props.isSelected ? '#4CAF50' : '#f5f5f5')};
+  color: ${props => (props.isSelected ? '#fff' : '#000')};
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: #ddd;
+  }
+`;
+
 const Setup = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
-  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
+  const [otherRestriction, setOtherRestriction] = useState('');
+  const [showOtherInput, setShowOtherInput] = useState(false);
+
+
   const [allergyRestrictions, setAllergyRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinPreferences, setProteinPreferences] = useState('')
@@ -164,7 +203,6 @@ const Setup = () => {
           setFirstName(userData.firstName || '');
           setLastName(userData.lastName || '');
           setAge(userData.age || '');
-          setDietaryRestrictions(userData.dietaryRestrictions || '');
           setAllergyRestrictions(userData.allergyRestrictions || '');
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinPreferences(userData.proteinPreferences || '');
@@ -295,12 +333,17 @@ const Setup = () => {
   };
 
   const handleSaveDietaryRestrictions = async () => {
-    if (!dietaryRestrictions.trim()) {
+    if (selectedDietaryRestrictions.length === 0 && !otherRestriction.trim()) {
       setIsDietaryRestrictionsValid(false);
       return;
     }
     setIsDietaryRestrictionsValid(true);
 
+    if(isDietaryRestrictionsValid === true)
+    {
+      // Nothing here
+    }
+      
     if (!currentUser) {
       console.error('No current user found');
       return;
@@ -310,7 +353,16 @@ const Setup = () => {
       const userId = currentUser.uid; // Get the user ID
       const userDocRef = doc(db, 'users', userId);
   
-      await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
+      // Filter out "Other" and prepare the array for saving
+      const filteredSelections = selectedDietaryRestrictions.filter(item => item !== 'Other');
+      if (showOtherInput && otherRestriction.trim()) {
+        filteredSelections.push(otherRestriction.trim());
+      }
+  
+      // Convert the array to a comma-separated string
+      const dietaryRestrictionsString = filteredSelections.join(', ');
+  
+      await setDoc(userDocRef, { dietaryRestrictions: dietaryRestrictionsString }, { merge: true });
   
       setCurrentCard(6); // Move to the next card
     } catch (error) {
@@ -726,6 +778,34 @@ const Setup = () => {
     navigate('/dashboard');
   }
 
+  const dietaryOptions = [
+    'None',
+    'Vegetarian',
+    'Vegan',
+    'Keto',
+    'Paleo',
+    'Gluten-Free',
+    'Dairy-Free',
+    'Other'
+  ];
+
+  const handleToggleSelection = (option) => {
+    if (option === 'Other') {
+      setShowOtherInput(prev => !prev); // Toggle input field visibility
+      setSelectedDietaryRestrictions(prev => 
+        prev.includes(option) 
+          ? prev.filter(item => item !== option) 
+          : [...prev, option]
+      );
+    } else {
+      setSelectedDietaryRestrictions(prev => 
+        prev.includes(option) 
+          ? prev.filter(item => item !== option) 
+          : [...prev, option]
+      );
+    }
+  };
+
   return (
     <PageContainer>
       <h1>Setup</h1>
@@ -822,14 +902,29 @@ const Setup = () => {
         <Card>
           <h3>Question #4 - Dietary Restrictions</h3>
           <p>Do you follow a specific diet (e.g., vegetarian, vegan, keto, paleo)?</p>
-
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={dietaryRestrictions}
-            onChange={(e) => setDietaryRestrictions(e.target.value)}
-            isInvalid={!isDietaryRestrictionsValid}
-          />
+          <br></br>
+          <ButtonGroup>
+            {dietaryOptions.map(option => (
+              <DietaryButton
+                key={option}
+                isSelected={selectedDietaryRestrictions.includes(option) && option !== 'Other'}
+                onClick={() => handleToggleSelection(option)}
+              >
+                {option}
+              </DietaryButton>
+            ))}
+          </ButtonGroup>
+          <br></br>
+          
+          {showOtherInput && (
+            <OtherInputField
+              type="text"
+              placeholder="Specify other dietary restrictions"
+              value={otherRestriction}
+              onChange={(e) => setOtherRestriction(e.target.value)}
+            />
+          )}
+          
           <ButtonContainer>
             <Button onClick={handleSaveDietaryRestrictions}>Next</Button>
             <HorizontalButtonContainer>
