@@ -1,35 +1,85 @@
 import React from 'react';
 import styled from 'styled-components';
+import logoImage from '../images/logo.png';
 import { useNavigate } from 'react-router-dom';
-import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
+import { logOut } from '../firebaseConfig';
 import SettingsImage from '../images/settings-icon.png';
 
 const PageContainer = styled.div`
   background-color: #FFF;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px;
+  padding: 0;
+  margin: 0;
 `;
 
 const HeaderContainer = styled.div`
+  background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-
+  padding: 1.5em; /* Flexible padding for better scalability */
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+  
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 0.75em;
+  }
+
+  @media (max-width: 480px) { /* For very small devices */
+    padding: 0.5em;
+    flex-direction: column; /* Stack items vertically if needed */
+    align-items: flex-start; /* Align items to the start */
   }
 `;
 
 const Header = styled.div`
-  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
+  color: black;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+  }
+`;
+
+const HeaderWrapper = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  position: relative;
+
+  /* Media query for smaller devices */
+  @media (min-width: 768px) {
+    .menu-icon {
+      display: none; /* Hide hamburger icon on larger devices */
+    }
+    .menu-content {
+      display: none; /* Hide menu content on larger devices */
+    }
+  }
+`;
+
+const Logo = styled.img`
+  height: 90px;
+  width: 100px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    height: 30px;
+    width: 30px;
+  }
+
+    @media (max-width: 600px) {
+    height: 75px;
+    width: 90px;
   }
 `;
 
@@ -157,7 +207,7 @@ const Footer = styled.p`
   display: flex;
   color: #000;
   font-family: 'SFPro-Regular', sans-serif;
-  margin-top: 260px;
+  margin-top: 70px;
   
   &:hover {
     font-family: 'SFPro-Bold', sans-serif;
@@ -203,9 +253,9 @@ const Landing = () => {
     navigate('/reviewSettings')
   };
   
-  // const handleCookingTips = async () => {
-  //   navigate('/cookingTips');
-  // };
+  const handleCookingTips = async () => {
+    // navigate('/cookingTips');
+  };
 
   const handleNutritionalData = async () => {
     navigate('/nutritionalData');
@@ -227,13 +277,18 @@ const Landing = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Header>GourmetChef</Header>
+        <Header>
+        <Logo src={logoImage} alt="GourmetChef Logo" />
+          GourmetChef
+        </Header>
       
-        <NavigationButtonDiv>
-  <ActionButton onClick={handleEditSetupButton}>Edit Setup</ActionButton>
-  <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
-  <SettingsCircle onClick={handleSettings}/>
-</NavigationButtonDiv>
+        <HeaderWrapper>
+          <NavigationButtonDiv>
+            <ActionButton onClick={handleEditSetupButton}>Edit Setup</ActionButton>
+            <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+            <SettingsCircle onClick={handleSettings}/>
+          </NavigationButtonDiv>
+        </HeaderWrapper>
       </HeaderContainer>
 
       <WelcomeContainer>
@@ -246,9 +301,9 @@ const Landing = () => {
           <br></br>
         </ButtonContainer>
 
-        {/* <ButtonContainer>
-          <OptionButton onClick={handleCookingTips}>Cooking Tips</OptionButton>
-        </ButtonContainer> */}
+        <ButtonContainer>
+          <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
+        </ButtonContainer>
       </WelcomeContainer>
       
       <Footer>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com</Footer>

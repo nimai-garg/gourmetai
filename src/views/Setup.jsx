@@ -65,10 +65,16 @@ const InputField = styled.textarea`
   margin-bottom: 1rem;
   width: 300px;
   font-size: 1rem;
-  font-family: 'Inter Tight', sans-serif;
+  font-family: 'SFPro-Regular', sans-serif;
   resize: vertical;
   max-width: 100%;
   max-height: 200%;
+
+  // border: 2px solid;
+  // border-image: ${props => (props.isInvalid ? 'none' : 'linear-gradient(to right, blue, pink)')};
+  // border-image-slice: 5;
+
+  //CHANGE TO ROUNDED
 `;
 
 const GoBackButton = styled(Button)`
@@ -135,7 +141,7 @@ const ButtonGroup = styled.div`
 `;
 
 const DietaryButton = styled.button`
-  background-color: ${props => (props.isSelected ? '#4CAF50' : '#f5f5f5')};
+  background-color: ${props => (props.isSelected ? '#000' : '#f5f5f5')};
   color: ${props => (props.isSelected ? '#fff' : '#000')};
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -146,7 +152,7 @@ const DietaryButton = styled.button`
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    background-color: #ddd;
+    background-color: ${props => (props.isSelected ? '#000' : '#ddd')};
   }
 `;
 
@@ -786,6 +792,7 @@ const Setup = () => {
     'Paleo',
     'Gluten-Free',
     'Dairy-Free',
+    'Nut-Free',
     'Other'
   ];
 
@@ -808,8 +815,8 @@ const Setup = () => {
 
   return (
     <PageContainer>
-      <h1>Setup</h1>
-      <p>Personalized comes with the Setup</p>
+      <h1 style={{ fontFamily: 'SFPro-Bold, sans-serif' }}>Setup</h1>
+      <p style={{ fontFamily: 'SFPro-Regular, sans-serif' }}>Personalized comes with the Setup</p>
       
       <HorizontalButtonContainer>
         <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>

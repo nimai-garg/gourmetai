@@ -147,7 +147,7 @@ const Header = styled.div`
 
 const CenterText = styled.h1`
   font-family: 'SFPro-Bold', sans-serif;
-  font-size: 4rem;
+  font-size: 4.1rem;
   font-weight: bold;
   color: #1f2937;
   margin-bottom: 16px;
@@ -350,12 +350,14 @@ const HeaderLink = styled(Link)`
   color: black;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.1rem;
   text-decoration: none;
   cursor: pointer;
+  padding: 0.4rem 0.6rem; /* Increased padding for bigger width/height */
 
   &:hover {
-    font-weight: 600;
+    background-color: rgba(245, 246, 247, 1);
+    border-radius: 6px; /* Slightly larger rounded corners */
   }
 
   @media (max-width: 768px) {
