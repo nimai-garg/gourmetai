@@ -156,6 +156,7 @@ const RecipeGenerator = () => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [isSetFetchingResponse, setIsFetchingResponse] = useState(false); // State to track if a response is being fetched
+  // const [recipeTitle, setRecipeTitle] = useState('');
 
   const fetchUserData = useCallback(async (userId) => {
     const userDocRef = doc(db, 'users', userId);
@@ -198,12 +199,31 @@ const RecipeGenerator = () => {
       Health Conditions: ${userData.healthConditions || 'None'}
       Kitchen Equipment: ${userData.kitchenEquipment || 'None'}
       Cooking Restrictions: ${userData.cookingRestrictions || 'None'}
-      Other Instructions: ${userData.otherInstructions || 'None'}`;
+      Other Instructions: ${userData.otherInstructions || 'None'};
+      Cuisine Preferences: ${userData.cuisinePreference || 'None'};
+      Flavor Preference: ${userData.flavorPreference || 'None'};
+      Cooking Time: ${userData.cookingTime || 'None'};
+      Special Occasion: ${userData.specialOccasion || 'None'};
+      Servings Needed: ${userData.servingsNeeded || 'None'};
+      Meal Type: ${userData.mealType || 'None'};
+      Budget: ${userData.budget || 'None'};
+      Meal Prep: ${userData.mealPrep || 'None'};
+      Age Check: ${userData.ageCheck || 'None'};
+      Spice Level: ${userData.spiceLevel || 'None'};
+      Sweetness Level: ${userData.sweetnessLevel || 'None'};
+    `
   
     try {
       setIsFetchingResponse(true); // Start fetching response
       const response = await axios.post('https://gourmet-chef-b791e2ac51fc.herokuapp.com/updateStaticPrompt', { prompt: combinedPrompt });
       const data = response.data;
+
+      // const titleWithPrefixRemoved = data.choices[0].message.content
+      // .trim()
+      // .split('\n')[0] // Get the first line
+      // .replace(/^###\s*/, ''); // Remove '###' and any following spaces
+
+      // setRecipeTitle(titleWithPrefixRemoved);
   
       setMessages(prevMessages => [
         ...prevMessages,
@@ -255,12 +275,14 @@ const RecipeGenerator = () => {
   };
 
   const formatMessage = (message) => {
-    // Format the message to include proper spacing and list formatting
-    return message
+    // Remove '###' from the start of each line
+    const formattedMessage = message
+      .replace(/^###\s+/gm, '') // Remove '###' and any spaces after it at the start of each line
       .replace(/\n/g, '\n\n') // Add extra line breaks for spacing
       .replace(/(\d+)\./g, '\n$1.'); // Add new lines before numbered lists
+  
+    return formattedMessage;
   };
-
   if (loading) {
     return (
       <PageContainer>
@@ -296,6 +318,7 @@ const RecipeGenerator = () => {
           {/* <SendButton onClick={handleGiveInstructions}>Instructions</SendButton> */}
           <SendButton onClick={handleNextDish}>Next Dish</SendButton>
           <TrashButton onClick={handleClearChat}>Delete Conversation</TrashButton>
+          {/* {recipeTitle && <h1>{recipeTitle}</h1>} */}
         </InputContainer>
       </ChatContainer>
     </PageContainer>
