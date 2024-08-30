@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import logoImage from '../images/logo.png';
 import mockupImage from '../images/mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
@@ -18,6 +18,15 @@ import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
 
+const fadeInAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 /* Page Container */
 const PageContainer = styled.div`
   display: flex;
@@ -27,6 +36,9 @@ const PageContainer = styled.div`
   padding: 0;
   margin: 0;
   overflow-x: hidden; /* Prevent horizontal overflow */
+  animation: ${fadeInAnimation} ease 0.6s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 `;
 
 /* Header Container with gradient */
