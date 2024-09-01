@@ -647,7 +647,7 @@ const Landing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:3001/subscribe', { email });
+        await axios.post('http://localhost:3001/subscribe', { email });
         setEmail('');
 
         setShowAlert(true);
