@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import axios from 'axios';
 import logoImage from '../images/logo.png';
 import mockupImage from '../images/mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
@@ -17,17 +18,17 @@ import '../fonts/SFPro-ThinItalic.OTF';
 import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
+import { FaInstagram, FaLinkedin, FaCheck } from 'react-icons/fa';
 
-const fadeInAnimation = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
+// const fadeInAnimation = keyframes`
+//   0% {
+//     opacity: 0;
+//   }
+//   100% {
+//     opacity: 1;
+//   }
+// `;
 
-/* Page Container */
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,12 +37,11 @@ const PageContainer = styled.div`
   padding: 0;
   margin: 0;
   overflow-x: hidden; /* Prevent horizontal overflow */
-  animation: ${fadeInAnimation} ease 0.6s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+  // animation: ease 0.5s;
+  // animation-iteration-count: 1;
+  // animation-fill-mode: forwards;
 `;
 
-/* Header Container with gradient */
 const HeaderContainer = styled.div`
   background: #fff;
   display: flex;
@@ -260,7 +260,7 @@ const MockupImage = styled.img`
 const FeatureHeader = styled.h2`
   background: #fff;
   font-size: 3rem;
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'SFPro-Bold', sans-serif;
   font-weight: 600;
   justify-content: center;
   align-items: center;
@@ -341,20 +341,45 @@ const BoxParagraph = styled.p`
   }
 `;
 
-const Footer = styled.p`
-  justify-content: center;
-  align-items: center;
+const Footer = styled.footer`
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+`;
+
+const FooterLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: rgba(27, 31, 35, 0.15);
+  margin-bottom: 20px;
+`;
+
+const FooterContent = styled.div`
   display: flex;
-  color: #000;
+  justify-content: space-between;  /* Aligns text left and icons right */
+  align-items: center;  /* Vertically centers content */
+  width: 100%;
+`;
+
+const FooterText = styled.p`
   font-family: 'SFPro-Regular', sans-serif;
+  font-size: 15px;
+  color: #333;
+  margin: 0;
+`;
+
+const SocialMediaIcons = styled.div`
+  display: flex;
+  gap: 20px; /* Space between the icons */
+`;
+
+const IconStyle = styled.a`
+  color: black;
+  font-size: 24px;
+  text-decoration: none;
 
   &:hover {
-    font-family: 'SFPro-Bold', sans-serif;
-    cursor: pointer;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
+    color: grey;
   }
 `;
 
@@ -499,41 +524,184 @@ const MenuItem = styled.a`
   }
 `;
 
-// Define the fade-in animation
-// const fadeIn = keyframes`
-//   0% { opacity: 0; }
-//   100% { opacity: 1; }
-// `;
+const NewsletterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 10px;
+`;
 
-// const HeaderLine = styled.h1`
-//   animation: ${fadeIn} 5s forwards;
-//   font-family: 'SFPro-Regular', sans-serif;
-// `;
+const NewsletterTitle = styled.h1`
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'SFPro-Bold', sans-serif;
+`;
+
+const Description = styled.p`
+  font-size: 1.5rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+`;
+
+const InputField = styled.input`
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 30px;
+  margin-right: 20px;
+  width: 400px;
+  font-family: 'SFPro-Regular', sans-serif;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px #007bff; /* Add a consistent blue shadow on focus */
+  }
+`;
+
+const SubmitButton = styled.button`
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'SFPro-Regular', sans-serif;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const flyIn = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const flyOut = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+`;
+
+const AlertBox = styled.div`
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(210, 245, 210, 0.3);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #006400;
+  animation: ${({ animateOut }) => (animateOut ? flyOut : flyIn)} 0.5s ease-out forwards;
+`;
+
+const IconWrapper = styled.div`
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+`;
 
 const Landing = () => {
   const navigate = useNavigate();
+  const [openSections, setOpenSections] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const secondDivRef = useRef(null);
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [animateOut, setAnimateOut] = useState(false);
 
   const handleActionButton = () => {
     navigate('/login');
   }
 
-  const secondDivRef = useRef(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:3001/subscribe', { email });
+        setMessage(response.data);
+        setEmail('');
+
+        setShowAlert(true);
+        setAnimateOut(false);
+
+        // Stay visible for 2 seconds, then trigger the fly out
+        setTimeout(() => {
+          setAnimateOut(true);
+        }, 2000); // Wait for 2 seconds before transitioning out
+
+        // Hide after the fly out animation
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2500); // Total wait time + fly-out duration
+    } catch (error) {
+        setMessage('Subscription failed');
+        setShowAlert(true);
+        setAnimateOut(false);
+
+        // Stay visible for 2 seconds, then trigger the fly out
+        setTimeout(() => {
+          setAnimateOut(true);
+        }, 2000); // Wait for 2 seconds before transitioning out
+
+        // Hide after the fly out animation
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2500); // Total wait time + fly-out duration
+    }
+  };
+
+  const CustomAlert = ({ message, show }) => {
+    return (
+      <>
+        {show && (
+          <AlertBox>
+            <IconWrapper>
+              {/* <AiOutlineExclamationCircle /> */}
+              <FaCheck />
+            </IconWrapper>
+            {message}
+          </AlertBox>
+        )}
+      </>
+    );
+  };
 
   const handleLearnMore = () => {
     if (secondDivRef.current) {
       secondDivRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }
-
-  // const handlePricingButton = () => {
-  //   navigate('/pricing');
-  // }
-
-  const handleFooter = () => {
-    window.open('https://linkedin.com/in/nimaigarg', '_blank');
-  }
-
-  const [openSections, setOpenSections] = useState([]);
 
   const toggleAccordion = (index) => {
     if (openSections.includes(index)) {
@@ -550,36 +718,9 @@ const Landing = () => {
     { title: "Is my data secure with GourmetChef?", content: "Yes, we prioritize your privacy and security. GourmetChef uses encryption and secure protocols to protect your data and personal information. Your inputs are secured safely on Google Firebase which are accessible by Nimai (the founder of GourmetChef). The data you provide us will never be publicized without your consent. Your password is never shared with Google, GourmetChef, Nimai, or anyone. If you forgot your password, please contact Nimai at +1 650-272-7186 for assistance." },
     { title: "How can I provide feedback or report a bug?", content: "You can provide feedback or report bugs directly through the app by navigating to the 'Feedback' section. Alternatively, you can email us at nimaigarg08@gmail.com" }
   ];
-  
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  // const headers = [
-  //   "Personalize your",
-  //   "Calories",
-  //   "Protein",
-  //   "Nutritional Goals",
-  //   "Available Ingredients",
-  //   "Cuisine Preferences",
-  //   "and more!"
-  // ];
-
-  // const [currentHeader, setCurrentHeader] = useState(0);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentHeader(prevHeader => (prevHeader + 1) % headers.length);
-  //   }, 1500); // Switch header every 3 seconds
-
-  //   return () => clearInterval(interval); // Clean up the interval on component unmount
-  // }, [headers.length]);
 
   return (
-
     <PageContainer>
-
-
       <HeaderContainer>
         <Header>
           <Logo src={logoImage} alt="GourmetChef Logo" />
@@ -617,10 +758,6 @@ const Landing = () => {
               <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
               <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
           </CenterTextButtonDiv>
-
-          {/* <HeaderLine>
-            {headers[currentHeader]}
-          </HeaderLine> */}
             
           <ImageContainer>
             <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
@@ -628,16 +765,6 @@ const Landing = () => {
       
         </LeftLandingContainer>
       </LandingContainer>
-
-      {/* 
-        <RightLandingContainer>
-          <MockupImage src={mockupImage} alt="GourmetChef Mockup" />
-        </RightLandingContainer>
-          <div></div>
-
-      <ScrollDownContainer>
-        <ScrollDownText>Scroll down for more information!</ScrollDownText>
-      </ScrollDownContainer> */}
 
       <FeatureHeader ref={secondDivRef}>Take a look at the features</FeatureHeader>
 
@@ -659,6 +786,27 @@ const Landing = () => {
         <br></br>
       </SecondDiv>
 
+      <NewsletterContainer>
+        <NewsletterTitle>Subscribe to Our Newsletter</NewsletterTitle>
+        <Description>Stay updated with the latest news and updates by subscribing to our newsletter.</Description>
+        <Form onSubmit={handleSubmit}>
+          <InputField
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+          <SubmitButton type="submit">Subscribe</SubmitButton>
+        </Form>
+        {showAlert && !animateOut && (
+        <CustomAlert 
+          message="Subscribed!"
+          show={showAlert}
+        />
+      )}
+    </NewsletterContainer>
+
       <AccordionContainer>
         {data.map((item, index) => (
           <AccordionItem key={index}>
@@ -673,8 +821,23 @@ const Landing = () => {
         ))}
       </AccordionContainer>
 
-      <Footer onClick={handleFooter}>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com - Version Beta 1.1</Footer>
-      <br></br>
+      <Footer>
+        <FooterLine />
+          <FooterContent>
+            <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
+            <SocialMediaIcons>
+
+              <IconStyle href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <FaInstagram />
+              </IconStyle>
+
+              <IconStyle href="https://www.linkedin.com/company/gourmetchefapp" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin />
+              </IconStyle>
+              
+            </SocialMediaIcons>
+          </FooterContent>
+      </Footer>
     </PageContainer>
   )
 }
