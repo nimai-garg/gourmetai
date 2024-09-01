@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import axios from 'axios';
+import { db } from '../firebaseConfig';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import logoImage from '../images/logo.png';
 import mockupImage from '../images/mockup.png';
 import { useNavigate, Link } from 'react-router-dom';
@@ -636,9 +637,9 @@ const Landing = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
   const secondDivRef = useRef(null);
-  const [email, setEmail] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [animateOut, setAnimateOut] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleActionButton = () => {
     navigate('/login');
@@ -647,36 +648,37 @@ const Landing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await axios.post('http://localhost:3001/subscribe', { email });
+        const docRef = doc(db, "newsletter", "users");
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            await setDoc(docRef, {
+                emails: [...(docSnap.data().emails || []), email]
+            }, { merge: true });
+        } else {
+            await setDoc(docRef, {
+                emails: [email]
+            });
+        }
+
+        setShowAlert(true);
+        setAnimateOut(false);
+
+        // Stay visible for 2 seconds, then trigger the fly out
+        setTimeout(() => {
+          setAnimateOut(true);
+        }, 2000); // Wait for 2 seconds before transitioning out
+
+        // Hide after the fly out animation
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2500); // Total wait time + fly-out duration
+
         setEmail('');
-
-        setShowAlert(true);
-        setAnimateOut(false);
-
-        // Stay visible for 2 seconds, then trigger the fly out
-        setTimeout(() => {
-          setAnimateOut(true);
-        }, 2000); // Wait for 2 seconds before transitioning out
-
-        // Hide after the fly out animation
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 2500); // Total wait time + fly-out duration
     } catch (error) {
-        setShowAlert(true);
-        setAnimateOut(false);
-
-        // Stay visible for 2 seconds, then trigger the fly out
-        setTimeout(() => {
-          setAnimateOut(true);
-        }, 2000); // Wait for 2 seconds before transitioning out
-
-        // Hide after the fly out animation
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 2500); // Total wait time + fly-out duration
+        console.error("Error during subscription:", error);
     }
-  };
+};
 
   const CustomAlert = ({ message, show }) => {
     return (
