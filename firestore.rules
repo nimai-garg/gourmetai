@@ -1,15 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Allow authenticated users to access their own user data
+  
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    
+    // Users can read and write their own data
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // Allow read and write access to the newsletter collection
-    match /newsletter/{document=**} {
-      allow read, write: if true;  // This rule allows everyone to read and write
     }
 
     // Public collections accessible by everyone
