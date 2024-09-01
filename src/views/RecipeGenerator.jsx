@@ -250,26 +250,6 @@ const RecipeGenerator = () => {
     isSetFetchingResponse();
   }
 
-  // const handleGiveInstructions = async () => {
-  //   if (!input) return;
-
-  //   try {
-  //     setIsFetchingResponse(true); // Start fetching response
-  //     const response = await axios.post('http://localhost:5001/updateNonStaticPrompt', { prompt: "Give me the recipe for this" });
-  //     const data = response.data;
-
-  //     setMessages(prevMessages => [
-  //       ...prevMessages,
-  //       { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
-  //     ]);
-  //     setInput('');
-  //   } catch (error) {
-  //     console.error('Error sending user message to ChatGPT:', error);
-  //   } finally {
-  //     setIsFetchingResponse(false); // Stop fetching response
-  //   }
-  // };
-
   const handleClearChat = () => {
     setMessages([]);
   };
