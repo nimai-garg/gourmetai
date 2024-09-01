@@ -637,7 +637,6 @@ const Landing = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const secondDivRef = useRef(null);
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [animateOut, setAnimateOut] = useState(false);
 
@@ -649,7 +648,6 @@ const Landing = () => {
     e.preventDefault();
     try {
         const response = await axios.post('http://localhost:3001/subscribe', { email });
-        setMessage(response.data);
         setEmail('');
 
         setShowAlert(true);
@@ -665,7 +663,6 @@ const Landing = () => {
           setShowAlert(false);
         }, 2500); // Total wait time + fly-out duration
     } catch (error) {
-        setMessage('Subscription failed');
         setShowAlert(true);
         setAnimateOut(false);
 
