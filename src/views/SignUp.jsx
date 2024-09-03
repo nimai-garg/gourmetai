@@ -149,7 +149,6 @@ const SignUpLink = styled.a`
   color: #000;
   text-decoration: none;
   font-size: 0.9rem;
-  font-family: 'SFPro-Regular', sans-serif;
   cursor: pointer;
 
   &:hover {

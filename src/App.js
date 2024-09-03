@@ -16,6 +16,11 @@ import Feedback from './views/Feedback';
 import SignUp from './views/SignUp';
 import Settings from './views/Settings';
 import ForgotPassword from './views/ForgotPassword';
+import NewRG from './views/NewRG';
+import Testing from './views/Testing';
+import Testing1 from './views/Testing1';
+import TermsOfUse from './views/TermsOfUse';
+import PrivacyPolicy from './views/PrivacyPolicy';
 import NotFound from './views/NotFound';
 import GlobalStyle from './GlobalStyles';
 // persist localStorage, useReducer React.JS StackOverflow Comment
@@ -43,12 +48,17 @@ const App = () => {
         <Route path="/editSettings" element={<EditSettings />} />
         <Route path="/reviewSettings" element={<ReviewSettings />} />
         <Route path="/recipeQuestions" element={<RecipeQuestions />} />
-        <Route path="/recipeGenerator" element={<RecipeGenerator />} />
+        <Route path="/recipeGenerator" element={user ? <RecipeGenerator /> : <Login/>} />
         <Route path="/nutritionalData" element={<NutritionalData />} />
         <Route path="/cookingTips" element={<CookingTips />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/newrg" element={<NewRG />} />
+        <Route path="/testing" element={<Testing />} />
+        <Route path="/testing1" element={<Testing1 />} />
+        <Route path="/legal/terms-of-use" element={<TermsOfUse />} />
+        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

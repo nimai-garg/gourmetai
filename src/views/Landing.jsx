@@ -384,6 +384,22 @@ const IconStyle = styled.a`
   }
 `;
 
+const FooterLinks = styled.div`
+  display: flex;
+  gap: 15px; /* Space between the links */
+`;
+
+const FooterLink = styled.a`
+  font-family: 'SFPro-Regular', sans-serif;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+
+  &:hover {
+    font-family: 'SFPro-Bold', sans-serif;
+  }
+`;
+
 const HeaderLink = styled(Link)`
   color: black;
   font-family: 'Inter', sans-serif;
@@ -611,7 +627,7 @@ const AlertBox = styled.div`
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(210, 245, 210, 0.3);
+  background-color: rgba(180, 215, 180, 0.3);
   color: white;
   padding: 15px 30px;
   border-radius: 5px;
@@ -822,20 +838,24 @@ const Landing = () => {
 
       <Footer>
         <FooterLine />
-          <FooterContent>
-            <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
-            <SocialMediaIcons>
+        <FooterContent>
+          <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
+          
+          <FooterLinks>
+            <FooterLink href="/terms-of-use" target="_blank">Terms of Use</FooterLink>
+            <FooterLink href="/privacy-policy" target="_blank">Privacy Policy</FooterLink>
+          </FooterLinks>
 
-              <IconStyle href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                <FaInstagram />
-              </IconStyle>
+          <SocialMediaIcons>
+            <IconStyle href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+            </IconStyle>
 
-              <IconStyle href="https://www.linkedin.com/company/gourmetchefapp" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin />
-              </IconStyle>
-              
-            </SocialMediaIcons>
-          </FooterContent>
+            <IconStyle href="https://www.linkedin.com/company/gourmetchefapp" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin />
+            </IconStyle>
+          </SocialMediaIcons>
+        </FooterContent>
       </Footer>
     </PageContainer>
   )

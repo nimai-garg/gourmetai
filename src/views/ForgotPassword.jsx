@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebaseConfig.js'; // Adjust the import path as needed
 import styled from 'styled-components';
+import { FaArrowLeft } from 'react-icons/fa';
 
 // Styled-components
 const PageContainer = styled.div`
@@ -12,6 +14,33 @@ const PageContainer = styled.div`
   height: 100vh;
   background-color: #fff;
   font-family: 'Inter', sans-serif;
+`;
+
+const GoBackContainer = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 12px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'SFPro-Bold', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  position: absolute;
+  left: 40px; /* Adjust the distance from the left */
+  top: 20px; /* Align it vertically with the logo */
+
+  &:hover,
+  &:focus {
+    background-color: #e0e0e0;
+    transform: translateX(-5px);
+  }
+
+  svg {
+    margin-right: 8px;
+  }
 `;
 
 const Card = styled.div`
@@ -80,6 +109,7 @@ const Message = styled.p`
 `;
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
@@ -97,8 +127,16 @@ const ForgotPassword = () => {
       });
   };
 
+  const handleGoBack = () => {
+    navigate('/login');
+  }
+
   return (
     <PageContainer>
+      <GoBackContainer onClick={handleGoBack} tabIndex="0">
+        <FaArrowLeft />
+        Go Back
+      </GoBackContainer>
       <Card>
         <Title>Forgot Password</Title>
         <form onSubmit={handleSubmit}>
