@@ -58,7 +58,7 @@ const App = () => {
         <Route path="/testing" element={<Testing />} />
         <Route path="/testing1" element={<Testing1 />} />
         <Route path="/legal/terms-of-use" element={<TermsOfUse />} />
-        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+        <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

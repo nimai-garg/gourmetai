@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const Container = styled.div`
   max-width: 800px;

@@ -842,8 +842,8 @@ const Landing = () => {
           <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
           
           <FooterLinks>
-            <FooterLink href="/terms-of-use" target="_blank">Terms of Use</FooterLink>
-            <FooterLink href="/privacy-policy" target="_blank">Privacy Policy</FooterLink>
+            <FooterLink href="/legal/terms-of-use" target="_blank">Terms of Use</FooterLink>
+            <FooterLink href="/legal/privacy-policy" target="_blank">Privacy Policy</FooterLink>
           </FooterLinks>
 
           <SocialMediaIcons>
