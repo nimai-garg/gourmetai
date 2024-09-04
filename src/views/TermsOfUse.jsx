@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -90,9 +91,15 @@ const GoBackContainer = styled.div`
 `;
 
 const TermsOfUse = () => {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate('/');
+  }
+
   return (
     <Container>
-        <GoBackContainer tabIndex="0">
+        <GoBackContainer onClick={handleGoBack} tabIndex="0">
         <FaArrowLeft />
         Go Back
       </GoBackContainer>
