@@ -48,33 +48,124 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5em; /* Flexible padding for better scalability */
-  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
-  
+  padding: 1.5em;
+  box-sizing: border-box;
+
   @media (max-width: 768px) {
     padding: 0.75em;
   }
 
-  @media (max-width: 480px) { /* For very small devices */
+  @media (max-width: 480px) {
     padding: 0.5em;
-    flex-direction: column; /* Stack items vertically if needed */
-    align-items: flex-start; /* Align items to the start */
   }
 `;
 
 const Logo = styled.img`
   height: 90px;
-  width: 100px;
+  width: auto;
   margin-right: 10px;
 
   @media (max-width: 768px) {
-    height: 30px;
-    width: 30px;
+    height: 60px;
   }
 
-    @media (max-width: 600px) {
-    height: 75px;
-    width: 90px;
+  @media (max-width: 480px) {
+    height: 50px;
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: black;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem; /* Adjusted font size for very small screens */
+  }
+`;
+
+const HeaderWrapper = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  position: relative;
+
+  @media (min-width: 768px) {
+    .menu-icon {
+      display: none; /* Hide hamburger icon on larger devices */
+    }
+    .menu-content {
+      display: none; /* Hide menu content on larger devices */
+    }
+  }
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MenuIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    display: none; /* Hide menu icon on larger devices */
+  }
+`;
+
+const MenuContent = styled.div`
+  display: ${props => (props.open ? 'block' : 'none')};
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 200px;
+
+  @media (max-width: 768px) {
+    right: 0;
+    width: 100%;
+  }
+`;
+
+const MenuItem = styled.a`
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+const MenuButton = styled.button`
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: #333;
   }
 `;
 
@@ -94,37 +185,45 @@ const ActionButton = styled.button`
   background-color: #000;
   border: 2px solid black;
   border-radius: 10px;
-  padding: 9px 19px;
-  font-size: 0.85rem;
+  padding: 10px 20px;
+  font-size: 1rem;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
 
   @media (max-width: 768px) {
-    padding: 5px 10px;
-    font-size: 0.8rem;
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
 
-  &:hover, &:focus {
-    transform: scale(1.05);
+  @media (max-width: 480px) {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 
   @media (max-width: 600px) {
     display: none;
+  }
+
+  &:hover {
+    transform: scale(1.05);
   }
 `;
 
 const LandingContainer = styled.div`
   background: white;
   display: flex;
-  flex-direction: column; /* Arrange items vertically */
-  justify-content: center; /* Center items vertically */
-  align-items: center; /* Center items horizontally */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 50px;
   flex: 1;
-  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
 
   @media (max-width: 768px) {
+    padding: 30px;
+  }
+
+  @media (max-width: 480px) {
     padding: 20px;
+    align-items: center; /* Ensure items are centered */
   }
 `;
 
@@ -144,20 +243,6 @@ const ImageContainer = styled.div`
   margin-top: 20px;
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.75rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  color: black;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-`;
-
 const CenterText = styled.h1`
   font-family: 'SFPro-Bold', sans-serif;
   font-size: 4.1rem;
@@ -170,6 +255,14 @@ const CenterText = styled.h1`
     background: linear-gradient(to right, blue, hotpink);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
   }
 `;
 
@@ -244,17 +337,19 @@ const RightCenterTextButton = styled.button`
 `;
 
 const MockupImage = styled.img`
-  max-width: 70%; /* Resize the image to be smaller */
+  max-width: 70%;
   max-height: 70%;
   border-radius: 10px;
-  margin-left: 70px;
+  margin-left: 50px;
 
   @media (max-width: 768px) {
-    max-width: 60%; /* Further resize on smaller screens */
+    max-width: 60%;
+    margin-left: 0;
   }
 
-  @media screen and (max-width: 767px) and (orientation: portrait) {
-    display: none; /* Hide image on small portrait devices */
+  @media (max-width: 480px) {
+    max-width: 90%;
+    margin: 0;
   }
 `;
 
@@ -263,16 +358,21 @@ const FeatureHeader = styled.h2`
   font-size: 3rem;
   font-family: 'SFPro-Bold', sans-serif;
   font-weight: 600;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: flex;
   margin-top: 60px;
-
   color: #000;
+  text-align: center; /* Ensures text is centered */
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
     margin-top: 30px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 2rem; /* Optionally adjust font size for very small screens */
+    margin-top: 20px; /* Optionally adjust margin for very small screens */
   }
 `;
 
@@ -297,15 +397,20 @@ const Box = styled.div`
   padding: 1rem 2rem;
   border-radius: 15px;
   box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', sans-serif;
-  margin-left: 50px;
   max-width: 400px;
   max-height: 400px;
+  margin: 0 auto; /* Center the box horizontally */
 
   @media (max-width: 768px) {
-    margin-left: 0;
     max-width: 90%;
     padding: 1rem;
+    margin: 0 1rem; /* Add margin for better spacing on mobile */
+  }
+
+  @media (max-width: 480px) {
+    max-width: calc(100% - 2rem); /* Ensure space on both sides */
+    padding: 0.8rem;
+    margin: 0 1rem; /* Add margin for better spacing on smaller screens */
   }
 `;
 
@@ -346,6 +451,14 @@ const Footer = styled.footer`
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 15px; /* Reduce padding for tablets */
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px; /* Reduce padding for mobile screens */
+  }
 `;
 
 const FooterLine = styled.div`
@@ -353,40 +466,47 @@ const FooterLine = styled.div`
   height: 1px;
   background-color: rgba(27, 31, 35, 0.15);
   margin-bottom: 20px;
+
+  @media (max-width: 480px) {
+    margin-bottom: 15px; /* Reduce bottom margin on smaller screens */
+  }
 `;
 
 const FooterContent = styled.div`
   display: flex;
-  justify-content: space-between;  /* Aligns text left and icons right */
-  align-items: center;  /* Vertically centers content */
+  flex-direction: column; /* Stack items vertically on small screens */
+  align-items: center; /* Center align items */
+  text-align: center; /* Center align text */
   width: 100%;
+  gap: 20px; /* Space between items vertically */
+
+  @media (min-width: 481px) {
+    flex-direction: row; /* Row layout for larger screens */
+    justify-content: space-between; /* Aligns text left, links center, and icons right */
+    align-items: center; /* Align items vertically */
+    gap: 30px; /* Space between elements horizontally */
+  }
 `;
 
 const FooterText = styled.p`
   font-family: 'SFPro-Regular', sans-serif;
-  font-size: 15px;
+  font-size: 1rem;
   color: #333;
-  margin: 0;
-`;
+  margin: 0; /* Remove default margin */
 
-const SocialMediaIcons = styled.div`
-  display: flex;
-  gap: 20px; /* Space between the icons */
-`;
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 
-const IconStyle = styled.a`
-  color: black;
-  font-size: 24px;
-  text-decoration: none;
-
-  &:hover {
-    color: grey;
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
   }
 `;
 
 const FooterLinks = styled.div`
   display: flex;
   gap: 15px; /* Space between the links */
+  justify-content: center; /* Center the links horizontally */
 `;
 
 const FooterLink = styled.a`
@@ -397,6 +517,33 @@ const FooterLink = styled.a`
 
   &:hover {
     font-family: 'SFPro-Bold', sans-serif;
+  }
+`;
+
+const SocialMediaIcons = styled.div`
+  display: flex;
+  flex-direction: row; /* Row layout for icons */
+  gap: 15px;
+  margin-top: 20px; /* Increase margin to lower the icons more */
+  
+  @media (max-width: 768px) {
+    gap: 10px;
+    margin-top: 15px; /* Adjust margin for tablets */
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+    margin-top: 10px; /* Adjust margin for mobile screens */
+  }
+`;
+
+const IconStyle = styled.a`
+  color: black;
+  font-size: 24px;
+  text-decoration: none;
+
+  &:hover {
+    color: grey;
   }
 `;
 
@@ -426,20 +573,31 @@ const HeaderLink = styled(Link)`
 const AccordionContainer = styled.div`
   max-width: 1000px;
   margin: 40px auto;
-  font-family: SFPro-Regular, sans-serif;
+  font-family: 'SFPro-Regular', sans-serif;
   font-size: 18px;
   color: black;
-  background-color: #fff; /* White background for the entire accordion */
-  border: 1px solid #d0d0d0; /* Gray border around the entire container */
-  border-radius: 10px; /* Rounded edges for the container */
-  overflow: hidden; /* Ensures child elements do not overflow the container */
+  background-color: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    margin: 20px;
+    padding: 0 10px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 10px;
+    padding: 0 5px;
+  }
 `;
 
 const AccordionItem = styled.div`
-  border-bottom: 1px solid #e0e0e0; /* Gray line between items */
-  
+  border-bottom: 1px solid #e0e0e0;
+
   &:last-child {
-    border-bottom: none; /* Remove bottom border from the last item */
+    border-bottom: none;
   }
 `;
 
@@ -449,96 +607,48 @@ const AccordionHeader = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 20px;
-  background-color: #fff; /* White background for headers */
+  background-color: #fff;
   color: black;
-  transition: background-color 0.2s ease; /* Faster transition */
+  transition: background-color 0.2s ease;
   font-size: 1.3rem;
 
   &:hover {
     background-color: #f9f9f9;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1rem; /* Adjust font size for mobile */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem; /* Smaller font size for very small screens */
+  }
 `;
 
 const AccordionContent = styled.div`
-  padding: ${({ isOpen }) => (isOpen ? '20px' : '0 20px')}; /* Padding on all sides when open */
+  padding: ${({ isOpen }) => (isOpen ? '20px' : '0 20px')};
   max-height: ${({ isOpen }) => (isOpen ? '500px' : '0')};
   overflow: hidden;
-  transition: max-height 0.2s ease, padding 0.2s ease; /* Faster transition */
+  transition: max-height 0.2s ease, padding 0.2s ease;
   color: #333;
   font-size: 1.1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem; /* Adjust font size for mobile */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem; /* Smaller font size for very small screens */
+  }
 `;
 
 const AccordionIcon = styled.span`
   font-size: 24px;
-  transition: transform 0.2s ease; /* Faster transition */
+  transition: transform 0.2s ease;
 
   ${({ isOpen }) => isOpen && `
-    transform: rotate(360deg); /* Rotate the icon when open */
+    transform: rotate(360deg);
   `}
-`;
-
-const HeaderWrapper = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #fff;
-  position: relative;
-
-  /* Media query for smaller devices */
-  @media (min-width: 768px) {
-    .menu-icon {
-      display: none; /* Hide hamburger icon on larger devices */
-    }
-    .menu-content {
-      display: none; /* Hide menu content on larger devices */
-    }
-  }
-`;
-
-const MenuWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const MenuIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-
-  /* Only show hamburger icon on smaller devices */
-  @media (min-width: 768px) {
-    display: none;
-  }
-`;
-
-const MenuContent = styled.div`
-  display: ${props => (props.open ? 'block' : 'none')};
-  position: absolute;
-  top: 60px; /* Adjust as needed */
-  right: 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  width: 200px;
-
-  /* Show menu content only on smaller devices */
-  @media (min-width: 768px) {
-    display: none;
-  }
-`;
-
-const MenuItem = styled.a`
-  display: block;
-  padding: 10px 15px;
-  color: #333;
-  text-decoration: none;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
 `;
 
 const NewsletterContainer = styled.div`
@@ -548,6 +658,8 @@ const NewsletterContainer = styled.div`
   padding: 40px;
   background-color: #ffffff;
   border-radius: 10px;
+  max-width: 100%; /* Ensure container doesn't overflow on mobile */
+  box-sizing: border-box; /* Include padding in width calculations */
 `;
 
 const NewsletterTitle = styled.h1`
@@ -555,6 +667,17 @@ const NewsletterTitle = styled.h1`
   color: #333;
   margin-bottom: 20px;
   font-family: 'SFPro-Bold', sans-serif;
+  text-align: center; /* Center text by default */
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem; /* Reduce font size for tablets and small screens */
+    text-align: center; /* Ensure text is centered on tablets */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem; /* Further reduce font size for smaller screens */
+    text-align: center; /* Ensure text is centered on mobile screens */
+  }
 `;
 
 const Description = styled.p`
@@ -562,11 +685,23 @@ const Description = styled.p`
   color: #666;
   text-align: center;
   margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem; /* Reduce font size for tablets */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem; /* Further reduce font size for mobile screens */
+  }
 `;
 
 const Form = styled.form`
   display: flex;
+  flex-direction: column;
   align-items: center;
+  width: 100%; /* Full width to avoid overflow */
+  max-width: 400px; /* Set a max-width for better control on larger screens */
+  box-sizing: border-box; /* Include padding in width calculations */
 `;
 
 const InputField = styled.input`
@@ -575,13 +710,19 @@ const InputField = styled.input`
   background-color: #f0f0f0;
   border: none;
   border-radius: 30px;
-  margin-right: 20px;
-  width: 400px;
+  margin-bottom: 15px; /* Space between input and button */
+  width: 100%; /* Full width within the form */
+  box-sizing: border-box; /* Include padding in width calculations */
   font-family: 'SFPro-Regular', sans-serif;
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px #007bff; /* Add a consistent blue shadow on focus */
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px; /* Adjust padding for mobile */
+    font-size: 1rem; /* Adjust font size for mobile */
   }
 `;
 
@@ -594,9 +735,19 @@ const SubmitButton = styled.button`
   border-radius: 30px;
   cursor: pointer;
   font-family: 'SFPro-Regular', sans-serif;
+  width: auto; /* Auto width to fit content */
+  max-width: 80%; /* Shorter width compared to the input field */
+  box-sizing: border-box; /* Include padding in width calculations */
+  align-self: center; /* Center the button */
 
   &:hover {
     background-color: #0056b3;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 20px; /* Adjust padding for mobile */
+    font-size: 1rem; /* Adjust font size for mobile */
+    max-width: 90%; /* Adjust max-width for smaller screens */
   }
 `;
 
@@ -638,6 +789,13 @@ const AlertBox = styled.div`
   font-size: 1rem;
   color: #006400;
   animation: ${({ animateOut }) => (animateOut ? flyOut : flyIn)} 0.5s ease-out forwards;
+  width: 100%;
+  max-width: 90vw;
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -746,9 +904,10 @@ const Landing = () => {
           <MenuWrapper>
             <MenuIcon src={hamburgerIcon} alt="Menu" onClick={toggleMenu} />
             <MenuContent open={isOpen}>
-              <MenuItem href="#pricing">Pricing</MenuItem>
-              <MenuItem href="#feedback">Feedback</MenuItem>
-              <MenuItem href="#action">Action Button</MenuItem>
+              <MenuItem href="/">Home</MenuItem>
+              <MenuItem href="/feedback">Feedback</MenuItem>
+              <MenuItem href="/pricing">Pricing</MenuItem>
+              <MenuButton onClick={handleActionButton}>Create</MenuButton> {/* Create button */}
             </MenuContent>
           </MenuWrapper>
         </HeaderWrapper>
@@ -798,7 +957,6 @@ const Landing = () => {
           <BoxHeader>Cooking Tips</BoxHeader>
           <BoxParagraph>First time cooking or need want some tips when cooking? Look at our Cooking Tips where we prepared the best tips for you and verified from sources including long time home cooks. Coming out on September 1st</BoxParagraph>
         </Box>
-        <br></br>
       </SecondDiv>
 
       <NewsletterContainer>

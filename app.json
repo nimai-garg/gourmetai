@@ -11,6 +11,9 @@
     },
     "ios": {
       "bundleIdentifier": "com.nimaigarg.gourmetchef"
+    },
+    "android": {
+      "package": "com.nimaigarg.gourmetchef"
     }
   }
 }
