@@ -1013,7 +1013,7 @@ const Landing = () => {
           </FooterLinks>
 
           <SocialMediaIcons>
-            <IconStyle href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+            <IconStyle href="https://www.instagram.com/gourmetchefapp/" target="_blank" rel="noopener noreferrer">
               <FaInstagram />
             </IconStyle>
 
