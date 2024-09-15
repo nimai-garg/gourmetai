@@ -20,7 +20,6 @@ import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
 import { FaInstagram, FaLinkedin, FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
-import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 
 // const fadeInAnimation = keyframes`
 //   0% {

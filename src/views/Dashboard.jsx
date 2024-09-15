@@ -4,7 +4,7 @@ import logoImage from '../images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../firebaseConfig';
 import SettingsImage from '../images/settings-icon.png';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
 
 const PageContainer = styled.div`
