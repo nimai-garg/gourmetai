@@ -19,7 +19,8 @@ import '../fonts/SFPro-ThinItalic.OTF';
 import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
-import { FaInstagram, FaLinkedin, FaCheck } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
+import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 
 // const fadeInAnimation = keyframes`
 //   0% {
@@ -131,10 +132,11 @@ const MenuContent = styled.div`
   right: 10px;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  width: 200px;
+  border-radius: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  width: 300px;
+  text-align: center; /* Center the text */
 
   @media (max-width: 768px) {
     right: 0;
@@ -144,9 +146,12 @@ const MenuContent = styled.div`
 
 const MenuItem = styled.a`
   display: block;
+  width: 100%; /* Ensure full width for centering */
   padding: 10px 15px;
   color: #333;
   text-decoration: none;
+  text-align: center; /* Center the text */
+  margin-margin: 50px;
 
   &:hover {
     background-color: #f0f0f0;
@@ -155,14 +160,15 @@ const MenuItem = styled.a`
 
 const MenuButton = styled.button`
   display: block;
-  width: 100%;
-  padding: 10px 15px;
+  width: 100%; /* Ensure full width for centering */
+  padding: 8px 13px;
   background-color: #000;
   color: #fff;
   border: none;
   text-align: center;
-  font-size: 16px;
+  font-size: 12px;
   border-radius: 6px;
+  justify-content: center;
 
   &:hover {
     background-color: #333;
@@ -511,7 +517,7 @@ const FooterLinks = styled.div`
 
 const FooterLink = styled.a`
   font-family: 'SFPro-Regular', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
   text-decoration: none;
 
@@ -647,7 +653,7 @@ const AccordionIcon = styled.span`
   transition: transform 0.2s ease;
 
   ${({ isOpen }) => isOpen && `
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
   `}
 `;
 
@@ -906,7 +912,7 @@ const Landing = () => {
             <MenuContent open={isOpen}>
               <MenuItem href="/">Home</MenuItem>
               <MenuItem href="/feedback">Feedback</MenuItem>
-              <MenuItem href="/pricing">Pricing</MenuItem>
+              {/* <MenuItem href="/pricing">Pricing</MenuItem> */}
               <MenuButton onClick={handleActionButton}>Create</MenuButton> {/* Create button */}
             </MenuContent>
           </MenuWrapper>
@@ -914,7 +920,7 @@ const Landing = () => {
 
         <ButtonGroup>
           <HeaderLink to="/feedback">Feedback</HeaderLink>
-          <HeaderLink to="/pricing">Pricing</HeaderLink>
+          {/* <HeaderLink to="/pricing">Pricing</HeaderLink> */}
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>
@@ -980,19 +986,21 @@ const Landing = () => {
       )}
     </NewsletterContainer>
 
-      <AccordionContainer>
-        {data.map((item, index) => (
-          <AccordionItem key={index}>
-            <AccordionHeader onClick={() => toggleAccordion(index)}>
-              <span>{item.title}</span>
-              <AccordionIcon isOpen={openSections.includes(index)}>{openSections.includes(index) ? '-' : '+'}</AccordionIcon>
-            </AccordionHeader>
-            <AccordionContent isOpen={openSections.includes(index)}>
-              {item.content}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </AccordionContainer>
+    <AccordionContainer>
+      {data.map((item, index) => (
+        <AccordionItem key={index}>
+          <AccordionHeader onClick={() => toggleAccordion(index)}>
+            <span>{item.title}</span>
+            <AccordionIcon isOpen={openSections.includes(index)}>
+              {openSections.includes(index) ? <FaChevronDown /> : <FaChevronRight />}
+            </AccordionIcon>
+          </AccordionHeader>
+          <AccordionContent isOpen={openSections.includes(index)}>
+            {item.content}
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </AccordionContainer>
 
       <Footer>
         <FooterLine />
@@ -1005,7 +1013,7 @@ const Landing = () => {
           </FooterLinks>
 
           <SocialMediaIcons>
-            <IconStyle href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+            <IconStyle href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
               <FaInstagram />
             </IconStyle>
 

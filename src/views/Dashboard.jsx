@@ -1,9 +1,11 @@
-import React from 'react';
+import React,  { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import logoImage from '../images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../firebaseConfig';
 import SettingsImage from '../images/settings-icon.png';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db, auth } from '../firebaseConfig';
 
 const PageContainer = styled.div`
   background-color: #FFF;
@@ -149,9 +151,19 @@ const CenterText = styled.h1`
   font-family: 'SFPro-Bold', sans-serif;
   font-weight: 600;
   text-align: center;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowed text */
+  text-overflow: ellipsis; /* Display ellipsis if text overflows */
 
   @media (max-width: 768px) {
     font-size: 2rem;
+  }
+
+  span {
+    font-family: 'SFPro-Semibold', sans-serif;
+    background: linear-gradient(to right, blue, hotpink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 `;
 
@@ -242,8 +254,11 @@ const SettingsCircle = styled.div`
   }
 `;
 
+
 const Landing = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   const handleEditSetupButton = async () => {
     navigate('/editSettings');
@@ -274,6 +289,28 @@ const Landing = () => {
     }
   };
 
+  const fetchUserData = useCallback(async (userId) => {
+    const userDocRef = doc(db, 'users', userId);
+    const docSnap = await getDoc(userDocRef);
+
+    if (docSnap.exists()) {
+      setUserData(docSnap.data());
+    } else {
+      console.error('No such document!');
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchUserData(user.uid);
+      } else {
+        setLoading(false); // If there's no user, stop loading
+      }
+    });
+  }, [fetchUserData]);
+
   return (
     <PageContainer>
       <HeaderContainer>
@@ -292,19 +329,25 @@ const Landing = () => {
       </HeaderContainer>
 
       <WelcomeContainer>
-        <CenterText>Welcome to GourmetChef</CenterText>
-        <SubCenterText>Choose a feature below to get started</SubCenterText>
-        
-        <ButtonContainer>
-          <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
-          <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
-          <br></br>
-        </ButtonContainer>
+  {!loading && userData ? (
+    <>
+      <CenterText>Welcome back, <span>{userData.firstName}</span></CenterText>
+      <SubCenterText>Choose a feature below to get started</SubCenterText>
+    </>
+  ) : (
+    <CenterText>Welcome back,</CenterText> // You can customize this message
+  )}
+  
+  <ButtonContainer>
+    <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
+    <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
+    <br></br>
+  </ButtonContainer>
 
-        <ButtonContainer>
-          <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
-        </ButtonContainer>
-      </WelcomeContainer>
+  <ButtonContainer>
+    <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
+  </ButtonContainer>
+</WelcomeContainer>
       
       <Footer>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com</Footer>
     </PageContainer>
