@@ -6,6 +6,7 @@ import { logOut } from '../firebaseConfig';
 import SettingsImage from '../images/settings-icon.png';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
+import { FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const PageContainer = styled.div`
   background-color: #FFF;
@@ -213,21 +214,103 @@ const OptionButton = styled.button`
   }
 `;
 
-const Footer = styled.p`
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  color: #000;
-  font-family: 'SFPro-Regular', sans-serif;
-  margin-top: 70px;
-  
-  &:hover {
-    font-family: 'SFPro-Bold', sans-serif;
-    cursor: pointer;
+const Footer = styled.footer`
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 15px; /* Reduce padding for tablets */
   }
+
+  @media (max-width: 480px) {
+    padding: 10px; /* Reduce padding for mobile screens */
+  }
+`;
+
+const FooterLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: rgba(27, 31, 35, 0.15);
+  margin-bottom: 20px;
+
+  @media (max-width: 480px) {
+    margin-bottom: 15px; /* Reduce bottom margin on smaller screens */
+  }
+`;
+
+const FooterContent = styled.div`
+  display: flex;
+  flex-direction: column; /* Stack items vertically on small screens */
+  align-items: center; /* Center align items */
+  text-align: center; /* Center align text */
+  width: 100%;
+  gap: 20px; /* Space between items vertically */
+
+  @media (min-width: 481px) {
+    flex-direction: row; /* Row layout for larger screens */
+    justify-content: space-between; /* Aligns text left, links center, and icons right */
+    align-items: center; /* Align items vertically */
+    gap: 30px; /* Space between elements horizontally */
+  }
+`;
+
+const FooterText = styled.p`
+  font-family: 'SFPro-Regular', sans-serif;
+  font-size: 1rem;
+  color: #333;
+  margin: 0; /* Remove default margin */
 
   @media (max-width: 768px) {
     font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+`;
+
+const FooterLinks = styled.div`
+  display: flex;
+  gap: 15px; /* Space between the links */
+  justify-content: center; /* Center the links horizontally */
+`;
+
+const FooterLink = styled.a`
+  font-family: 'SFPro-Regular', sans-serif;
+  font-size: 15px;
+  color: #333;
+  text-decoration: none;
+
+  &:hover {
+    font-family: 'SFPro-Bold', sans-serif;
+  }
+`;
+
+const SocialMediaIcons = styled.div`
+  display: flex;
+  flex-direction: row; /* Row layout for icons */
+  gap: 15px;
+  margin-top: 20px; /* Increase margin to lower the icons more */
+  
+  @media (max-width: 768px) {
+    gap: 10px;
+    margin-top: 15px; /* Adjust margin for tablets */
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+    margin-top: 10px; /* Adjust margin for mobile screens */
+  }
+`;
+
+const IconStyle = styled.a`
+  color: black;
+  font-size: 24px;
+  text-decoration: none;
+
+  &:hover {
+    color: grey;
   }
 `;
 
@@ -338,18 +421,38 @@ const Landing = () => {
     <CenterText>Welcome back,</CenterText> // You can customize this message
   )}
   
-  <ButtonContainer>
-    <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
-    <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
-    <br></br>
-  </ButtonContainer>
+    <ButtonContainer>
+      <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
+      <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
+      <br></br>
+    </ButtonContainer>
 
-  <ButtonContainer>
-    <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
-  </ButtonContainer>
-</WelcomeContainer>
+    <ButtonContainer>
+      <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
+    </ButtonContainer>
+  </WelcomeContainer>
       
-      <Footer>© 2024 - Created by Nimai Garg - nimaigarg08@gmail.com</Footer>
+      <Footer>
+        <FooterLine />
+        <FooterContent>
+          <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
+          
+          <FooterLinks>
+            <FooterLink href="/legal/terms-of-use">Terms of Use</FooterLink>
+            <FooterLink href="/legal/privacy-policy">Privacy Policy</FooterLink>
+          </FooterLinks>
+
+          <SocialMediaIcons>
+            <IconStyle href="https://www.instagram.com/gourmetchefapp/" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+            </IconStyle>
+
+            <IconStyle href="https://www.linkedin.com/company/gourmetchefapp" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin />
+            </IconStyle>
+          </SocialMediaIcons>
+        </FooterContent>
+      </Footer>
     </PageContainer>
   )
 }
