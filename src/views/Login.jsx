@@ -223,7 +223,7 @@ const Login = () => {
         <Title>Sign In</Title>
         <GoogleButton onClick={handleLogin}>
           <GoogleLogo src={googleLogo} alt="Google Logo" />
-          Go with Google
+          Continue with Google
         </GoogleButton>
         <form>
           <Input

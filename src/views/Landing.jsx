@@ -314,7 +314,29 @@ const LeftCenterTextButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    width: 100%; /* Full width on smaller screens */
+     display: none;
+  }
+`;
+
+const LeftCenterTextMobileButton = styled.button`
+  color: #fff; /* Text color: white */
+  background-color: #000; /* Background color: black */
+  border: none; /* No border */
+  border-radius: 6px; /* Border radius */
+  padding: 12px 32px; /* Adjust padding */
+  font-size: 16px; /* Increase font size */
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  width: auto; /* Dynamic width */
+
+  &:hover, &:focus {
+    background-color: #333; /* Darker shade of black on hover */
+    border-color: #000; /* Keeps border color consistent */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+  }
+
+  @media (min-width: 768px) {
+     display: none;
   }
 `;
 
@@ -931,10 +953,11 @@ const Landing = () => {
             Find <span>inspiration</span> for your next recipe
           </CenterText>
           
-          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
+          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. 100% Free. Coming soon on the App Store!</SubCenterText>
           
           <CenterTextButtonDiv>
               <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
+              <LeftCenterTextMobileButton>Download coming soon!</LeftCenterTextMobileButton>
               <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
           </CenterTextButtonDiv>
             
