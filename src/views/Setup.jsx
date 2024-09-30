@@ -164,8 +164,6 @@ const Setup = () => {
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [otherRestriction, setOtherRestriction] = useState('');
   const [showOtherInput, setShowOtherInput] = useState(false);
-
-
   const [allergyRestrictions, setAllergyRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinPreferences, setProteinPreferences] = useState('')
@@ -210,6 +208,8 @@ const Setup = () => {
           setLastName(userData.lastName || '');
           setAge(userData.age || '');
           setAllergyRestrictions(userData.allergyRestrictions || '');
+          setSelectedDietaryRestrictions(userData.dietaryRestrictions || '');
+          setShowOtherInput(userData.otherInput || '');
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinPreferences(userData.proteinPreferences || '');
           setNutritionalGoals(userData.nutritionalGoals || '');
