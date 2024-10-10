@@ -19,7 +19,7 @@ import '../fonts/SFPro-ThinItalic.OTF';
 import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
-import externalLinkImage from '../images/external-link.svg'; // Adjust the path as necessary
+// import externalLinkImage from '../images/external-link.svg'; // Adjust the path as necessary
 import { FaInstagram, FaLinkedin, FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 
 // const fadeInAnimation = keyframes`
@@ -833,23 +833,23 @@ const IconWrapper = styled.div`
   font-size: 24px;
 `;
 
-const RoundedBox = styled.div`
-  font-family: 'SFPro-Light', sans-serif;
-  background-color: #f0f0f0;
-  color: black;
-  padding: 10px 20px; /* Padding for the text */
-  border: 2px solid black;
-  border-radius: 20px; /* Rounded corners */
-  text-align: center;
-  position: absolute; /* Position it relative to the parent */
-  top: 30%; /* Adjust to position it above the text */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Centering transformation */
-  font-size: 1rem; /* Font size for text */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-  display: flex; /* Enable flexbox for alignment */
-  align-items: center; /* Center vertically */
-`;
+// const RoundedBox = styled.div`
+//   font-family: 'SFPro-Light', sans-serif;
+//   background-color: #f0f0f0;
+//   color: black;
+//   padding: 10px 20px; /* Padding for the text */
+//   border: 2px solid black;
+//   border-radius: 20px; /* Rounded corners */
+//   text-align: center;
+//   position: absolute; /* Position it relative to the parent */
+//   top: 30%; /* Adjust to position it above the text */
+//   left: 50%; /* Center horizontally */
+//   transform: translate(-50%, -50%); /* Centering transformation */
+//   font-size: 1rem; /* Font size for text */
+//   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+//   display: flex; /* Enable flexbox for alignment */
+//   align-items: center; /* Center vertically */
+// `;
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -967,7 +967,7 @@ const Landing = () => {
 
       <LandingContainer>
         <LeftLandingContainer>
-        <RoundedBox>
+        {/* <RoundedBox>
         <a href="craft.do" target="_blank" rel="noopener noreferrer">
           <img 
             src={externalLinkImage} 
@@ -976,7 +976,7 @@ const Landing = () => {
           />
         </a>
         Release Notes
-      </RoundedBox>
+      </RoundedBox> */}
           <br></br>
 
           <CenterText>
