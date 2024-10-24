@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth, logOut } from '../firebaseConfig';
+import logoImage from '../images/logo.png';
 
 // Styled Components
 const PageContainer = styled.div`
@@ -26,13 +27,34 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const Header = styled.div`
-  font-size: 1.7rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+const Logo = styled.img`
+  height: 90px;
+  width: auto;
+  margin-right: 10px;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    height: 50px;
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: black;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem; /* Adjusted font size for very small screens */
   }
 `;
 
@@ -279,7 +301,10 @@ const RecipeGenerator = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Header onClick={handleHeaderClick}>GourmetChef</Header>
+      <Header>
+          <Logo src={logoImage} alt="GourmetChef Logo" />
+          Gourmet Chef
+        </Header>
         <NavigationButtonDiv>
           <ActionButton onClick={handleActionButton}>Edit Setup</ActionButton>
           <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
