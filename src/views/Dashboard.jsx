@@ -400,7 +400,7 @@ const Landing = () => {
       <HeaderContainer>
         <Header>
         <Logo src={logoImage} alt="GourmetChef Logo" />
-          GourmetChef
+          Gourmet Chef
         </Header>
       
         <HeaderWrapper>
