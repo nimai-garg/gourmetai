@@ -301,7 +301,7 @@ const RecipeGenerator = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-      <Header>
+      <Header onClick={handleHeaderClick}>
           <Logo src={logoImage} alt="GourmetChef Logo" />
           Gourmet Chef
         </Header>
