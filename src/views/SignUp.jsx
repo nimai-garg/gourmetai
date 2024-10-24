@@ -180,7 +180,7 @@ const SignUp = () => {
       await sendEmailVerification(user);
       
       console.log("User created:", user);
-      alert("Verification email sent! Please check your inbox.");
+      // alert("Verification email sent! Please check your inbox.");
 
       // Redirect to login page
       navigate('/login');
