@@ -1,3 +1,3 @@
-# Gourmet Chef App
+# Gourmet Chef
 
-Created by Nimai Garg
+Created by Nimai Garg - https://www.linkedin.com/in/nimaigarg
