@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db, auth } from '../firebaseConfig'; // Import auth from firebaseConfig.js
-import { logOut } from '../firebaseConfig'; // Adjust the path to your firebaseConfig.js
+import { db, auth } from '../firebaseConfig';
+import { logOut } from '../firebaseConfig';
 import '@fontsource/geist-sans';
 import '@fontsource/geist-mono';
 
@@ -32,12 +32,6 @@ const ButtonContainer = styled.div`
   align-items: center;
   gap: 1rem; /* Add gap between buttons */
 `;
-
-// const InlineButtonContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 1rem; /* Add gap between buttons */
-// `;
 
 const Button = styled.button`
   color: #fff;
@@ -218,9 +212,9 @@ const Setup = () => {
       setCurrentUser(user);
     });
 
-    fetchUserData(); // Fetch user data on component mount
+    fetchUserData();
 
-    return () => unsubscribe(); // Cleanup on component unmount
+    return () => unsubscribe();
   }, [currentUser]);
 
   const handleSaveFirstName = async () => {
@@ -236,12 +230,12 @@ const Setup = () => {
     }
   
     try {
-      const userId = currentUser.uid; // Get the user ID
+      const userId = currentUser.uid;
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { firstName }, { merge: true });
   
-      setCurrentCard(3); // Move to the next card
+      setCurrentCard(3);
     } catch (error) {
       console.error('Error saving first name:', error);
     }
@@ -260,12 +254,12 @@ const Setup = () => {
     }
   
     try {
-      const userId = currentUser.uid; // Get the user ID
+      const userId = currentUser.uid;
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { lastName }, { merge: true });
   
-      setCurrentCard(4); // Move to the next card
+      setCurrentCard(4);
     } catch (error) {
       console.error('Error saving last name:', error);
     }
@@ -284,12 +278,12 @@ const Setup = () => {
     }
   
     try {
-      const userId = currentUser.uid; // Get the user ID
+      const userId = currentUser.uid;
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { age }, { merge: true });
   
-      setCurrentCard(5); // Move to the next card
+      setCurrentCard(5);
     } catch (error) {
       console.error('Error saving age:', error);
     }
@@ -313,21 +307,19 @@ const Setup = () => {
     }
   
     try {
-      const userId = currentUser.uid; // Get the user ID
+      const userId = currentUser.uid;
       const userDocRef = doc(db, 'users', userId);
   
-      // Filter out "Other" and prepare the array for saving
       const filteredSelections = selectedDietaryRestrictions.filter(item => item !== 'Other');
       if (showOtherInput && otherRestriction.trim()) {
         filteredSelections.push(otherRestriction.trim());
       }
   
-      // Convert the array to a comma-separated string
       const dietaryRestrictionsString = filteredSelections.join(', ');
   
       await setDoc(userDocRef, { dietaryRestrictions: dietaryRestrictionsString }, { merge: true });
   
-      setCurrentCard(6); // Move to the next card
+      setCurrentCard(6);
     } catch (error) {
       console.error('Error saving dietary restrictions:', error);
     }
@@ -346,12 +338,12 @@ const Setup = () => {
     }
   
     try {
-      const userId = currentUser.uid; // Get the user ID
+      const userId = currentUser.uid;
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { allergyRestrictions }, { merge: true });
   
-      setCurrentCard(7); // Move to the next card
+      setCurrentCard(7);
     } catch (error) {
       console.error('Error saving allergy restrictions:', error);
     }
@@ -370,12 +362,12 @@ const Setup = () => {
     }
   
     try {
-      const userId = currentUser.uid; // Get the user ID
+      const userId = currentUser.uid;
       const userDocRef = doc(db, 'users', userId);
   
       await setDoc(userDocRef, { calorieRequirements }, { merge: true });
   
-      setCurrentCard(8); // Move to the next card
+      setCurrentCard(8);
     } catch (error) {
       console.error('Error saving calorie requirements:', error);
     }

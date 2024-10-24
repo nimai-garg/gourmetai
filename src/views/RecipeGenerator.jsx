@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { doc, getDoc } from 'firebase/firestore';
-import { db, auth } from '../firebaseConfig';
+import { db, auth, logOut } from '../firebaseConfig';
 
 // Styled Components
 const PageContainer = styled.div`
@@ -151,6 +152,7 @@ const LoadingMessage = styled.div`
 
 const RecipeGenerator = () => {
   const [messages, setMessages] = useState([]);
+  const navigate = useNavigate();
   // const [input, setInput] = useState('');
   const assistantName = "GourmetBot"; // Name of the assistant
   const [loading, setLoading] = useState(true);
@@ -199,14 +201,9 @@ const RecipeGenerator = () => {
       Cuisine Preferences: ${userData.cuisinePreference || 'None'};
       Flavor Preference: ${userData.flavorPreference || 'None'};
       Cooking Time: ${userData.cookingTime || 'None'};
-      Special Occasion: ${userData.specialOccasion || 'None'};
       Servings Needed: ${userData.servingsNeeded || 'None'};
       Meal Type: ${userData.mealType || 'None'};
-      Budget: ${userData.budget || 'None'};
-      Meal Prep: ${userData.mealPrep || 'None'};
       Age Check: ${userData.ageCheck || 'None'};
-      Spice Level: ${userData.spiceLevel || 'None'};
-      Sweetness Level: ${userData.sweetnessLevel || 'None'};
     `
   
     try {
@@ -267,13 +264,25 @@ const RecipeGenerator = () => {
     );
   }
 
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  const handleActionButton = async () => {
+    navigate('/editSettings')
+  }
+
   return (
     <PageContainer>
       <HeaderContainer>
         <Header onClick={handleHeaderClick}>GourmetChef</Header>
         <NavigationButtonDiv>
-          <ActionButton>Edit Setup</ActionButton>
-          <SignOutButton>Sign Out</SignOutButton>
+          <ActionButton onClick={handleActionButton}>Edit Setup</ActionButton>
+          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
 
         </NavigationButtonDiv>
       </HeaderContainer>

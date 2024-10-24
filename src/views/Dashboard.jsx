@@ -218,6 +218,7 @@ const Footer = styled.footer`
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+  margin-top: 130px; /* Add this to move the footer down */
 
   @media (max-width: 768px) {
     padding: 15px; /* Reduce padding for tablets */
@@ -412,25 +413,21 @@ const Landing = () => {
       </HeaderContainer>
 
       <WelcomeContainer>
-  {!loading && userData ? (
-    <>
-      <CenterText>Welcome back, <span>{userData.firstName}</span></CenterText>
-      <SubCenterText>Choose a feature below to get started</SubCenterText>
-    </>
-  ) : (
-    <CenterText>Welcome back,</CenterText> // You can customize this message
-  )}
-  
-    <ButtonContainer>
-      <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
-      <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
-      <br></br>
-    </ButtonContainer>
-
-    {/* <ButtonContainer>
-      <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
-    </ButtonContainer> */}
-  </WelcomeContainer>
+        {!loading && userData ? (
+          <>
+            <CenterText>Welcome back, <span>{userData.firstName}</span></CenterText>
+            <SubCenterText>Choose a feature below to get started</SubCenterText>
+          </>
+        ) : (
+          <CenterText>Welcome back,</CenterText> // You can customize this message
+        )}
+        
+          <ButtonContainer>
+            <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
+            <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
+            <br></br>
+          </ButtonContainer>
+      </WelcomeContainer>
       
       <Footer>
         <FooterLine />

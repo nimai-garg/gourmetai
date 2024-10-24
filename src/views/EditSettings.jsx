@@ -113,13 +113,9 @@ const EditSettings = () => {
   const [allergyRestrictions, setAllergyRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinPreferences, setProteinPreferences] = useState('')
-  const [nutritionalGoals, setNutritionalGoals] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
-  const [availableIngredients, setAvailableIngredients] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
   const [healthConditions, setHealthConditions] = useState('');
-  const [kitchenEquipment, setKitchenEquipment] = useState('');
-  const [cookingRestrictions, setCookingRestrictions] = useState('');
   const [otherInstructions, setOtherInstructions] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -141,13 +137,9 @@ const EditSettings = () => {
           setAllergyRestrictions(userData.allergyRestrictions || '');
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinPreferences(userData.proteinPreferences || '');
-          setNutritionalGoals(userData.nutritionalGoals || '');
           setReligionChoice(userData.religionChoice || '');
-          setAvailableIngredients(userData.availableIngredients || '');
           setSkillLevel(userData.skillLevel || '');
           setHealthConditions(userData.healthConditions || '');
-          setKitchenEquipment(userData.kitchenEquipment || '');
-          setCookingRestrictions(userData.setCookingRestrictions || '');
           setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
@@ -181,13 +173,9 @@ const EditSettings = () => {
         setAllergyRestrictions(userData.allergyRestrictions || '');
         setCalorieRequirements(userData.calorieRequirements || '');
         setProteinPreferences(userData.proteinPreferences || '');
-        setNutritionalGoals(userData.nutritionalGoals || '');
         setReligionChoice(userData.religionChoice || '');
-        setAvailableIngredients(userData.availableIngredients || '');
         setSkillLevel(userData.skillLevel || '');
         setHealthConditions(userData.healthConditions || '');
-        setKitchenEquipment(userData.kitchenEquipment || '');
-        setCookingRestrictions(userData.setCookingRestrictions || '');
         setOtherInstructions(userData.otherInstructions || '');
       }
     } catch (error) {
@@ -314,23 +302,6 @@ const EditSettings = () => {
     }
   };
 
-  const handleSaveNutritionalGoals = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-  
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-  
-      await setDoc(userDocRef, { nutritionalGoals }, { merge: true });
-  
-    } catch (error) {
-      console.error('Error saving nutritional goals:', error);
-    }
-  };
-
   const handleSaveReligionChoice = async () => {
     if (!currentUser) {
       console.error('No current user found');
@@ -345,23 +316,6 @@ const EditSettings = () => {
   
     } catch (error) {
       console.error('Error saving religion choice:', error);
-    }
-  };
-
-  const handleSaveAvailableIngredients = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-  
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-  
-      await setDoc(userDocRef, { availableIngredients }, { merge: true });
-  
-    } catch (error) {
-      console.error('Error saving available ingredients:', error);
     }
   };
 
@@ -396,40 +350,6 @@ const EditSettings = () => {
   
     } catch (error) {
       console.error('Error saving health conditions:', error);
-    }
-  };
-
-  const handleSaveKitchenEquipment = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-  
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-  
-      await setDoc(userDocRef, { kitchenEquipment }, { merge: true });
-  
-    } catch (error) {
-      console.error('Error saving kitchen equipment:', error);
-    }
-  };
-
-  const handleSaveCookingRestrictions = async () => {
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
-  
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
-  
-      await setDoc(userDocRef, { cookingRestrictions }, { merge: true });
-  
-    } catch (error) {
-      console.error('Error saving cooking restrictions:', error);
     }
   };
 
@@ -539,8 +459,8 @@ const EditSettings = () => {
         </Card>
 
         <Card>
-          <h3>Question #6 - Calorie Requirements</h3>
-          <p>Do you have any specific calorie requirements or goals (e.g., low-calorie, high-protein)?</p>
+          <h3>Question #6 - Nutritional Goals</h3>
+          <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
         
           <InputField
             type="text"
@@ -567,21 +487,7 @@ const EditSettings = () => {
         </Card>
 
         <Card>
-          <h3>Question #8 - Nutritional Goals</h3>
-          <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
-        
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={nutritionalGoals}
-            onChange={(e) => setNutritionalGoals(e.target.value)}
-          />
-          <Button onClick={handleSaveNutritionalGoals}>Save</Button>
-          <br></br>
-        </Card>
-
-        <Card>
-          <h3>Question #9 - Religion Choice</h3>
+          <h3>Question #8 - Religion Choice</h3>
           <p>Do you follow any religion practices (Ex. Christianity, Hinduism, Islamic, etc.)?</p>
         
           <InputField
@@ -595,21 +501,7 @@ const EditSettings = () => {
         </Card>
 
         <Card>
-          <h3>Question #10 - Available Ingredients</h3>
-          <p>What ingredients do you currently have available?</p>
-        
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={availableIngredients}
-            onChange={(e) => setAvailableIngredients(e.target.value)}
-          />
-          <Button onClick={handleSaveAvailableIngredients}>Save</Button>
-          <br></br>
-        </Card>
-
-        <Card>
-          <h3>Question #11 - Skill Level</h3>
+          <h3>Question #9 - Skill Level</h3>
           <p>What is your cooking skill level (e.g., beginner, intermediate, advanced)?</p>
         
           <InputField
@@ -623,7 +515,7 @@ const EditSettings = () => {
         </Card>
 
         <Card>
-          <h3>Question #12 - Health Conditions</h3>
+          <h3>Question #10 - Health Conditions</h3>
           <p>Do you have any health conditions that influence your diet, such as diabetes, high blood pressure, or cholesterol? Explain</p>
         
           <InputField
@@ -637,35 +529,7 @@ const EditSettings = () => {
         </Card>
 
         <Card>
-          <h3>Question #13 - Kitchen Equipment</h3>
-          <p>Do you have any special kitchen equipment you’d like to use, such as an Instant Pot, air fryer, or sous-vide machine?</p>
-        
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={kitchenEquipment}
-            onChange={(e) => setKitchenEquipment(e.target.value)}
-          />
-          <Button onClick={handleSaveKitchenEquipment}>Save</Button>
-          <br></br>
-        </Card>
-
-        <Card>
-          <h3>Question #14 - Cooking Restrictions</h3>
-          <p>Are there any cooking methods or equipment you don’t have or prefer not to use (e.g., oven,  blender)?</p>
-        
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={cookingRestrictions}
-            onChange={(e) => setCookingRestrictions(e.target.value)}
-          />
-          <Button onClick={handleSaveCookingRestrictions}>Save</Button>
-          <br></br>
-        </Card>
-
-        <Card>
-          <h3>Question #15 - Other Instructions</h3>
+          <h3>Question #11 - Other Instructions</h3>
           <p>Do you have any other specific notes or instructions?</p>
         
           <InputField
