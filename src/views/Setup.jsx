@@ -649,7 +649,7 @@ const Setup = () => {
 
       {currentCard === 1 && (
         <Card>
-          <h3>Answer these 15 questions to get the best recipes</h3>
+          <h3>Answer these 11 questions to get the best recipes</h3>
           <p>Click the button below to continue, if you skip setup you can always change your options
             in the settings page of the application</p>
         
