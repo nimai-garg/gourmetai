@@ -110,53 +110,20 @@ const HorizontalButtonContainer = styled.div`
   margin-top: 1rem; /* Add some space above the buttons */
 `;
 
-// const SignOutButton = styled.button`
-//   cursor: pointer;
-//   background-color: red;
-//   color: #fff;
-//   padding: 0.5rem 1rem;
-//   border: none;
-//   border-radius: 10px;
-//   font-family: 'Inter', sans-serif;
-//   font-weight: 500;
-//   font-size: 0.75rem;
-//   border: 2px solid red; // Use red color for border
-
-//   &:hover, &:focus {
-//     transform: scale(1.03); /* Expand the button slightly on hover */
-//   }
-// `;
-
-// const SkipSetup = styled(Button)`
-//   width: auto; /* Adjust width for smaller buttons */
-//   padding: 0.6rem 1rem;
-//   font-size: 0.75rem;
-// `;
-
 const RecipeQuestions = () => {
   const navigate = useNavigate();
   const [cuisinePreference, setCuisinePreference] = useState('');
   const [flavorPreference, setFlavorPreference] = useState('');
   const [cookingTime, setCookingTime] = useState('');
-  const [specialOccasion, setSpecialOccasion] = useState('');
   const [servingsNeeded, setServingsNeeded] = useState('');
   const [mealType, setMealType] = useState('');
-  const [budget, setBudget] = useState('');
-  const [mealPrep, setMealPrep] = useState('');
   const [ageCheck, setAgeCheck] = useState('');
-  const [spiceLevel, setSpiceLevel] = useState('');
-  const [sweetnessLevel, setSweetnessLevel] = useState('');
   const [isCuisinePreferenceValid, setIsCuisinePreferenceValid] = useState(true);
   const [isFlavorPreferenceValid, setIsFlavorPreferenceValid] = useState(true);
   const [isCookingTimeValid, setIsCookingTimeValid] = useState(true);
-  const [isSpecialOccasionValid, setIsSpecialOccasionValid] = useState(true);
   const [isServingsNeededValid, setIsServingsNeededValid] = useState(true);
   const [isMealTypeValid, setIsMealTypeValid] = useState(true);
-  const [isBudgetValid, setIsBudgetValid] = useState(true);
-  const [isMealPrepValid, setIsMealPrepValid] = useState(true);
   const [isAgeCheckValid, setIsAgeCheckValid] = useState(true);
-  const [isSpiceLevelValid, setIsSpiceLevelValid] = useState(true);
-  const [isSweetnessLevelValid, setIsSweetnessLevelValid] = useState(true);
   const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -174,14 +141,9 @@ const RecipeQuestions = () => {
           setCuisinePreference(userData.cuisinePreference || '');
           setFlavorPreference(userData.flavorPreference || '');
           setCookingTime(userData.cookingTime || '');
-          setSpecialOccasion(userData.specialOccasion || '');
           setServingsNeeded(userData.servingsNeeded || '');
           setMealType(userData.mealType || '');
-          setBudget(userData.budget || '');
-          setMealPrep(userData.mealPrep || '');
           setAgeCheck(userData.ageCheck || '');
-          setSpiceLevel(userData.spiceLevel || '');
-          setSweetnessLevel(userData.sweetnessLevel || '');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -196,33 +158,6 @@ const RecipeQuestions = () => {
 
   return () => unsubscribe(); // Cleanup on component unmount
 }, [currentUser]);
-
-// const fetchUserData = async () => {
-//   try {
-//     if (!currentUser) return;
-    
-//     const userId = currentUser.uid;
-//     const userDocRef = doc(db, 'users', userId);
-//     const docSnap = await getDoc(userDocRef);
-
-//     if (docSnap.exists()) {
-//       const userData = docSnap.data();
-//       setCuisinePreference(userData.cuisinePreference || '');
-//       setFlavorPreference(userData.flavorPreference || '');
-//       setCookingTime(userData.cookingTime || '');
-//       setSpecialOccasion(userData.specialOccasion || '');
-//       setServingsNeeded(userData.servingsNeeded || '');
-//       setMealType(userData.mealType || '');
-//       setBudget(userData.budget || '');
-//       setMealPrep(userData.mealPrep || '');
-//       setAgeCheck(userData.ageCheck || '');
-//       setSpiceLevel(userData.spiceLevel || '');
-//       setSweetnessLevel(userData.sweetnessLevel || '');
-//     }
-//   } catch (error) {
-//     console.error('Error fetching user data:', error);
-//   }
-// };
 
 const handleSaveCuisinePreference = async () => {
   if (!cuisinePreference.trim()) {
@@ -296,30 +231,6 @@ const handleSaveCookingTime = async () => {
   }
 };
 
-const handleSaveSpecialOccasion = async () => {
-  if (!specialOccasion.trim()) {
-    setIsSpecialOccasionValid(false);
-    return;
-  }
-  setIsSpecialOccasionValid(true);
-
-  if (!currentUser) {
-    console.error('No current user found');
-    return;
-  }
-
-  try {
-    const userId = currentUser.uid; // Get the user ID
-    const userDocRef = doc(db, 'users', userId);
-
-    await setDoc(userDocRef, { specialOccasion }, { merge: true });
-
-    setCurrentCard(6); // Move to the next card
-  } catch (error) {
-    console.error('Error saving special occasion:', error);
-  }
-};
-
 const handleSaveServingsNeeded = async () => {
   if (!servingsNeeded.trim()) {
     setIsServingsNeededValid(false);
@@ -338,7 +249,7 @@ const handleSaveServingsNeeded = async () => {
 
     await setDoc(userDocRef, { servingsNeeded }, { merge: true });
 
-    setCurrentCard(7); // Move to the next card
+    setCurrentCard(6); // Move to the next card
   } catch (error) {
     console.error('Error saving servings needed:', error);
   }
@@ -362,57 +273,9 @@ const handleSaveMealType = async () => {
 
     await setDoc(userDocRef, { mealType }, { merge: true });
 
-    setCurrentCard(8); // Move to the next card
+    setCurrentCard(7); // Move to the next card
   } catch (error) {
     console.error('Error saving meal type:', error);
-  }
-};
-
-const handleSaveBudget = async () => {
-  if (!budget.trim()) {
-    setIsBudgetValid(false);
-    return;
-  }
-  setIsBudgetValid(true);
-
-  if (!currentUser) {
-    console.error('No current user found');
-    return;
-  }
-
-  try {
-    const userId = currentUser.uid; // Get the user ID
-    const userDocRef = doc(db, 'users', userId);
-
-    await setDoc(userDocRef, { budget }, { merge: true });
-
-    setCurrentCard(9); // Move to the next card
-  } catch (error) {
-    console.error('Error saving budget:', error);
-  }
-};
-
-const handleSaveMealPrep = async () => {
-  if (!mealPrep.trim()) {
-    setIsMealPrepValid(false);
-    return;
-  }
-  setIsMealPrepValid(true);
-
-  if (!currentUser) {
-    console.error('No current user found');
-    return;
-  }
-
-  try {
-    const userId = currentUser.uid; // Get the user ID
-    const userDocRef = doc(db, 'users', userId);
-
-    await setDoc(userDocRef, { mealPrep }, { merge: true });
-
-    setCurrentCard(10); // Move to the next card
-  } catch (error) {
-    console.error('Error saving meal prep:', error);
   }
 };
 
@@ -434,67 +297,11 @@ const handleSaveAgeCheck = async () => {
 
     await setDoc(userDocRef, { ageCheck }, { merge: true });
 
-    setCurrentCard(11); // Move to the next card
+    setCurrentCard(8); // Move to the next card
   } catch (error) {
     console.error('Error saving age check:', error);
   }
 };
-
-const handleSaveSpiceLevel = async () => {
-  if (!spiceLevel.trim()) {
-    setIsSpiceLevelValid(false);
-    return;
-  }
-  setIsSpiceLevelValid(true);
-
-  if (!currentUser) {
-    console.error('No current user found');
-    return;
-  }
-
-  try {
-    const userId = currentUser.uid; // Get the user ID
-    const userDocRef = doc(db, 'users', userId);
-
-    await setDoc(userDocRef, { spiceLevel }, { merge: true });
-
-    setCurrentCard(12); // Move to the next card
-  } catch (error) {
-    console.error('Error saving spice level:', error);
-  }
-};
-
-const handleSaveSweetnessLevel = async () => {
-  if (!sweetnessLevel.trim()) {
-    setIsSweetnessLevelValid(false);
-    return;
-  }
-  setIsSweetnessLevelValid(true);
-
-  if (!currentUser) {
-    console.error('No current user found');
-    return;
-  }
-
-  try {
-    const userId = currentUser.uid; // Get the user ID
-    const userDocRef = doc(db, 'users', userId);
-
-    await setDoc(userDocRef, { sweetnessLevel }, { merge: true });
-
-    setCurrentCard(13); // Move to the next card
-  } catch (error) {
-    console.error('Error saving sweetness level:', error);
-  }
-};
-
-// const handleSignOut = async () => {
-//   try {
-//     await logOut();
-//   } catch (error) {
-//     console.error("Error signing out:", error);
-//   }
-// };
 
 const handleGoBack1 = async () => {
   setCurrentCard(1);
@@ -520,33 +327,9 @@ const handleGoBack6 = async () => {
   setCurrentCard(6);
 }
 
-const handleGoBack7 = async () => {
-  setCurrentCard(7);
-}
-
-const handleGoBack8 = async () => {
-  setCurrentCard(8);
-}
-
-const handleGoBack9 = async () => {
-  setCurrentCard(9);
-}
-
-const handleGoBack10 = async () => {
-  setCurrentCard(10);
-}
-
-const handleGoBack11 = async () => {
-  setCurrentCard(11);
-}
-
 const handleGoBack12 = async () => {
   setCurrentCard(12);
 }
-
-// const handleSkipSetup = async () => {
-//   navigate('/dashboard')
-// }
 
 const handleGoForward2 = async () => {
   setCurrentCard(3);
@@ -570,26 +353,6 @@ const handleGoForward6 = async () => {
 
 const handleGoForward7 = async () => {
   setCurrentCard(8);
-}
-
-const handleGoForward8 = async () => {
-  setCurrentCard(9);
-}
-
-const handleGoForward9 = async () => {
-  setCurrentCard(10);
-}
-
-const handleGoForward10 = async () => {
-  setCurrentCard(11);
-}
-
-const handleGoForward11 = async () => {
-  setCurrentCard(12);
-}
-
-const handleGoForward12 = async () => {
-  setCurrentCard(13);
 }
 
 const handleContinueButton = async () => {
@@ -682,29 +445,7 @@ const handleSaveSetup = async () => {
 
       {currentCard === 5 && (
         <Card>
-          <h3>Question #4 - Special Occasion</h3>
-          <p>Is this recipe for a special occasion or everyday meal?</p>
-
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={specialOccasion}
-            onChange={(e) => setSpecialOccasion(e.target.value)}
-            isInvalid={!isSpecialOccasionValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveSpecialOccasion}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward5}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack4}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 6 && (
-        <Card>
-          <h3>Question #5 - Servings Needed</h3>
+          <h3>Question #4 - Servings Needed</h3>
           <p>How many servings do you need?</p>
 
           <InputField
@@ -717,16 +458,16 @@ const handleSaveSetup = async () => {
           <ButtonContainer>
             <Button onClick={handleSaveServingsNeeded}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward6}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack5}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward5}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack4}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 7 && (
+      {currentCard === 6 && (
         <Card>
-          <h3>Question #6 - Meal Type</h3>
+          <h3>Question #5 - Meal Type</h3>
           <p>Are you looking for a recipe for breakfast, lunch, dinner, or a snack?</p>
 
           <InputField
@@ -739,60 +480,16 @@ const handleSaveSetup = async () => {
           <ButtonContainer>
             <Button onClick={handleSaveMealType}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward6}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack5}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 8 && (
+      {currentCard === 7 && (
         <Card>
-          <h3>Question #7 - Budget</h3>
-          <p>Do you have a budget in mind for the ingredients? Are you looking for something affordable or are you willing to splurge on premium ingredients?</p>
-
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
-            isInvalid={!isBudgetValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveBudget}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward8}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack7}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 9 && (
-        <Card>
-          <h3>Question #8 - Meal Prep</h3>
-          <p>Are you interested in recipes that are suitable for meal prepping?</p>
-
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={mealPrep}
-            onChange={(e) => setMealPrep(e.target.value)}
-            isInvalid={!isMealPrepValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveMealPrep}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward9}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack8}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 10 && (
-        <Card>
-          <h3>Question #9 - Age Check</h3>
+          <h3>Question #6 - Age Check</h3>
           <p>Are you looking for recipes that are kids, teens, or adults?</p>
 
           <InputField
@@ -805,58 +502,14 @@ const handleSaveSetup = async () => {
           <ButtonContainer>
             <Button onClick={handleSaveAgeCheck}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward10}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack9}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 11 && (
-        <Card>
-          <h3>Question #10 - Spice Level</h3>
-          <p>What is your preferred level of spiciness — none, mild, medium, or hot?</p>
-
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={spiceLevel}
-            onChange={(e) => setSpiceLevel(e.target.value)}
-            isInvalid={!isSpiceLevelValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveSpiceLevel}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward11}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack10}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 12 && (
-        <Card>
-          <h3>Question #11 - Sweetness Level</h3>
-          <p>How sweet do you like your dishes, if at all? Do you prefer a touch of sweetness or a more savory profile?</p>
-
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={sweetnessLevel}
-            onChange={(e) => setSweetnessLevel(e.target.value)}
-            isInvalid={!isSweetnessLevelValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveSweetnessLevel}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward12}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack11}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 13 && (
+      {currentCard === 8 && (
         <Card>
           <h3>Perfect, now let our AI create recipes for you</h3>
           <p>Please click the button below to generate, doing this will save your responses</p>

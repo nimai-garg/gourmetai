@@ -192,13 +192,9 @@ const RecipeGenerator = () => {
       Allergy Restrictions: ${userData.allergyRestrictions || 'None'}
       Calorie Requirements: ${userData.calorieRequirements || 'None'}
       Protein Preferences: ${userData.proteinPreferences || 'None'}
-      Nutritional Goals: ${userData.nutritionalGoals || 'None'}
       Religion Choice: ${userData.religionChoice || 'None'}
-      Available Ingredients: ${userData.availableIngredients || 'None'}
       Skill Level: ${userData.skillLevel || 'None'}
       Health Conditions: ${userData.healthConditions || 'None'}
-      Kitchen Equipment: ${userData.kitchenEquipment || 'None'}
-      Cooking Restrictions: ${userData.cookingRestrictions || 'None'}
       Other Instructions: ${userData.otherInstructions || 'None'};
       Cuisine Preferences: ${userData.cuisinePreference || 'None'};
       Flavor Preference: ${userData.flavorPreference || 'None'};

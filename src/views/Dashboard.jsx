@@ -351,9 +351,9 @@ const Landing = () => {
     navigate('/reviewSettings')
   };
   
-  const handleCookingTips = async () => {
-    // navigate('/cookingTips');
-  };
+  // const handleCookingTips = async () => {
+  //   // navigate('/cookingTips');
+  // };
 
   const handleNutritionalData = async () => {
     navigate('/nutritionalData');
@@ -427,9 +427,9 @@ const Landing = () => {
       <br></br>
     </ButtonContainer>
 
-    <ButtonContainer>
+    {/* <ButtonContainer>
       <OptionButton onClick={handleCookingTips}>Coming soon!</OptionButton>
-    </ButtonContainer>
+    </ButtonContainer> */}
   </WelcomeContainer>
       
       <Footer>

@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { db } from '../firebaseConfig';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import logoImage from '../images/logo.png';
 import mockupImage from '../images/mockup.png';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '@fontsource/geist-sans';
 import '@fontsource/geist-mono';
 import '../fonts/CalSans-SemiBold.otf';
@@ -20,7 +20,8 @@ import '../fonts/SFPro-UltraLightItalic.OTF';
 import '../fonts/fonts.css';
 import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
 // import externalLinkImage from '../images/external-link.svg'; // Adjust the path as necessary
-import { FaInstagram, FaLinkedin, FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaCheck, FaChevronRight, FaChevronDown, FaAngleRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom'; // Import Link for routing
 
 // const fadeInAnimation = keyframes`
 //   0% {
@@ -144,19 +145,19 @@ const MenuContent = styled.div`
   }
 `;
 
-const MenuItem = styled.a`
-  display: block;
-  width: 100%; /* Ensure full width for centering */
-  padding: 10px 15px;
-  color: #333;
-  text-decoration: none;
-  text-align: center; /* Center the text */
-  margin-margin: 50px;
+// const MenuItem = styled.a`
+//   display: block;
+//   width: 100%; /* Ensure full width for centering */
+//   padding: 10px 15px;
+//   color: #333;
+//   text-decoration: none;
+//   text-align: center; /* Center the text */
+//   margin-margin: 50px;
 
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
+//   &:hover {
+//     background-color: #f0f0f0;
+//   }
+// `;
 
 const MenuButton = styled.button`
   display: block;
@@ -411,7 +412,7 @@ const SecondDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  gap: 20px;
+  gap: 10px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -575,18 +576,17 @@ const IconStyle = styled.a`
   }
 `;
 
-const HeaderLink = styled(Link)`
+const HeaderLink = styled.a`
   color: black;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 1.1rem;
   text-decoration: none;
   cursor: pointer;
-  padding: 0.4rem 0.6rem; /* Increased padding for bigger width/height */
+  padding: 0.4rem 0.6rem;
 
   &:hover {
-    background-color: rgba(245, 246, 247, 1);
-    border-radius: 6px; /* Slightly larger rounded corners */
+    color: green;
   }
 
   @media (max-width: 768px) {
@@ -597,6 +597,7 @@ const HeaderLink = styled(Link)`
     display: none;
   }
 `;
+
 
 const AccordionContainer = styled.div`
   max-width: 1000px;
@@ -713,6 +714,7 @@ const Description = styled.p`
   color: #666;
   text-align: center;
   margin-bottom: 30px;
+  font-family: 'SFPro-Regular', sans-serif;
 
   @media (max-width: 768px) {
     font-size: 1.2rem; /* Reduce font size for tablets */
@@ -833,23 +835,89 @@ const IconWrapper = styled.div`
   font-size: 24px;
 `;
 
-// const RoundedBox = styled.div`
-//   font-family: 'SFPro-Light', sans-serif;
-//   background-color: #f0f0f0;
-//   color: black;
-//   padding: 10px 20px; /* Padding for the text */
-//   border: 2px solid black;
-//   border-radius: 20px; /* Rounded corners */
-//   text-align: center;
-//   position: absolute; /* Position it relative to the parent */
-//   top: 30%; /* Adjust to position it above the text */
-//   left: 50%; /* Center horizontally */
-//   transform: translate(-50%, -50%); /* Centering transformation */
-//   font-size: 1rem; /* Font size for text */
-//   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-//   display: flex; /* Enable flexbox for alignment */
-//   align-items: center; /* Center vertically */
-// `;
+const DropdownWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const DropdownMenuContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 900px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+`;
+
+const MainMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-right: 30px;
+  border-right: 1px solid #ddd;
+`;
+
+const HeaderMenuItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-weight: bold;
+  color: #444;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  border-radius: 8px; /* Rounded corners */
+  font-family: "SFPro-Bold";
+
+  &:hover {
+    background-color: #e0e4f1;
+  }
+
+  &.active {
+    background-color: #e0e4f1; /* Active background */
+    border-radius: 8px; /* Ensure rounded corners */
+  }
+`;
+
+const RightArrow = styled(FaAngleRight)`
+  margin-left: 10px;
+`;
+
+const SubmenuContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding-left: 20px;
+`;
+
+const SubmenuItem = styled.div`
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  strong {
+    font-family: "SFPro-Bold";
+    font-size: 1.1em;
+    color: #333;
+  }
+
+  p {
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 5px;
+    font-family: "SFPro-Regular";
+  }
+
+  &:hover {
+    background-color: #e6e6e6;
+  }
+`;
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -860,6 +928,57 @@ const Landing = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [animateOut, setAnimateOut] = useState(false);
   const [email, setEmail] = useState('');
+
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State to manage dropdown visibility
+  const [hoveredItem, setHoveredItem] = useState('team'); // State for hovered items
+  const dropdownRef = useRef(null); // To detect outside clicks
+
+  const menuItems = [
+    { id: 'team', label: 'Team' },
+    { id: 'company', label: 'Individual' },
+    { id: 'templates', label: 'Templates' }
+  ];
+  
+  const subItems = {
+    team: [
+      { title: 'Project management', description: 'Empower teams to achieve goals with efficient, clear project planning.', url: '/team/project-management' },
+      { title: 'Product development', description: 'Accelerate innovation for faster, effective team-led product launches.', url: '/team/product-development' },
+      { title: 'Operations', description: 'Optimize workflows for increased team productivity and efficiency.', url: '/team/operations' },
+      { title: 'IT', description: 'Improve IT operations with solutions fostering teamwork and efficiency.', url: '/team/it' },
+      { title: 'Sales', description: 'Maximize sales with tools enhancing team efficiency and insight.', url: '/team/sales' }
+    ],
+    company: [
+      { title: 'Marketing', description: 'Drive marketing outcomes through collaborative strategy and teamwork.', url: '/company/marketing' },
+      { title: 'Human resources', description: 'Enhance team engagement and efficiency with streamlined processes.', url: '/company/human-resources' }
+    ],
+    templates: [
+      { title: 'Template 1', description: 'Pre-built templates for common workflows.', url: '/templates/template1' },
+      { title: 'Template 2', description: 'Customizable templates to streamline tasks.', url: '/templates/template2' }
+    ]
+  };
+
+  // Close dropdown if clicking outside of the dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownVisible(false);
+      }
+    };
+    if (isDropdownVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownVisible]);
+
+  // // Toggle dropdown visibility on Solutions click
+  // const handleSolutionsClick = () => {
+  //   setHoveredItem('team'); // Reset to 'team' by default
+  //   setIsDropdownVisible((prev) => !prev); // Toggle visibility
+  // };
 
   const handleActionButton = () => {
     navigate('/login');
@@ -884,21 +1003,19 @@ const Landing = () => {
         setShowAlert(true);
         setAnimateOut(false);
 
-        // Stay visible for 2 seconds, then trigger the fly out
         setTimeout(() => {
           setAnimateOut(true);
-        }, 2000); // Wait for 2 seconds before transitioning out
+        }, 2000);
 
-        // Hide after the fly out animation
         setTimeout(() => {
           setShowAlert(false);
-        }, 2500); // Total wait time + fly-out duration
+        }, 2500);
 
         setEmail('');
     } catch (error) {
         console.error("Error during subscription:", error);
     }
-};
+  };
 
   const CustomAlert = ({ message, show }) => {
     return (
@@ -943,24 +1060,73 @@ const Landing = () => {
       <HeaderContainer>
         <Header>
           <Logo src={logoImage} alt="GourmetChef Logo" />
-          GourmetChef
+          Gourmet Chef
         </Header>
 
         <HeaderWrapper>
           <MenuWrapper>
             <MenuIcon src={hamburgerIcon} alt="Menu" onClick={toggleMenu} />
             <MenuContent open={isOpen}>
-              <MenuItem href="/">Home</MenuItem>
-              <MenuItem href="/feedback">Feedback</MenuItem>
-              {/* <MenuItem href="/pricing">Pricing</MenuItem> */}
+              <HeaderMenuItem href="/">Home</HeaderMenuItem>
+              <HeaderMenuItem href="/feedback">Feedback</HeaderMenuItem>
+              {/* <HeaderMenuItem href="/docs">Docs</HeaderMenuItem> */}
               <MenuButton onClick={handleActionButton}>Create</MenuButton> {/* Create button */}
             </MenuContent>
           </MenuWrapper>
         </HeaderWrapper>
 
         <ButtonGroup>
-          <HeaderLink to="/feedback">Feedback</HeaderLink>
-          {/* <HeaderLink to="/pricing">Pricing</HeaderLink> */}
+          <div>
+            <DropdownWrapper ref={dropdownRef}>
+              {/* <HeaderLink
+                onClick={handleSolutionsClick}
+                style={{
+                  backgroundColor: isDropdownVisible ? '#e0e4f1' : 'transparent', // Active color
+                  borderRadius: '8px', // Make the background color rounded
+                }}
+              >
+                Solutions
+              </HeaderLink> */}
+
+              {isDropdownVisible && (
+                <DropdownMenuContainer>
+                  <MainMenu>
+                    {menuItems.map((item) => (
+                      <HeaderMenuItem
+                        key={item.id}
+                        className={hoveredItem === item.id ? 'active' : ''}
+                        onClick={() => setHoveredItem(item.id)}
+                      >
+                        {item.label}
+                        <RightArrow />
+                      </HeaderMenuItem>
+                    ))}
+                  </MainMenu>
+
+                  {hoveredItem && (
+                    <SubmenuContainer>
+                      {subItems[hoveredItem].map((subItem, index) => (
+                        <Link
+                          to={subItem.url}
+                          key={index}
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                          <SubmenuItem>
+                            <strong>{subItem.title}</strong>
+                            <p>{subItem.description}</p>
+                          </SubmenuItem>
+                        </Link>
+                      ))}
+                    </SubmenuContainer>
+                  )}
+                </DropdownMenuContainer>
+              )}
+            </DropdownWrapper>
+    </div>
+
+          {/* <HeaderLink href="/environment"><span>Environment</span></HeaderLink>
+          <HeaderLink href="https://nimais-organization.gitbook.io/gourmet-chef-docs/about/team" target="_blank" rel="noopener noreferrer"><span2>Docs</span2></HeaderLink> */}
+          <HeaderLink href="/feedback"><span2>Feedback</span2></HeaderLink>
           <ActionButton onClick={handleActionButton}>Create</ActionButton>
         </ButtonGroup>
       </HeaderContainer>
@@ -983,7 +1149,7 @@ const Landing = () => {
             Find <span>inspiration</span> for your next recipe
           </CenterText>
           
-          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. 100% Free. Coming soon on the App Store!</SubCenterText>
+          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. 100% Free. Coming soon on the App Store & Google Play Store!</SubCenterText>
           
           <CenterTextButtonDiv>
               <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
@@ -1011,10 +1177,10 @@ const Landing = () => {
           <BoxParagraph>GourmetChef offers you personalized, creative, and innovative recipes based on 26 short questions. The AI uses GPT 4o Mini, the latest released model from OpenAI</BoxParagraph>
         </Box>
 
-        <Box>
+        {/* <Box>
           <BoxHeader>Cooking Tips</BoxHeader>
           <BoxParagraph>First time cooking or need want some tips when cooking? Look at our Cooking Tips where we prepared the best tips for you and verified from sources including long time home cooks. Coming out on September 1st</BoxParagraph>
-        </Box>
+        </Box> */}
       </SecondDiv>
 
       <NewsletterContainer>

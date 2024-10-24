@@ -154,26 +154,19 @@ const ReviewSettings = () => {
   const [allergyRestrictions, setAllergyRestrictions] = useState('');
   const [calorieRequirements, setCalorieRequirements] = useState('');
   const [proteinPreferences, setProteinPreferences] = useState('')
-  const [nutritionalGoals, setNutritionalGoals] = useState('');
   const [religionChoice, setReligionChoice] = useState('');
-  const [availableIngredients, setAvailableIngredients] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
   const [healthConditions, setHealthConditions] = useState('');
-  const [kitchenEquipment, setKitchenEquipment] = useState('');
-  const [cookingRestrictions, setCookingRestrictions] = useState('');
   const [otherInstructions, setOtherInstructions] = useState('');
+
   const [isAgeValid, setIsAgeValid] = useState(true);
   const [isDietaryRestrictionsValid, setIsDietaryRestrictionsValid] = useState(true);
   const [isAllergyRestrictionsValid, setIsAllergyRestrictionsValid] = useState(true);
   const [isCalorieRequirementsValid, setIsCalorieRequirementsValid] = useState(true);
   const [isProteinPreferencesValid, setIsProteinPreferencesValid] = useState(true);
-  const [isNutritionalGoalsValid, setIsNutritionalGoalsValid] = useState(true);
   const [isReligionChoiceValid, setIsReligionChoiceValid] = useState(true);
-  const [isAvailableIngredientsValid, setIsAvailableIngredientsValid] = useState(true);
   const [isSkillLevelValid, setIsSkillLevelValid] = useState(true);
   const [isHealthConditionsValid, setIsHealthConditionsValid] = useState(true);
-  const [isKitchenEquipmentValid, setIsKitchenEquipmentValid] = useState(true);
-  const [isCookingRestrictionsValid, setIsCookingRestrictionsValid] = useState(true);
   const [isOtherInstructionsValid, setIsOtherInstructionsValid] = useState(true);
   const [currentCard, setCurrentCard] = useState(1);
   const [currentUser, setCurrentUser] = useState(null);
@@ -194,13 +187,9 @@ const ReviewSettings = () => {
           setAllergyRestrictions(userData.allergyRestrictions || '');
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinPreferences(userData.proteinPreferences || '');
-          setNutritionalGoals(userData.nutritionalGoals || '');
           setReligionChoice(userData.religionChoice || '');
-          setAvailableIngredients(userData.availableIngredients || '');
           setSkillLevel(userData.skillLevel || '');
           setHealthConditions(userData.healthConditions || '');
-          setKitchenEquipment(userData.kitchenEquipment || '');
-          setCookingRestrictions(userData.setCookingRestrictions || '');
           setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
@@ -366,29 +355,29 @@ const ReviewSettings = () => {
     }
   };
 
-  const handleSaveNutritionalGoals = async () => {
-    if (!nutritionalGoals.trim()) {
-      setIsNutritionalGoalsValid(false);
-      return;
-    }
-    setIsNutritionalGoalsValid(true);
+  // const handleSaveNutritionalGoals = async () => {
+  //   if (!nutritionalGoals.trim()) {
+  //     setIsNutritionalGoalsValid(false);
+  //     return;
+  //   }
+  //   setIsNutritionalGoalsValid(true);
   
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
+  //   if (!currentUser) {
+  //     console.error('No current user found');
+  //     return;
+  //   }
   
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
+  //   try {
+  //     const userId = currentUser.uid; // Get the user ID
+  //     const userDocRef = doc(db, 'users', userId);
   
-      await setDoc(userDocRef, { nutritionalGoals }, { merge: true });
+  //     await setDoc(userDocRef, { nutritionalGoals }, { merge: true });
   
-      setCurrentCard(8); // Move to the next card
-    } catch (error) {
-      console.error('Error saving nutritional goals:', error);
-    }
-  };
+  //     setCurrentCard(8); // Move to the next card
+  //   } catch (error) {
+  //     console.error('Error saving nutritional goals:', error);
+  //   }
+  // };
 
   const handleSaveReligionChoice = async () => {
     if (!religionChoice.trim()) {
@@ -408,35 +397,35 @@ const ReviewSettings = () => {
   
       await setDoc(userDocRef, { religionChoice }, { merge: true });
   
-      setCurrentCard(9); // Move to the next card
+      setCurrentCard(8); // Move to the next card
     } catch (error) {
       console.error('Error saving religion choice:', error);
     }
   };
 
-  const handleSaveAvailableIngredients = async () => {
-    if (!availableIngredients.trim()) {
-      setIsAvailableIngredientsValid(false);
-      return;
-    }
-    setIsAvailableIngredientsValid(true);
+  // const handleSaveAvailableIngredients = async () => {
+  //   if (!availableIngredients.trim()) {
+  //     setIsAvailableIngredientsValid(false);
+  //     return;
+  //   }
+  //   setIsAvailableIngredientsValid(true);
   
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
+  //   if (!currentUser) {
+  //     console.error('No current user found');
+  //     return;
+  //   }
   
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
+  //   try {
+  //     const userId = currentUser.uid; // Get the user ID
+  //     const userDocRef = doc(db, 'users', userId);
   
-      await setDoc(userDocRef, { availableIngredients }, { merge: true });
+  //     await setDoc(userDocRef, { availableIngredients }, { merge: true });
   
-      setCurrentCard(10); // Move to the next card
-    } catch (error) {
-      console.error('Error saving available ingredients:', error);
-    }
-  };
+  //     setCurrentCard(10); // Move to the next card
+  //   } catch (error) {
+  //     console.error('Error saving available ingredients:', error);
+  //   }
+  // };
 
   const handleSaveSkillLevel = async () => {
     if (!skillLevel.trim()) {
@@ -456,7 +445,7 @@ const ReviewSettings = () => {
   
       await setDoc(userDocRef, { skillLevel }, { merge: true });
   
-      setCurrentCard(11); // Move to the next card
+      setCurrentCard(9); // Move to the next card
     } catch (error) {
       console.error('Error saving skill level:', error);
     }
@@ -480,59 +469,59 @@ const ReviewSettings = () => {
   
       await setDoc(userDocRef, { healthConditions }, { merge: true });
   
-      setCurrentCard(12); // Move to the next card
+      setCurrentCard(10); // Move to the next card
     } catch (error) {
       console.error('Error saving health conditions:', error);
     }
   };
 
-  const handleSaveKitchenEquipment = async () => {
-    if (!kitchenEquipment.trim()) {
-      setIsKitchenEquipmentValid(false);
-      return;
-    }
-    setIsKitchenEquipmentValid(true);
+  // const handleSaveKitchenEquipment = async () => {
+  //   if (!kitchenEquipment.trim()) {
+  //     setIsKitchenEquipmentValid(false);
+  //     return;
+  //   }
+  //   setIsKitchenEquipmentValid(true);
   
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
+  //   if (!currentUser) {
+  //     console.error('No current user found');
+  //     return;
+  //   }
   
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
+  //   try {
+  //     const userId = currentUser.uid; // Get the user ID
+  //     const userDocRef = doc(db, 'users', userId);
   
-      await setDoc(userDocRef, { kitchenEquipment }, { merge: true });
+  //     await setDoc(userDocRef, { kitchenEquipment }, { merge: true });
   
-      setCurrentCard(13); // Move to the next card
-    } catch (error) {
-      console.error('Error saving kitchen equipment:', error);
-    }
-  };
+  //     setCurrentCard(13); // Move to the next card
+  //   } catch (error) {
+  //     console.error('Error saving kitchen equipment:', error);
+  //   }
+  // };
 
-  const handleSaveCookingRestrictions = async () => {
-    if (!cookingRestrictions.trim()) {
-      setIsCookingRestrictionsValid(false);
-      return;
-    }
-    setIsCookingRestrictionsValid(true);
+  // const handleSaveCookingRestrictions = async () => {
+  //   if (!cookingRestrictions.trim()) {
+  //     setIsCookingRestrictionsValid(false);
+  //     return;
+  //   }
+  //   setIsCookingRestrictionsValid(true);
   
-    if (!currentUser) {
-      console.error('No current user found');
-      return;
-    }
+  //   if (!currentUser) {
+  //     console.error('No current user found');
+  //     return;
+  //   }
   
-    try {
-      const userId = currentUser.uid; // Get the user ID
-      const userDocRef = doc(db, 'users', userId);
+  //   try {
+  //     const userId = currentUser.uid; // Get the user ID
+  //     const userDocRef = doc(db, 'users', userId);
   
-      await setDoc(userDocRef, { cookingRestrictions }, { merge: true });
+  //     await setDoc(userDocRef, { cookingRestrictions }, { merge: true });
   
-      setCurrentCard(14); // Move to the next card
-    } catch (error) {
-      console.error('Error saving cooking restrictions:', error);
-    }
-  };
+  //     setCurrentCard(14); // Move to the next card
+  //   } catch (error) {
+  //     console.error('Error saving cooking restrictions:', error);
+  //   }
+  // };
 
   const handleSaveOtherInstructions = async () => {
     if (!otherInstructions.trim()) {
@@ -552,7 +541,7 @@ const ReviewSettings = () => {
   
       await setDoc(userDocRef, { otherInstructions }, { merge: true });
   
-      setCurrentCard(15); // Move to the next card
+      setCurrentCard(11); // Move to the next card
     } catch (error) {
       console.error('Error saving other instructions:', error);
     }
@@ -594,22 +583,6 @@ const ReviewSettings = () => {
     setCurrentCard(10);
   }
 
-  const handleGoBack11 = async () => {
-    setCurrentCard(11);
-  }
-
-  const handleGoBack12 = async () => {
-    setCurrentCard(12);
-  }
-
-  const handleGoBack13 = async () => {
-    setCurrentCard(13);
-  }
-
-  const handleGoBack14 = async () => {
-    setCurrentCard(14);
-  }
-
   const handleSkipSetup = async () => {
     navigate('/recipeQuestions')
   }
@@ -648,22 +621,6 @@ const ReviewSettings = () => {
 
   const handleGoForward10 = async () => {
     setCurrentCard(11);
-  }
-
-  const handleGoForward11 = async () => {
-    setCurrentCard(12);
-  }
-
-  const handleGoForward12 = async () => {
-    setCurrentCard(13);
-  }
-
-  const handleGoForward13 = async () => {
-    setCurrentCard(14);
-  }
-  
-  const handleGoForward14 = async () => {
-    setCurrentCard(15);
   }
   
   const handleSaveSetup = async () => {
@@ -754,8 +711,8 @@ const ReviewSettings = () => {
 
       {currentCard === 5 && (
         <Card>
-          <h3>Question #4 - Calorie Requirements</h3>
-          <p>Do you have any specific calorie requirements or goals (e.g., low-calorie, high-protein)?</p>
+          <h3>Question #4 - Nutritional Goals</h3>
+          <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
           <InputField
             type="text"
             placeholder="Enter your response"
@@ -796,28 +753,7 @@ const ReviewSettings = () => {
 
       {currentCard === 7 && (
         <Card>
-          <h3>Question #6 - Nutritional Goals</h3>
-          <p>Are you aiming for any specific nutritional goals (e.g., more protein, less sugar)?</p>
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={nutritionalGoals}
-            onChange={(e) => setNutritionalGoals(e.target.value)}
-            isInvalid={!isNutritionalGoalsValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveNutritionalGoals}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 8 && (
-        <Card>
-          <h3>Question #7 - Religion Choice</h3>
+          <h3>Question #6 - Religion Choice</h3>
           <p>Do you follow any religion practices (Ex. Christianity, Hinduism, Islamic, etc.)?</p>
           <InputField
             type="text"
@@ -829,37 +765,16 @@ const ReviewSettings = () => {
           <ButtonContainer>
             <Button onClick={handleSaveReligionChoice}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward8}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack7}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward7}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack6}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 9 && (
+      {currentCard === 8 && (
         <Card>
-          <h3>Question #8 - Available Ingredients</h3>
-          <p>What ingredients do you currently have available?</p>
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={availableIngredients}
-            onChange={(e) => setAvailableIngredients(e.target.value)}
-            isInvalid={!isAvailableIngredientsValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveAvailableIngredients}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward9}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack8}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 10 && (
-        <Card>
-          <h3>Question #9 - Skill Level</h3>
+          <h3>Question #7 - Skill Level</h3>
           <p>What is your cooking skill level (e.g., beginner, intermediate, advanced)?</p>
           <InputField
             type="text"
@@ -871,16 +786,16 @@ const ReviewSettings = () => {
           <ButtonContainer>
             <Button onClick={handleSaveSkillLevel}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward10}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack9}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward8}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack7}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 11 && (
+      {currentCard === 9 && (
         <Card>
-          <h3>Question #10 - Health Conditions</h3>
+          <h3>Question #8 Health Conditions</h3>
           <p>Do you have any health conditions that influence your diet, such as diabetes, high blood pressure, or cholesterol? Explain</p>
           <InputField
             type="text"
@@ -892,58 +807,16 @@ const ReviewSettings = () => {
           <ButtonContainer>
             <Button onClick={handleSaveHealthConditions}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward11}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack10}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward9}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack8}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 12 && (
+      {currentCard === 10 && (
         <Card>
-          <h3>Question #11 - Kitchen Equipment</h3>
-          <p>Do you have any special kitchen equipment you’d like to use, such as an Instant Pot, air fryer, or sous-vide machine?</p>
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={kitchenEquipment}
-            onChange={(e) => setKitchenEquipment(e.target.value)}
-            isInvalid={!isKitchenEquipmentValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveKitchenEquipment}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward12}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack11}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 13 && (
-        <Card>
-          <h3>Question #12 - Cooking Restrictions</h3>
-          <p>Are there any cooking methods or equipment you don’t have or prefer not to use (e.g., oven, blender)?</p>
-          <InputField
-            type="text"
-            placeholder="Enter your response"
-            value={cookingRestrictions}
-            onChange={(e) => setCookingRestrictions(e.target.value)}
-            isInvalid={!isCookingRestrictionsValid}
-          />
-          <ButtonContainer>
-            <Button onClick={handleSaveCookingRestrictions}>Next</Button>
-            <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward13}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack12}>Go Back</GoBackButton>
-            </HorizontalButtonContainer>
-          </ButtonContainer>
-        </Card>
-      )}
-
-      {currentCard === 14 && (
-        <Card>
-          <h3>Question #13 - Other Instructions</h3>
+          <h3>Question #9 - Other Instructions</h3>
           <p>Do you have any other specific notes or instructions?</p>
           <InputField
             type="text"
@@ -955,18 +828,18 @@ const ReviewSettings = () => {
           <ButtonContainer>
             <Button onClick={handleSaveOtherInstructions}>Next</Button>
             <HorizontalButtonContainer>
-              <SkipQuestion onClick={handleGoForward14}>Skip Question</SkipQuestion>
-              <GoBackButton onClick={handleGoBack13}>Go Back</GoBackButton>
+              <SkipQuestion onClick={handleGoForward10}>Skip Question</SkipQuestion>
+              <GoBackButton onClick={handleGoBack9}>Go Back</GoBackButton>
             </HorizontalButtonContainer>
           </ButtonContainer>
         </Card>
       )}
 
-      {currentCard === 15 && (
+      {currentCard === 11 && (
         <Card>
           <h3>Thanks for confirming your questions</h3>
           <p>Next, we will ask you the specifics of your recipe</p>
-          <GoBackButton onClick={handleGoBack14}>Go Back</GoBackButton>
+          <GoBackButton onClick={handleGoBack10}>Go Back</GoBackButton>
           <Button onClick={handleSaveSetup}>Continue</Button>
         </Card>
       )}

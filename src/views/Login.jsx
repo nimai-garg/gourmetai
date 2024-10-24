@@ -215,7 +215,7 @@ const Login = () => {
       <HeaderContainer>
         <LogoTextContainer onClick={handleHomePage}>
           <Logo src={logoImage} alt="GourmetChef Logo" />
-          <Header>GourmetChef</Header>
+          <Header>Gourmet Chef</Header>
         </LogoTextContainer>
       </HeaderContainer>
 
