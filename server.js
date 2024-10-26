@@ -48,7 +48,7 @@ app.post('/updateStaticPrompt', async (req, res) => {
           messages: [{ role: 'user', content: data }],
         }, {
           headers: {
-            'Authorization': `Bearer sk-proj-8AZWAIqvStj7BioLukFeT3BlbkFJV4LAip8PLsLsOfJ48Zly`,
+            'Authorization': `Bearer sk-OcqN4ZYScs0jBjB4G8pim_hIdROzh_sz7MBFUdkqnKT3BlbkFJLaysdR3Ao4EmmxECacDgOvQTWdMo1uikNlXOdXT2kA`,
             'Content-Type': 'application/json',
           },
         });

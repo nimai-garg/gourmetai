@@ -232,13 +232,6 @@ const RecipeGenerator = () => {
       setIsFetchingResponse(true); // Start fetching response
       const response = await axios.post('https://gourmet-chef-b791e2ac51fc.herokuapp.com/updateStaticPrompt', { prompt: combinedPrompt });
       const data = response.data;
-
-      // const titleWithPrefixRemoved = data.choices[0].message.content
-      // .trim()
-      // .split('\n')[0] // Get the first line
-      // .replace(/^###\s*/, ''); // Remove '###' and any following spaces
-
-      // setRecipeTitle(titleWithPrefixRemoved);
   
       setMessages(prevMessages => [
         ...prevMessages,
