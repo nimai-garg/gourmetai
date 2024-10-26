@@ -17,8 +17,17 @@ if (!process.env.OPENAI_API_KEY) {
 app.use(bodyParser.json());
 
 // Use CORS middleware
+// Use CORS middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://gourmetchef.app' : 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests from localhost and production domain
+    if (process.env.NODE_ENV === 'production') {
+      callback(null, origin === 'https://localhost:3000');
+      console.log("Hello");
+    } else {
+      callback(null, true); // Allow all origins in development
+    }
+  },
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
 }));
