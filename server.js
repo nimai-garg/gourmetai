@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 // Use CORS middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://your-production-url.com' : 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? 'https://gourmetchef.app' : 'http://localhost:3000',
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
 }));
