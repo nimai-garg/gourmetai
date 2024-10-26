@@ -3,100 +3,104 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const cors = require('cors');
 const fs = require('fs');
- const path = require('path');
+const path = require('path');
 
- const app = express();
- const port = process.env.PORT || 5001; // Default to 3000 for local development
+const app = express();
+const port = process.env.PORT || 5001; // Default to 5001 for local development
 
- app.use(bodyParser.json());
+// Ensure that OPENAI_API_KEY is defined
+if (!process.env.OPENAI_API_KEY) {
+  console.error('Error: OPENAI_API_KEY is not defined');
+  process.exit(1);
+}
 
- // Use CORS middleware
+app.use(bodyParser.json());
+
+// Use CORS middleware
 app.use(cors({
-  origin: 'http://localhost:3000',  // Your frontend origin
-  methods: 'GET,POST,PUT,DELETE',   // Allowed HTTP methods
-  allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+  origin: process.env.NODE_ENV === 'production' ? 'https://your-production-url.com' : 'http://localhost:3000',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
 }));
 
-app.options('*', cors()); // Include this to handle preflight OPTIONS requests
-
+app.options('*', cors()); // To handle preflight requests
 
 const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
 const nonStaticPromptPath = path.join(__dirname, 'userPrompt.txt');
 
+// Function to validate prompt input
+function validatePrompt(prompt) {
+  return typeof prompt === 'string' && prompt.trim().length > 0 && prompt.length <= 500;
+}
+
 app.post('/updateStaticPrompt', async (req, res) => {
-  console.log('Received request at /updateNonStaticPrompt');
+  console.log('Received request at /updateStaticPrompt');
   const { prompt } = req.body;
-  const assistantName = "GourmetBot"; // Replace with your desired name
-  // Add the assistant's name to the prompt
+
+  if (!validatePrompt(prompt)) {
+    return res.status(400).json({ error: 'Invalid prompt input' });
+  }
+
+  const assistantName = "GourmetBot";
   const fullPrompt = `You are ${assistantName}. ${prompt}`;
-  // Write the new static prompt to the .txt file
-  fs.writeFile(staticPromptPath, fullPrompt, 'utf8', async (err) => {
-    if (err) {
-      console.error('Error writing to file:', err);
-      return res.status(500).json({ error: 'Failed to write to file' });
-    }
-    // Read the prompt from the .txt file
-    fs.readFile(staticPromptPath, 'utf8', async (err, data) => {
-      if (err) {
-        console.error('Error reading file:', err);
-        return res.status(500).json({ error: 'Failed to read file' });
+
+  try {
+    // Write the new static prompt to the .txt file
+    await fs.promises.writeFile(staticPromptPath, fullPrompt, 'utf8');
+    const data = await fs.promises.readFile(staticPromptPath, 'utf8');
+
+    // Send the prompt to the OpenAI API
+    const response = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      { model: 'gpt-4', messages: [{ role: 'user', content: data }] },
+      {
+        headers: {
+          'Authorization': `Bearer sk-xiI57ty6KLVdBlFAJRDzoAIcnrKMao5yb8plQkfUJ3T3BlbkFJICr568BvqkLcoMGOorx5nKr9fOSNTVSzgT45p8zYUA`,
+          'Content-Type': 'application/json',
+        },
       }
-      // Send the prompt to the OpenAI API
-      try {
-        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-          model: 'gpt-4o-mini',
-          messages: [{ role: 'user', content: data }],
-        }, {
-          headers: {
-            'Authorization': `Bearer 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`,
-            'Content-Type': 'application/json',
-          },
-        });
-        res.json(response.data);
-      } catch (error) {
-        console.error('Error calling OpenAI API:', error);
-        res.status(500).json({ error: 'Failed to communicate with OpenAI API' });
-      }
-    });
-  });
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error handling /updateStaticPrompt:', error);
+    res.status(500).json({ error: 'An internal error occurred' });
+  }
 });
+
 app.post('/updateNonStaticPrompt', async (req, res) => {
   console.log('Received request at /updateNonStaticPrompt');
   const { prompt } = req.body;
-  const assistantName = "GourmetBot"; // Replace with your desired name
-  // Add the assistant's name to the prompt
+
+  if (!validatePrompt(prompt)) {
+    return res.status(400).json({ error: 'Invalid prompt input' });
+  }
+
+  const assistantName = "GourmetBot";
   const fullPrompt = `You are ${assistantName}. ${prompt}`;
-  // Write the new non-static prompt to the .txt file
-  fs.writeFile(nonStaticPromptPath, fullPrompt, 'utf8', async (err) => {
-    if (err) {
-      console.error('Error writing to file:', err);
-      return res.status(500).json({ error: 'Failed to write to file' });
-    }
-    // Read the prompt from the .txt file
-    fs.readFile(nonStaticPromptPath, 'utf8', async (err, data) => {
-      if (err) {
-        console.error('Error reading file:', err);
-        return res.status(500).json({ error: 'Failed to read file' });
+
+  try {
+    // Write the new non-static prompt to the .txt file
+    await fs.promises.writeFile(nonStaticPromptPath, fullPrompt, 'utf8');
+    const data = await fs.promises.readFile(nonStaticPromptPath, 'utf8');
+
+    // Send the prompt to the OpenAI API
+    const response = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      { model: 'gpt-4', messages: [{ role: 'user', content: data }] },
+      {
+        headers: {
+          'Authorization': `Bearer sk-xiI57ty6KLVdBlFAJRDzoAIcnrKMao5yb8plQkfUJ3T3BlbkFJICr568BvqkLcoMGOorx5nKr9fOSNTVSzgT45p8zYUA`,
+          'Content-Type': 'application/json',
+        },
       }
-      // Send the prompt to the OpenAI API
-      try {
-        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-          model: 'gpt-4o-mini',
-          messages: [{ role: 'user', content: data }],
-        }, {
-          headers: {
-            'Authorization': `Bearer sk-proj-8AZWAIqvStj7BioLukFeT3BlbkFJV4LAip8PLsLsOfJ48Zly`,
-            'Content-Type': 'application/json',
-          },
-        });
-        res.json(response.data);
-      } catch (error) {
-        console.error('Error calling OpenAI API:', error);
-        res.status(500).json({ error: 'Failed to communicate with OpenAI API' });
-      }
-    });
-  });
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error handling /updateNonStaticPrompt:', error);
+    res.status(500).json({ error: 'An internal error occurred' });
+  }
 });
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
