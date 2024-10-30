@@ -212,6 +212,28 @@ const OptionButton = styled.button`
     border: 1.2px solid gray;
     transform: scale(1.05); /* Expand the button slightly on hover */
   }
+
+  span {
+    color: red;
+  }
+`;
+
+const OptionSystemDownButton = styled.button`
+  color: #000000;
+  background-color: transparent;
+  border: 1.2px solid #ECECEC;
+  border-radius: 10px;
+  padding: 60px 0px;
+  width: 250px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'SFPro-Semibold', sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s; /* Add a smooth transition for hover effect */
+
+  span {
+    color: red;
+  }
 `;
 
 const Footer = styled.footer`
@@ -348,9 +370,9 @@ const Landing = () => {
     navigate('/editSettings');
   };
 
-  const handleRecipeSetup = async () => {
-    navigate('/reviewSettings')
-  };
+  // const handleRecipeSetup = async () => {
+  //   navigate('/reviewSettings')
+  // };
   
   // const handleCookingTips = async () => {
   //   // navigate('/cookingTips');
@@ -423,7 +445,15 @@ const Landing = () => {
         )}
         
           <ButtonContainer>
-            <OptionButton onClick={handleRecipeSetup}>AI Recipe Generator</OptionButton>
+            {/* <OptionButton onClick={handleRecipeSetup}>
+                AI Recipe Generator
+              </OptionButton> */}
+
+              <OptionSystemDownButton>
+                AI Recipe Generator
+                <br/>
+                <span><br/>Maintenance <br/> done by November 8th</span>
+              </OptionSystemDownButton>
             <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
             <br></br>
           </ButtonContainer>
