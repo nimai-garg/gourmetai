@@ -370,9 +370,9 @@ const Landing = () => {
     navigate('/editSettings');
   };
 
-  // const handleRecipeSetup = async () => {
+  //  const handleRecipeSetup = async () => {
   //   navigate('/reviewSettings')
-  // };
+  //  };
   
   // const handleCookingTips = async () => {
   //   // navigate('/cookingTips');
@@ -445,15 +445,13 @@ const Landing = () => {
         )}
         
           <ButtonContainer>
-            {/* <OptionButton onClick={handleRecipeSetup}>
+            <OptionSystemDownButton>
+                <span>Maintenance <br></br>Expected: January 2025</span>
+                <br></br>
+                <br></br>
                 AI Recipe Generator
-              </OptionButton> */}
+            </OptionSystemDownButton>
 
-              <OptionSystemDownButton>
-                AI Recipe Generator
-                <br/>
-                <span><br/>Maintenance <br/> done by November 8th</span>
-              </OptionSystemDownButton>
             <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
             <br></br>
           </ButtonContainer>
