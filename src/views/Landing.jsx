@@ -1049,7 +1049,7 @@ const Landing = () => {
 
   const data = [
     { title: "What is GourmetChef?", content: "GourmetChef is an AI-powered app that provides personalized cooking recipes based on your dietary needs, available ingredients, calorie requirements, and preferences. It helps you discover new recipes tailored to your unique requirements." },
-    { title: "Is GourmetChef free to use?", content: "GourmetChef is currently 100% free with no pricing plans at the moment. We plan to release the pricing plans in late 2024." },
+    { title: "Is GourmetChef free to use?", content: "GourmetChef is currently 100% free with no pricing plans at the moment. We plan to release the pricing plans in mid 2025." },
     { title: "How does GourmetChef customize recipes for me?", content: "GourmetChef uses AI to analyze your inputs such as available ingredients, dietary restrictions, calorie needs, and more. It then generates a recipe that matches your inputs with the description, ingredients, and recipe." },
     { title: "Is my data secure with GourmetChef?", content: "Yes, we prioritize your privacy and security. GourmetChef uses encryption and secure protocols to protect your data and personal information. Your inputs are secured safely on Google Firebase which are accessible by Nimai (the founder of GourmetChef). The data you provide us will never be publicized without your consent. Your password is never shared with Google, GourmetChef, Nimai, or anyone. If you forgot your password, please contact Nimai at +1 650-272-7186 for assistance." },
     { title: "How can I provide feedback or report a bug?", content: "You can provide feedback or report bugs directly through the app by navigating to the 'Feedback' section. Alternatively, you can email us at nimaigarg08@gmail.com" }
@@ -1223,7 +1223,7 @@ const Landing = () => {
       <Footer>
         <FooterLine />
         <FooterContent>
-          <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
+          <FooterText>© 2025 GourmetChef. All rights reserved.</FooterText>
           
           <FooterLinks>
             <FooterLink href="/legal/terms-of-use">Terms of Use</FooterLink>
