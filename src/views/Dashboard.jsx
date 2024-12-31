@@ -460,7 +460,7 @@ const Landing = () => {
       <Footer>
         <FooterLine />
         <FooterContent>
-          <FooterText>© 2024 GourmetChef. All rights reserved.</FooterText>
+          <FooterText>© 2025 GourmetChef. All rights reserved.</FooterText>
           
           <FooterLinks>
             <FooterLink href="/legal/terms-of-use">Terms of Use</FooterLink>
