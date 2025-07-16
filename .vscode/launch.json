@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "React: debug client-side",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}/src",
+        "sourceMaps": true
+      },
+      {
+        "name": "React: debug full stack (Node + React)",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/react-scripts/scripts/start.js",
+        "runtimeArgs": ["--inspect"],
+        "skipFiles": ["<node_internals>/**"],
+        "serverReadyAction": {
+          "action": "debugWithChrome",
+          "killOnServerStop": true,
+          "pattern": "Starting the development server.+(http://localhost:\\d+)",
+          "uriFormat": "%s",
+          "webRoot": "${workspaceFolder}/src"
+        },
+        "env": {
+          "BROWSER": "none"
+        }
+      }
+    ]
+  }

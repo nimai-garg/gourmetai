@@ -1,6 +1,6 @@
 import React,  { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import logoImage from '../images/logo.png';
+ 
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../firebaseConfig';
 import SettingsImage from '../images/settings-icon.png';
@@ -70,21 +70,21 @@ const HeaderWrapper = styled.header`
   }
 `;
 
-const Logo = styled.img`
-  height: 90px;
-  width: 100px;
-  margin-right: 10px;
+// const Logo = styled.img`
+//   height: 90px;
+//   width: 100px;
+//   margin-right: 10px;
 
-  @media (max-width: 768px) {
-    height: 30px;
-    width: 30px;
-  }
+//   @media (max-width: 768px) {
+//     height: 30px;
+//     width: 30px;
+//   }
 
-    @media (max-width: 600px) {
-    height: 75px;
-    width: 90px;
-  }
-`;
+//     @media (max-width: 600px) {
+//     height: 75px;
+//     width: 90px;
+//   }
+// `;
 
 const NavigationButtonDiv = styled.div`
   display: flex;
@@ -218,23 +218,23 @@ const OptionButton = styled.button`
   }
 `;
 
-const OptionSystemDownButton = styled.button`
-  color: #000000;
-  background-color: transparent;
-  border: 1.2px solid #ECECEC;
-  border-radius: 10px;
-  padding: 60px 0px;
-  width: 250px;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: 'SFPro-Semibold', sans-serif;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s; /* Add a smooth transition for hover effect */
+// const OptionSystemDownButton = styled.button`
+//   color: #000000;
+//   background-color: transparent;
+//   border: 1.2px solid #ECECEC;
+//   border-radius: 10px;
+//   padding: 60px 0px;
+//   width: 250px;
+//   font-size: 1rem;
+//   font-weight: 500;
+//   font-family: 'SFPro-Semibold', sans-serif;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//   transition: all 0.3s; /* Add a smooth transition for hover effect */
 
-  span {
-    color: red;
-  }
-`;
+//   span {
+//     color: red;
+//   }
+// `;
 
 const Footer = styled.footer`
   width: 100%;
@@ -382,6 +382,10 @@ const Landing = () => {
     navigate('/nutritionalData');
   }
 
+  const handleRecipeGenerator = async () => {
+    navigate('/recipeGenerator');
+  }
+
   const handleSettings = async() => {
     navigate('/settings');
   }
@@ -421,7 +425,7 @@ const Landing = () => {
     <PageContainer>
       <HeaderContainer>
         <Header>
-        <Logo src={logoImage} alt="GourmetChef Logo" />
+        {/* <Logo src={logoImage} alt="GourmetChef Logo" /> */}
           Gourmet Chef
         </Header>
       
@@ -445,13 +449,14 @@ const Landing = () => {
         )}
         
           <ButtonContainer>
-            <OptionSystemDownButton>
+            {/* <OptionSystemDownButton>
                 <span>Maintenance <br></br>Expected: January 2025</span>
                 <br></br>
                 <br></br>
                 AI Recipe Generator
-            </OptionSystemDownButton>
+            </OptionSystemDownButton> */}
 
+            <OptionButton onClick={handleRecipeGenerator}>AI Recipe Generator</OptionButton>
             <OptionButton onClick={handleNutritionalData}>Nutritional Data & Insights</OptionButton>
             <br></br>
           </ButtonContainer>

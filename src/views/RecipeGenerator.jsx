@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth, logOut } from '../firebaseConfig';
-import logoImage from '../images/logo.png';
+import axios from 'axios';
 
 // Styled Components
 const PageContainer = styled.div`
@@ -27,19 +26,19 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const Logo = styled.img`
-  height: 90px;
-  width: auto;
-  margin-right: 10px;
+// const Logo = styled.img`
+//   height: 90px;
+//   width: auto;
+//   margin-right: 10px;
 
-  @media (max-width: 768px) {
-    height: 60px;
-  }
+//   @media (max-width: 768px) {
+//     height: 60px;
+//   }
 
-  @media (max-width: 480px) {
-    height: 50px;
-  }
-`;
+//   @media (max-width: 480px) {
+//     height: 50px;
+//   }
+// `;
 
 const Header = styled.div`
   display: flex;
@@ -206,44 +205,62 @@ const RecipeGenerator = () => {
 
   // Memoize sendStaticPrompt with useCallback
   const sendStaticPrompt = useCallback(async () => {
-    if (!userData) return; // Ensure userData is available
+  if (!userData) return;
 
-    const staticText = "Give the dish name, details, servings, ingredients, recipe steps, and nutritional information";
-  
-    const combinedPrompt = `${staticText}
-      Age: ${userData.age || ''}
-      Dietary Restrictions: ${userData.dietaryRestrictions || 'None'}
-      Allergy Restrictions: ${userData.allergyRestrictions || 'None'}
-      Calorie Requirements: ${userData.calorieRequirements || 'None'}
-      Protein Preferences: ${userData.proteinPreferences || 'None'}
-      Religion Choice: ${userData.religionChoice || 'None'}
-      Skill Level: ${userData.skillLevel || 'None'}
-      Health Conditions: ${userData.healthConditions || 'None'}
-      Other Instructions: ${userData.otherInstructions || 'None'};
-      Cuisine Preferences: ${userData.cuisinePreference || 'None'};
-      Flavor Preference: ${userData.flavorPreference || 'None'};
-      Cooking Time: ${userData.cookingTime || 'None'};
-      Servings Needed: ${userData.servingsNeeded || 'None'};
-      Meal Type: ${userData.mealType || 'None'};
-      Age Check: ${userData.ageCheck || 'None'};
-    `
-  
-    try {
-      setIsFetchingResponse(true); // Start fetching response
-      const response = await axios.post('https://gourmet-chef-b791e2ac51fc.herokuapp.com/updateStaticPrompt', { prompt: combinedPrompt });
-      const data = response.data;
-  
-      setMessages(prevMessages => [
-        ...prevMessages,
-        { type: 'bot', text: formatMessage(data.choices[0].message.content.trim()) }
-      ]);
-    } catch (error) {
-      console.error('Error sending static prompt to backend:', error);
-    } finally {
-      setIsFetchingResponse(false); // Stop fetching response
-    }
-  }, [userData]); // Include userData in the dependency array
+  const staticText = "Give the dish name, details, servings, ingredients, recipe steps, and nutritional information";
 
+  const combinedPrompt = `${staticText}
+    Age: ${userData.age || ''}
+    Dietary Restrictions: ${userData.dietaryRestrictions || 'None'}
+    Allergy Restrictions: ${userData.allergyRestrictions || 'None'}
+    Calorie Requirements: ${userData.calorieRequirements || 'None'}
+    Protein Preferences: ${userData.proteinPreferences || 'None'}
+    Religion Choice: ${userData.religionChoice || 'None'}
+    Skill Level: ${userData.skillLevel || 'None'}
+    Health Conditions: ${userData.healthConditions || 'None'}
+    Other Instructions: ${userData.otherInstructions || 'None'};
+    Cuisine Preferences: ${userData.cuisinePreference || 'None'};
+    Flavor Preference: ${userData.flavorPreference || 'None'};
+    Cooking Time: ${userData.cookingTime || 'None'};
+    Servings Needed: ${userData.servingsNeeded || 'None'};
+    Meal Type: ${userData.mealType || 'None'};
+    Age Check: ${userData.ageCheck || 'None'};
+  `;
+
+  try {
+    setIsFetchingResponse(true);
+
+    const response = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      {
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: 'You are a helpful recipe assistant' },
+          { role: 'user', content: combinedPrompt }
+        ],
+        temperature: 0.7
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    const content = response.data.choices[0].message.content;
+
+    setMessages(prev => [
+      ...prev,
+      { type: 'bot', text: formatMessage(content.trim()) }
+    ]);
+  } catch (error) {
+    console.error('Error calling OpenAI:', error);
+  } finally {
+    setIsFetchingResponse(false);
+  }
+}, [userData]);
+  
   useEffect(() => {
     if (userData) {
       sendStaticPrompt();
@@ -295,7 +312,7 @@ const RecipeGenerator = () => {
     <PageContainer>
       <HeaderContainer>
       <Header onClick={handleHeaderClick}>
-          <Logo src={logoImage} alt="GourmetChef Logo" />
+          {/* <Logo src={logoImage} alt="GourmetChef Logo" /> */}
           Gourmet Chef
         </Header>
         <NavigationButtonDiv>

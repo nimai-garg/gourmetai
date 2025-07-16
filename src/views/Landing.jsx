@@ -2,24 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { db } from '../firebaseConfig';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import logoImage from '../images/logo.png';
+ 
 import mockupImage from '../images/mockup.png';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/geist-sans';
 import '@fontsource/geist-mono';
-import '../fonts/CalSans-SemiBold.otf';
-import '../fonts/SFPro-BlackItalic.OTF';
-import '../fonts/SFPro-Bold.OTF';
-import '../fonts/SFPro-HeavyItalic.OTF';
-import '../fonts/SFPro-LightItalic.OTF';
-import '../fonts/SFPro-Medium.OTF';
-import '../fonts/SFPro-Regular.OTF';
-import '../fonts/SFPro-SemiboldItalic.OTF';
-import '../fonts/SFPro-ThinItalic.OTF';
-import '../fonts/SFPro-UltraLightItalic.OTF';
+ 
 import '../fonts/fonts.css';
-import hamburgerIcon from '../images/hamburger-icon.svg'; // Update with the path to your hamburger icon
-// import externalLinkImage from '../images/external-link.svg'; // Adjust the path as necessary
+import hamburgerIcon from '../images/hamburger-icon.svg'; 
 import { FaInstagram, FaLinkedin, FaCheck, FaChevronRight, FaChevronDown, FaAngleRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom'; // Import Link for routing
 
@@ -62,19 +52,19 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const Logo = styled.img`
-  height: 90px;
-  width: auto;
-  margin-right: 10px;
+// const Logo = styled.img`
+//   height: 90px;
+//   width: auto;
+//   margin-right: 10px;
 
-  @media (max-width: 768px) {
-    height: 60px;
-  }
+//   @media (max-width: 768px) {
+//     height: 60px;
+//   }
 
-  @media (max-width: 480px) {
-    height: 50px;
-  }
-`;
+//   @media (max-width: 480px) {
+//     height: 50px;
+//   }
+// `;
 
 const Header = styled.div`
   display: flex;
@@ -1059,7 +1049,7 @@ const Landing = () => {
     <PageContainer>
       <HeaderContainer>
         <Header>
-          <Logo src={logoImage} alt="GourmetChef Logo" />
+          {/* <Logo src={logoImage} alt="GourmetChef Logo" /> */}
           Gourmet Chef
         </Header>
 
@@ -1149,7 +1139,7 @@ const Landing = () => {
             Find <span>inspiration</span> for your next recipe
           </CenterText>
           
-          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. 100% Free. Coming soon on the App Store & Google Play Store!</SubCenterText>
+          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o. 100% Free. </SubCenterText>
           
           <CenterTextButtonDiv>
               <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>

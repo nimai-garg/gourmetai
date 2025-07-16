@@ -2,114 +2,167 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const cors = require('cors');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
-
 const app = express();
-const port = process.env.PORT || 5001; // Default to 5001 for local development
+const port = process.env.PORT || 5001;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'sk-NUcZRBGroHFItwm1fdXti5_IxSiLcze32hRSClokhMT3BlbkFJwLb8in-N07nm23QaafZADgtkJPR5uMyh7_QoFrc8cA';
 
-// Ensure that OPENAI_API_KEY is defined
-if (!process.env.OPENAI_API_KEY) {
-  console.error('Error: OPENAI_API_KEY is not defined');
-  process.exit(1);
-}
+// Then use OPENAI_API_KEY instead of process.env.OPENAI_API_KEY in your axios request
 
+require('dotenv').config();
+
+// Middleware
 app.use(bodyParser.json());
 
-// Use CORS middleware
-// Use CORS middleware
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests from localhost and production domain
-    if (process.env.NODE_ENV === 'production') {
-      callback(null, origin === 'https://localhost:3000');
-      console.log("Hello");
-    } else {
-      callback(null, true); // Allow all origins in development
-    }
-  },
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-}));
+// In your Express backend server
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://gourmetchef.app', 'https://www.gourmetchef.app']
+    : 'http://localhost:3000',  // Note: this is a string, not an array for development
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
 
-app.options('*', cors()); // To handle preflight requests
+app.use(cors(corsOptions));
 
-const staticPromptPath = path.join(__dirname, 'staticPrompt.txt');
-const nonStaticPromptPath = path.join(__dirname, 'userPrompt.txt');
+// Validate environment variables
+function validateEnv() {
+  if (!OPENAI_API_KEY) {
+    console.error('Error: OPENAI_API_KEY is not defined');
+    process.exit(1);
+  }
+}
 
-// Function to validate prompt input
+validateEnv();
+
+// Input validation
 function validatePrompt(prompt) {
-  return typeof prompt === 'string' && prompt.trim().length > 0 && prompt.length <= 500;
+  return typeof prompt === 'string' && 
+         prompt.trim().length > 0 && 
+         prompt.length <= 1000;
+}
+
+// Helper function for OpenAI API calls
+async function callOpenAI(prompt) {
+  try {
+    const response = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      {
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }]
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('OpenAI API Error:', error.response?.data || error.message);
+    throw new Error('Failed to process request with OpenAI');
+  }
 }
 
 app.post('/updateStaticPrompt', async (req, res) => {
-  console.log('Received request at /updateStaticPrompt');
-  const { prompt } = req.body;
-
-  if (!validatePrompt(prompt)) {
-    return res.status(400).json({ error: 'Invalid prompt input' });
-  }
-
-  const assistantName = "GourmetBot";
-  const fullPrompt = `You are ${assistantName}. ${prompt}`;
-
   try {
-    // Write the new static prompt to the .txt file
-    await fs.promises.writeFile(staticPromptPath, fullPrompt, 'utf8');
-    const data = await fs.promises.readFile(staticPromptPath, 'utf8');
+    // Add debug logging
+    console.log('Environment variables:', {
+      NODE_ENV: process.env.NODE_ENV,
+      OPENAI_API_KEY: OPENAI_API_KEY  ? 'Present' : 'Missing',
+      PORT: process.env.PORT
+    });
+    console.log('Received prompt:', req.body.prompt);
 
-    // Send the prompt to the OpenAI API
+    // Check if API key is available
+    if (!OPENAI_API_KEY) {
+      console.error('OpenAI API key is missing');
+      throw new Error('OpenAI API key is not configured');
+    }
+
+    const { prompt } = req.body;
+    
+    // Log the request to OpenAI
+    console.log('Sending request to OpenAI...');
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
-      { model: 'gpt-4', messages: [{ role: 'user', content: data }] },
+      {
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }]
+      },
       {
         headers: {
-          'Authorization': `Bearer sk-xiI57ty6KLVdBlFAJRDzoAIcnrKMao5yb8plQkfUJ3T3BlbkFJICr568BvqkLcoMGOorx5nKr9fOSNTVSzgT45p8zYUA`,
-          'Content-Type': 'application/json',
-        },
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
       }
     );
+    
+    console.log('Received response from OpenAI');
     res.json(response.data);
   } catch (error) {
-    console.error('Error handling /updateStaticPrompt:', error);
-    res.status(500).json({ error: 'An internal error occurred' });
+    console.error('Detailed error:', {
+      message: error.message,
+      response: error.response?.data,
+      stack: error.stack
+    });
+    
+    res.status(500).json({ 
+      error: 'An error occurred while processing your request',
+      details: error.message
+    });
   }
 });
 
+// Route handler for non-static prompt
 app.post('/updateNonStaticPrompt', async (req, res) => {
-  console.log('Received request at /updateNonStaticPrompt');
-  const { prompt } = req.body;
-
-  if (!validatePrompt(prompt)) {
-    return res.status(400).json({ error: 'Invalid prompt input' });
-  }
-
-  const assistantName = "GourmetBot";
-  const fullPrompt = `You are ${assistantName}. ${prompt}`;
-
   try {
-    // Write the new non-static prompt to the .txt file
-    await fs.promises.writeFile(nonStaticPromptPath, fullPrompt, 'utf8');
-    const data = await fs.promises.readFile(nonStaticPromptPath, 'utf8');
+    const { prompt } = req.body;
+    
+    if (!validatePrompt(prompt)) {
+      return res.status(400).json({ 
+        error: 'Invalid prompt. Must be a string between 1 and 1000 characters.' 
+      });
+    }
 
-    // Send the prompt to the OpenAI API
-    const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      { model: 'gpt-4', messages: [{ role: 'user', content: data }] },
-      {
-        headers: {
-          'Authorization': `Bearer sk-xiI57ty6KLVdBlFAJRDzoAIcnrKMao5yb8plQkfUJ3T3BlbkFJICr568BvqkLcoMGOorx5nKr9fOSNTVSzgT45p8zYUA`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    res.json(response.data);
+    const assistantName = "GourmetBot";
+    const fullPrompt = `You are ${assistantName}. ${prompt}`;
+    const nonStaticPromptPath = path.join(__dirname, 'userPrompt.txt');
+
+    // Write prompt to file
+    await fs.writeFile(nonStaticPromptPath, fullPrompt, 'utf8');
+    
+    // Call OpenAI API
+    const apiResponse = await callOpenAI(fullPrompt);
+    
+    res.json(apiResponse);
   } catch (error) {
-    console.error('Error handling /updateNonStaticPrompt:', error);
-    res.status(500).json({ error: 'An internal error occurred' });
+    console.error('Error in /updateNonStaticPrompt:', error);
+    res.status(500).json({ 
+      error: 'An internal server error occurred',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy' });
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  console.log('API Key status:', {
+    exists: !!OPENAI_API_KEY,
+    length: OPENAI_API_KEY ?.length || 0
+  });
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received. Shutting down gracefully...');
+  process.exit(0);
 });

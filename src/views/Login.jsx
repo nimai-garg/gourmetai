@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { signInWithGoogle, signInWithEmail, auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import googleLogo from '../images/google.png'; // Import your Google logo here
-import logoImage from '../images/logo.png';
+ 
 
 const PageContainer = styled.div`
   display: flex;
@@ -53,16 +53,16 @@ const Header = styled.div`
   }
 `;
 
-const Logo = styled.img`
-  height: 90px;
-  width: 100px;
-  margin-right: 10px;
+// const Logo = styled.img`
+//   height: 90px;
+//   width: 100px;
+//   margin-right: 10px;
 
-  @media (max-width: 768px) {
-    height: 30px;
-    width: 30px;
-  }
-`;
+//   @media (max-width: 768px) {
+//     height: 30px;
+//     width: 30px;
+//   }
+// `;
 
 const Card = styled.div`
   width: 100%;
@@ -214,7 +214,7 @@ const Login = () => {
     <PageContainer>
       <HeaderContainer>
         <LogoTextContainer onClick={handleHomePage}>
-          <Logo src={logoImage} alt="GourmetChef Logo" />
+          {/* <Logo src={logoImage} alt="GourmetChef Logo" /> */}
           <Header>Gourmet Chef</Header>
         </LogoTextContainer>
       </HeaderContainer>
