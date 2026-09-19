@@ -1,36 +1,46 @@
 const axios = require('axios');
-
-exports.handler = async function (event, context) {
-  const body = JSON.parse(event.body);
-  const prompt = body.prompt;
-
+const json = (statusCode, body) => ({ statusCode,
+  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }, body: JSON.stringify(body) });
+exports.handler = async function (event) {
+  if (event.httpMethod !== 'POST') return json(405, { error: 'Use POST for recipe requests.' });
+  let body;
+  try { body = JSON.parse(event.body || '{}'); }
+  catch { return json(400, { error: 'The request must contain valid JSON.' }); }
+  const prompt = body?.prompt;
+  if (typeof prompt !== 'string' || !prompt.trim() || prompt.length > 12000)
+    return json(400, { error: 'Enter a recipe request between 1 and 12,000 characters.' });
+  const authorization = event.headers?.authorization || event.headers?.Authorization || '';
+  if (!authorization.startsWith('Bearer ') || !authorization.slice(7).trim())
+    return json(401, { error: 'Please sign in to generate recipes.' });
+  const firebaseKey = process.env.FIREBASE_API_KEY || process.env.REACT_APP_FIREBASE_API_KEY;
+  if (!process.env.OPENAI_API_KEY || !firebaseKey)
+    return json(503, { error: 'Recipe generation is not configured. Please contact the site owner.' });
   try {
-    const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      {
-        model: 'gpt-4o',
-        messages: [
-          { role: 'system', content: 'You are a helpful recipe assistant.' },
-          { role: 'user', content: prompt }
-        ],
-        temperature: 0.7
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ reply: response.data.choices[0].message.content })
-    };
+    const account = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup',
+      { idToken: authorization.slice(7) }, { params: { key: firebaseKey }, timeout: 10000 });
+    if (!account.data.users?.[0]?.localId || account.data.users[0].disabled)
+      return json(401, { error: 'Please sign in again to generate recipes.' });
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message })
-    };
+    const invalidToken = ['INVALID_ID_TOKEN', 'TOKEN_EXPIRED', 'USER_DISABLED', 'USER_NOT_FOUND']
+      .includes(error.response?.data?.error?.message);
+    return json(invalidToken ? 401 : 503, { error: invalidToken
+      ? 'Please sign in again to generate recipes.' : 'Sign-in verification is unavailable. Please try again.' });
+  }
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: process.env.OPENAI_MODEL || 'gpt-4o',
+      messages: [
+        { role: 'system', content: 'You are a helpful recipe assistant. Respect supplied dietary restrictions and allergies. Nutritional values are estimates.' },
+        { role: 'user', content: prompt.trim() }
+      ], temperature: 0.7
+    }, { headers: { Authorization: 'Bearer ' + process.env.OPENAI_API_KEY }, timeout: 25000 });
+    const reply = response.data.choices?.[0]?.message?.content;
+    if (typeof reply !== 'string' || !reply.trim()) throw new Error('Empty recipe');
+    return json(200, { reply: reply.trim() });
+  } catch (error) {
+    const status = error.response?.status === 429 ? 429 : 502;
+    return json(status, { error: status === 429
+      ? 'Recipe generation is busy or its quota has been reached. Please try again later.'
+      : 'Unable to generate a recipe right now. Please try again.' });
   }
 };

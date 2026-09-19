@@ -1,0 +1,22 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Setup from './Setup';
+import { getDoc, setDoc } from 'firebase/firestore';
+import { auth } from '../firebaseConfig';
+jest.mock('firebase/firestore', () => ({ doc: jest.fn(), getDoc: jest.fn(), setDoc: jest.fn() }));
+jest.mock('../firebaseConfig', () => ({ auth: { onAuthStateChanged: jest.fn() }, db: {}, logOut: jest.fn() }));
+test('loads saved dietary text and lets a user deselect and save it', async () => {
+  const user = { uid: 'test-user' };
+  auth.onAuthStateChanged.mockImplementation(callback => { callback(user); return () => {}; });
+  getDoc.mockResolvedValue({ exists: () => true, data: () => ({ firstName: 'Saved', dietaryRestrictions: 'Vegan, Keto' }) });
+  setDoc.mockResolvedValue();
+  render(<MemoryRouter><Setup /></MemoryRouter>);
+  await waitFor(() => expect(getDoc).toHaveBeenCalled());
+  fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+  await screen.findByDisplayValue('Saved');
+  for (let i = 0; i < 3; i++) fireEvent.click(screen.getByRole('button', { name: 'Skip Question' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Vegan' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+  await waitFor(() => expect(setDoc).toHaveBeenCalledWith(undefined, { dietaryRestrictions: 'Keto' }, { merge: true }));
+  expect(await screen.findByText('Question #5 - Allergy Restrictions')).toBeInTheDocument();
+});

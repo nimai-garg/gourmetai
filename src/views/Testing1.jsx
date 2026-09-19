@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../firebaseConfig'; // Adjust the path as needed
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 
 const SubscribeForm = () => {
     const [email, setEmail] = useState('');
@@ -9,18 +9,7 @@ const SubscribeForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const docRef = doc(db, "newsletter", "users");
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                await setDoc(docRef, {
-                    emails: [...(docSnap.data().emails || []), email]
-                }, { merge: true });
-            } else {
-                await setDoc(docRef, {
-                    emails: [email]
-                });
-            }
+            await addDoc(collection(db, 'newsletter'), { email: email.trim().toLowerCase() });
 
             setMessage('Subscription successful!');
             setEmail('');

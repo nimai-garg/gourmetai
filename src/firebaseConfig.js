@@ -12,7 +12,7 @@ import {
 } from "firebase/auth";
 import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getAnalytics } from "firebase/analytics";
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,11 +23,12 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+const requiredFields = ['apiKey', 'authDomain', 'projectId', 'appId'];
+const missingFirebaseConfig = requiredFields.filter(field => !firebaseConfig[field]);
+const app = missingFirebaseConfig.length ? null : initializeApp(firebaseConfig);
+const auth = app ? getAuth(app) : null;
+const db = app ? getFirestore(app) : null;
+const storage = app ? getStorage(app) : null;
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -138,4 +139,4 @@ const deleteUserAccount = async () => {
   }
 };
 
-export { auth, db, signInWithGoogle, logOut, createUser, signInWithEmail, updateUserProfile, uploadAvatar, updatePassword, deleteUserAccount };
+export { missingFirebaseConfig, auth, db, signInWithGoogle, logOut, createUser, signInWithEmail, updateUserProfile, uploadAvatar, updatePassword, deleteUserAccount };

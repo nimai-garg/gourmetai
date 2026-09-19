@@ -106,6 +106,7 @@ const Container = styled.div`
 
 const EditSettings = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
@@ -143,6 +144,7 @@ const EditSettings = () => {
           setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
         console.error('Error fetching user data:', error);
       }
     };
@@ -179,6 +181,7 @@ const EditSettings = () => {
         setOtherInstructions(userData.otherInstructions || '');
       }
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error fetching user data:', error);
     }
   };
@@ -196,6 +199,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { firstName }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving first name:', error);
     }
   };
@@ -213,6 +217,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { lastName }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving last name:', error);
     }
   };
@@ -230,6 +235,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { age }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving age:', error);
     }
   };
@@ -247,6 +253,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { dietaryRestrictions }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving dietary restrictions:', error);
     }
   };
@@ -264,6 +271,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { allergyRestrictions }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving allergy restrictions:', error);
     }
   };
@@ -281,6 +289,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { calorieRequirements }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving calorie requirements:', error);
     }
   };
@@ -298,6 +307,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { proteinPreferences }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving protein preferences:', error);
     }
   };
@@ -315,6 +325,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { religionChoice }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving religion choice:', error);
     }
   };
@@ -332,6 +343,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { skillLevel }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving skill level:', error);
     }
   };
@@ -349,6 +361,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { healthConditions }, { merge: true });
   
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving health conditions:', error);
     }
   };
@@ -366,6 +379,7 @@ const EditSettings = () => {
       await setDoc(userDocRef, { otherInstructions }, { merge: true });
 
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving other instructions:', error);
     }
   };
@@ -376,6 +390,7 @@ const EditSettings = () => {
 
   return (
     <PageContainer>
+      {errorMessage && <p role="alert">{errorMessage}</p>}
       <HeaderContainer>
         <Header>Edit your Setup</Header>
         <NavigationButtonDiv>

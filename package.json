@@ -50,7 +50,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:api": "node server.js",
+    "test:api": "node --test tests/*.test.cjs"
   },
   "eslintConfig": {
     "extends": [
@@ -80,5 +82,11 @@
     "postcss": "^8.4.39",
     "react-refresh": "^0.11.0",
     "tailwindcss": "^3.4.10"
+  },
+  "proxy": "http://127.0.0.1:5001",
+  "jest": {
+    "moduleNameMapper": {
+      "^axios$": "<rootDir>/node_modules/axios/dist/node/axios.cjs"
+    }
   }
 }

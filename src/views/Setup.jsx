@@ -54,7 +54,7 @@ const Button = styled.button`
 
 const InputField = styled.textarea`
   padding: 0.5rem;
-  border: 1px solid ${props => (props.isInvalid ? 'red' : '#ccc')};
+  border: 1px solid ${props => (props.$isInvalid ? 'red' : '#ccc')};
   border-radius: 5px;
   margin-bottom: 1rem;
   width: 300px;
@@ -65,7 +65,7 @@ const InputField = styled.textarea`
   max-height: 200%;
 
   // border: 2px solid;
-  // border-image: ${props => (props.isInvalid ? 'none' : 'linear-gradient(to right, blue, pink)')};
+  // border-image: ${props => (props.$isInvalid ? 'none' : 'linear-gradient(to right, blue, pink)')};
   // border-image-slice: 5;
 
   //CHANGE TO ROUNDED
@@ -135,8 +135,8 @@ const ButtonGroup = styled.div`
 `;
 
 const DietaryButton = styled.button`
-  background-color: ${props => (props.isSelected ? '#000' : '#f5f5f5')};
-  color: ${props => (props.isSelected ? '#fff' : '#000')};
+  background-color: ${props => (props.$isSelected ? '#000' : '#f5f5f5')};
+  color: ${props => (props.$isSelected ? '#fff' : '#000')};
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 0.5rem 1rem;
@@ -146,12 +146,13 @@ const DietaryButton = styled.button`
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    background-color: ${props => (props.isSelected ? '#000' : '#ddd')};
+    background-color: ${props => (props.$isSelected ? '#000' : '#ddd')};
   }
 `;
 
 const Setup = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
@@ -194,7 +195,7 @@ const Setup = () => {
           setLastName(userData.lastName || '');
           setAge(userData.age || '');
           setAllergyRestrictions(userData.allergyRestrictions || '');
-          setSelectedDietaryRestrictions(userData.dietaryRestrictions || '');
+          setSelectedDietaryRestrictions(Array.isArray(userData.dietaryRestrictions) ? userData.dietaryRestrictions : (userData.dietaryRestrictions || '').split(',').map(value => value.trim()).filter(Boolean));
           setShowOtherInput(userData.otherInput || '');
           setCalorieRequirements(userData.calorieRequirements || '');
           setProteinPreferences(userData.proteinPreferences || '');
@@ -204,6 +205,7 @@ const Setup = () => {
           setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
         console.error('Error fetching user data:', error);
       }
     };
@@ -237,6 +239,7 @@ const Setup = () => {
   
       setCurrentCard(3);
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving first name:', error);
     }
   };
@@ -261,6 +264,7 @@ const Setup = () => {
   
       setCurrentCard(4);
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving last name:', error);
     }
   };
@@ -285,6 +289,7 @@ const Setup = () => {
   
       setCurrentCard(5);
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving age:', error);
     }
   };
@@ -321,6 +326,7 @@ const Setup = () => {
   
       setCurrentCard(6);
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving dietary restrictions:', error);
     }
   };
@@ -345,6 +351,7 @@ const Setup = () => {
   
       setCurrentCard(7);
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving allergy restrictions:', error);
     }
   };
@@ -369,6 +376,7 @@ const Setup = () => {
   
       setCurrentCard(8);
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving calorie requirements:', error);
     }
   };
@@ -393,6 +401,7 @@ const Setup = () => {
   
       setCurrentCard(9); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving protein preferences:', error);
     }
   };
@@ -417,6 +426,7 @@ const Setup = () => {
   
       setCurrentCard(10); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving religion choice:', error);
     }
   };
@@ -441,6 +451,7 @@ const Setup = () => {
   
       setCurrentCard(11); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving skill level:', error);
     }
   };
@@ -465,6 +476,7 @@ const Setup = () => {
 
       setCurrentCard(12); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving health conditions:', error);
     }
   };
@@ -489,6 +501,7 @@ const Setup = () => {
   
       setCurrentCard(13); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving other instructions:', error);
     }
   };
@@ -497,6 +510,7 @@ const Setup = () => {
     try {
       await logOut();
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error("Error signing out:", error);
     }
   };
@@ -636,6 +650,7 @@ const Setup = () => {
 
   return (
     <PageContainer>
+      {errorMessage && <p role="alert">{errorMessage}</p>}
       <h1 style={{ fontFamily: 'SFPro-Bold, sans-serif' }}>Setup</h1>
       <p style={{ fontFamily: 'SFPro-Regular, sans-serif' }}>Personalized comes with the Setup</p>
       
@@ -670,7 +685,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            isInvalid={!isFirstNameValid}
+            $isInvalid={!isFirstNameValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveFirstName}>Next</Button>
@@ -692,7 +707,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            isInvalid={!isLastNameValid}
+            $isInvalid={!isLastNameValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveLastName}>Next</Button>
@@ -714,7 +729,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            isInvalid={!isAgeValid}
+            $isInvalid={!isAgeValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveAge}>Next</Button>
@@ -735,7 +750,7 @@ const Setup = () => {
             {dietaryOptions.map(option => (
               <DietaryButton
                 key={option}
-                isSelected={selectedDietaryRestrictions.includes(option) && option !== 'Other'}
+                $isSelected={selectedDietaryRestrictions.includes(option) && option !== 'Other'}
                 onClick={() => handleToggleSelection(option)}
               >
                 {option}
@@ -773,7 +788,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={allergyRestrictions}
             onChange={(e) => setAllergyRestrictions(e.target.value)}
-            isInvalid={!isAllergyRestrictionsValid}
+            $isInvalid={!isAllergyRestrictionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveAllergyRestrictions}>Next</Button>
@@ -795,7 +810,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={calorieRequirements}
             onChange={(e) => setCalorieRequirements(e.target.value)}
-            isInvalid={!isCalorieRequirementsValid}
+            $isInvalid={!isCalorieRequirementsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveCalorieRequirements}>Next</Button>
@@ -817,7 +832,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={proteinPreferences}
             onChange={(e) => setProteinPreferences(e.target.value)}
-            isInvalid={!isProteinPreferencesValid}
+            $isInvalid={!isProteinPreferencesValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveProteinPreferences}>Next</Button>
@@ -839,7 +854,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={religionChoice}
             onChange={(e) => setReligionChoice(e.target.value)}
-            isInvalid={!isReligionChoiceValid}
+            $isInvalid={!isReligionChoiceValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveReligionChoice}>Next</Button>
@@ -861,7 +876,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={skillLevel}
             onChange={(e) => setSkillLevel(e.target.value)}
-            isInvalid={!isSkillLevelValid}
+            $isInvalid={!isSkillLevelValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveSkillLevel}>Next</Button>
@@ -883,7 +898,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={healthConditions}
             onChange={(e) => setHealthConditions(e.target.value)}
-            isInvalid={!isHealthConditionsValid}
+            $isInvalid={!isHealthConditionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveHealthConditions}>Next</Button>
@@ -905,7 +920,7 @@ const Setup = () => {
             placeholder="Enter your response"
             value={otherInstructions}
             onChange={(e) => setOtherInstructions(e.target.value)}
-            isInvalid={!isOtherInstructionsValid}
+            $isInvalid={!isOtherInstructionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveOtherInstructions}>Next</Button>

@@ -392,27 +392,28 @@ const Landing = () => {
 
   const handleSignOut = async () => {
     try {
-      navigate('/login');
       await logOut();
+      navigate('/login');
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
 
   const fetchUserData = useCallback(async (userId) => {
+    try {
     const userDocRef = doc(db, 'users', userId);
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
       setUserData(docSnap.data());
     } else {
-      console.error('No such document!');
+      setUserData({});
     }
-    setLoading(false);
+    } catch { setUserData(null); } finally { setLoading(false); }
   }, []);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    return auth.onAuthStateChanged((user) => {
       if (user) {
         fetchUserData(user.uid);
       } else {

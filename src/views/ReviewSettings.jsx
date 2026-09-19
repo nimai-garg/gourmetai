@@ -81,7 +81,7 @@ const Button = styled.button`
 
 const InputField = styled.textarea`
   padding: 0.5rem;
-  border: 1px solid ${props => (props.isInvalid ? 'red' : '#ccc')};
+  border: 1px solid ${props => (props.$isInvalid ? 'red' : '#ccc')};
   border-radius: 5px;
   margin-bottom: 1rem;
   width: 300px;
@@ -149,6 +149,7 @@ const SkipSetup = styled(Button)`
 
 const ReviewSettings = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
   const [age, setAge] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [allergyRestrictions, setAllergyRestrictions] = useState('');
@@ -193,6 +194,7 @@ const ReviewSettings = () => {
           setOtherInstructions(userData.otherInstructions || '');
         }
       } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
         console.error('Error fetching user data:', error);
       }
     };
@@ -231,6 +233,7 @@ const ReviewSettings = () => {
   //         setOtherInstructions(userData.otherInstructions || '');
   //     }
   //   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
   //     console.error('Error fetching user data:', error);
   //   }
   // };
@@ -255,6 +258,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(3); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving age:', error);
     }
   };
@@ -279,6 +283,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(4); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving dietary restrictions:', error);
     }
   };
@@ -303,6 +308,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(5); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving allergy restrictions:', error);
     }
   };
@@ -327,6 +333,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(6); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving calorie requirements:', error);
     }
   };
@@ -351,6 +358,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(7); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving protein preferences:', error);
     }
   };
@@ -375,6 +383,7 @@ const ReviewSettings = () => {
   
   //     setCurrentCard(8); // Move to the next card
   //   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
   //     console.error('Error saving nutritional goals:', error);
   //   }
   // };
@@ -399,6 +408,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(8); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving religion choice:', error);
     }
   };
@@ -423,6 +433,7 @@ const ReviewSettings = () => {
   
   //     setCurrentCard(10); // Move to the next card
   //   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
   //     console.error('Error saving available ingredients:', error);
   //   }
   // };
@@ -447,6 +458,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(9); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving skill level:', error);
     }
   };
@@ -471,6 +483,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(10); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving health conditions:', error);
     }
   };
@@ -495,6 +508,7 @@ const ReviewSettings = () => {
   
   //     setCurrentCard(13); // Move to the next card
   //   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
   //     console.error('Error saving kitchen equipment:', error);
   //   }
   // };
@@ -519,6 +533,7 @@ const ReviewSettings = () => {
   
   //     setCurrentCard(14); // Move to the next card
   //   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
   //     console.error('Error saving cooking restrictions:', error);
   //   }
   // };
@@ -543,6 +558,7 @@ const ReviewSettings = () => {
   
       setCurrentCard(11); // Move to the next card
     } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
       console.error('Error saving other instructions:', error);
     }
   };
@@ -633,6 +649,7 @@ const ReviewSettings = () => {
 
   return (
     <PageContainer>
+      {errorMessage && <p role="alert">{errorMessage}</p>}
       <Header>Review Settings</Header>
       <SkipSetup onClick={handleSkipSetup}>Skip Review</SkipSetup>
       <br></br>
@@ -656,7 +673,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            isInvalid={!isAgeValid}
+            $isInvalid={!isAgeValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveAge}>Next</Button>
@@ -676,7 +693,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={dietaryRestrictions}
             onChange={(e) => setDietaryRestrictions(e.target.value)}
-            isInvalid={!isDietaryRestrictionsValid}
+            $isInvalid={!isDietaryRestrictionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveDietaryRestrictions}>Next</Button>
@@ -697,7 +714,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={allergyRestrictions}
             onChange={(e) => setAllergyRestrictions(e.target.value)}
-            isInvalid={!isAllergyRestrictionsValid}
+            $isInvalid={!isAllergyRestrictionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveAllergyRestrictions}>Next</Button>
@@ -718,7 +735,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={calorieRequirements}
             onChange={(e) => setCalorieRequirements(e.target.value)}
-            isInvalid={!isCalorieRequirementsValid}
+            $isInvalid={!isCalorieRequirementsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveCalorieRequirements}>Next</Button>
@@ -739,7 +756,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={proteinPreferences}
             onChange={(e) => setProteinPreferences(e.target.value)}
-            isInvalid={!isProteinPreferencesValid}
+            $isInvalid={!isProteinPreferencesValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveProteinPreferences}>Next</Button>
@@ -760,7 +777,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={religionChoice}
             onChange={(e) => setReligionChoice(e.target.value)}
-            isInvalid={!isReligionChoiceValid}
+            $isInvalid={!isReligionChoiceValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveReligionChoice}>Next</Button>
@@ -781,7 +798,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={skillLevel}
             onChange={(e) => setSkillLevel(e.target.value)}
-            isInvalid={!isSkillLevelValid}
+            $isInvalid={!isSkillLevelValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveSkillLevel}>Next</Button>
@@ -802,7 +819,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={healthConditions}
             onChange={(e) => setHealthConditions(e.target.value)}
-            isInvalid={!isHealthConditionsValid}
+            $isInvalid={!isHealthConditionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveHealthConditions}>Next</Button>
@@ -823,7 +840,7 @@ const ReviewSettings = () => {
             placeholder="Enter your response"
             value={otherInstructions}
             onChange={(e) => setOtherInstructions(e.target.value)}
-            isInvalid={!isOtherInstructionsValid}
+            $isInvalid={!isOtherInstructionsValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveOtherInstructions}>Next</Button>

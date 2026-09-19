@@ -172,25 +172,35 @@ const NutritionalData = () => {
   const [nutritionData, setNutritionData] = useState(null);
   const [currentPage, setCurrentPage] = useState(0); // Track current page of results
 
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
-    // Function to fetch data from USDA API
-    const fetchData = async () => {
+    const controller = new AbortController();
+    setNutritionData(null);
+    setTotalPages(0);
+    setError('');
+    setLoading(Boolean(query.trim()));
+    if (!query.trim()) return () => controller.abort();
+    const timer = setTimeout(async () => {
       try {
         const response = await axios.get('https://api.nal.usda.gov/fdc/v1/foods/search', {
-          params: {
-            api_key: 'P9Tx3qSSzbAUE6arbEzBatXAsLFRICnkI5O5ShPy',
-            query: query,
-            pageSize: 1, // Limit to 1 result per query
-            pageNumber: currentPage + 1 // Adjust to current page (API uses 1-based index)
-          }
+          params: { api_key: process.env.REACT_APP_USDA_API_KEY || 'DEMO_KEY',
+            query: query.trim(), pageSize: 1, pageNumber: currentPage + 1 },
+          signal: controller.signal, timeout: 15000
         });
-        setNutritionData(response.data.foods[0]); // Only store the first (best) result
-      } catch (error) {
-        console.error('Error fetching data:', error);
+        if (!controller.signal.aborted) {
+          setNutritionData(response.data.foods?.[0] || null);
+          setTotalPages(response.data.totalPages || 0);
+          if (!response.data.foods?.length) setError('No foods found. Try a different ingredient.');
+        }
+      } catch (err) {
+        if (!controller.signal.aborted) setError('Food search is unavailable. Please try again later.');
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
       }
-    };
-
-    fetchData();
+    }, 350);
+    return () => { clearTimeout(timer); controller.abort(); };
   }, [query, currentPage]);
 
   const handleUSDALogo = () => {
@@ -199,6 +209,7 @@ const NutritionalData = () => {
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
+    setCurrentPage(0);
   };
 
   const handleNext = () => {
@@ -235,7 +246,8 @@ const NutritionalData = () => {
         <TextField type="text" value={query} placeholder="Enter an ingredient..." onChange={handleInputChange} />
       </div>
 
-      {/* Display fetched data */}
+      {loading && <p role="status">Searching foods…</p>}
+      {error && <p role="alert">{error}</p>}
       
       {nutritionData && (
         <div>
@@ -247,41 +259,41 @@ const NutritionalData = () => {
             <NutrientName>Serving Size</NutrientName>
           </GridItem>
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1008)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1008)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Calories (kcal)</NutrientName>
             </GridItem>
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1003)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1003)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Protein (g)</NutrientName>
             </GridItem>
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1004)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1004)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Fat (g)</NutrientName>
             </GridItem>
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1258)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1258)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Saturated Fat (g)</NutrientName>
             </GridItem>
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1005)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1005)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Carbohydrates (g)</NutrientName>
             </GridItem>
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1253)?.value || 'N/A'}</NutrientValue>
-              <NutrientName>Cholesterol (g)</NutrientName>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1253)?.value ?? 'N/A'}</NutrientValue>
+              <NutrientName>Cholesterol (mg)</NutrientName>
             </GridItem>
             <GridItem>
-              <NutrientValue> {nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 1093)?.value || 'N/A'}</NutrientValue>
-              <NutrientName>Sodium (g)</NutrientName>
+              <NutrientValue> {nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1093)?.value ?? 'N/A'}</NutrientValue>
+              <NutrientName>Sodium (mg)</NutrientName>
             </GridItem>
 
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 2000)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 2000)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Total Sugars (g)</NutrientName>
             </GridItem>
 
             <GridItem>
-              <NutrientValue>{nutritionData.foodNutrients.find(nutrient => nutrient.nutrientId === 2001)?.value || 'N/A'}</NutrientValue>
+              <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 2001)?.value ?? 'N/A'}</NutrientValue>
               <NutrientName>Included Sugars (g)</NutrientName>
             </GridItem>
             </GridContainer>
@@ -290,8 +302,8 @@ const NutritionalData = () => {
 
       {/* Navigation buttons */}
       <ButtonContainer>
-        <PreviousButton onClick={handlePrevious} disabled={currentPage === 0}>Previous</PreviousButton>
-        <NextButton onClick={handleNext}>Next</NextButton>
+        <PreviousButton onClick={handlePrevious} disabled={loading || currentPage === 0}>Previous</PreviousButton>
+        <NextButton disabled={loading || currentPage + 1 >= totalPages} onClick={handleNext}>Next</NextButton>
       </ButtonContainer>
     </PageContainer>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '../firebaseConfig'; // Import the Firebase auth instance 
+import { sendEmailVerification } from 'firebase/auth';
+import { createUser } from '../firebaseConfig';
 
 const PageContainer = styled.div`
   display: flex;
@@ -172,17 +172,16 @@ const SignUp = () => {
 
     try {
       // Create a new user with email and password
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const user = await createUser(email, password);
       
       // Send email verification
       await sendEmailVerification(user);
       
-      console.log("User created:", user);
+
       // alert("Verification email sent! Please check your inbox.");
 
-      // Redirect to login page
-      navigate('/login');
+      // Continue to account setup
+      navigate('/setup');
     } catch (error) {
       console.error("Error signing up:", error.message);
       alert(`Error: ${error.message}`);

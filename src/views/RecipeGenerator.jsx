@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { doc, getDoc } from 'firebase/firestore';
@@ -128,7 +128,7 @@ const MessageList = styled.div`
 const Message = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${({ isUser }) => (isUser ? 'flex-end' : 'flex-start')};
+  justify-content: ${({ $isUser }) => ($isUser ? 'flex-end' : 'flex-start')};
   margin-bottom: 10px;
 `;
 
@@ -136,8 +136,8 @@ const MessageBubble = styled.div`
   max-width: 70%;
   padding: 10px;
   border-radius: 10px;
-  background-color: ${({ isUser }) => (isUser ? '#007bff' : '#f1f1f1')};
-  color: ${({ isUser }) => (isUser ? '#fff' : '#000')};
+  background-color: ${({ $isUser }) => ($isUser ? '#007bff' : '#f1f1f1')};
+  color: ${({ $isUser }) => ($isUser ? '#fff' : '#000')};
   font-family: 'Inter', sans-serif;
   white-space: pre-wrap;
 `;
@@ -172,6 +172,8 @@ const LoadingMessage = styled.div`
 `;
 
 const RecipeGenerator = () => {
+  const [errorMessage, setErrorMessage] = useState('');
+  const requestInFlight = useRef(false);
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   // const [input, setInput] = useState('');
@@ -182,19 +184,22 @@ const RecipeGenerator = () => {
   // const [recipeTitle, setRecipeTitle] = useState('');
 
   const fetchUserData = useCallback(async (userId) => {
+    try {
     const userDocRef = doc(db, 'users', userId);
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
       setUserData(docSnap.data());
     } else {
-      console.error('No such document!');
+      setUserData({});
     }
-    setLoading(false);
+    } catch {
+      setErrorMessage('Unable to load your preferences. Refresh the page to try again.');
+    } finally { setLoading(false); }
   }, []);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    return auth.onAuthStateChanged((user) => {
       if (user) {
         fetchUserData(user.uid);
       } else {
@@ -205,7 +210,9 @@ const RecipeGenerator = () => {
 
   // Memoize sendStaticPrompt with useCallback
   const sendStaticPrompt = useCallback(async () => {
-  if (!userData) return;
+  if (!userData || requestInFlight.current) return;
+  requestInFlight.current = true;
+  setErrorMessage('');
 
   const staticText = "Give the dish name, details, servings, ingredients, recipe steps, and nutritional information";
 
@@ -230,19 +237,22 @@ const RecipeGenerator = () => {
   try {
     setIsFetchingResponse(true);
 
-    const response = await axios.post('/.netlify/functions/chat', {
-      prompt: combinedPrompt
+    const token = await auth.currentUser.getIdToken();
+    const response = await axios.post('/.netlify/functions/chat', { prompt: combinedPrompt }, {
+      headers: { Authorization: `Bearer ${token}` }, timeout: 45000
     });
 
     const content = response.data.reply;
+    if (typeof content !== 'string' || !content.trim()) throw new Error('Empty recipe');
 
     setMessages(prev => [
       ...prev,
       { type: 'bot', text: formatMessage(content.trim()) }
     ]);
   } catch (error) {
-    console.error('Error calling OpenAI:', error);
+    setErrorMessage(error.response?.data?.error || 'Unable to generate a recipe. Please try again.');
   } finally {
+    requestInFlight.current = false;
     setIsFetchingResponse(false);
   }
 }, [userData]);
@@ -258,7 +268,7 @@ const RecipeGenerator = () => {
   };
 
   const handleHeaderClick = async () => {
-    isSetFetchingResponse();
+    navigate('/dashboard');
   }
 
   const handleClearChat = () => {
@@ -270,7 +280,7 @@ const RecipeGenerator = () => {
     const formattedMessage = message
       .replace(/^###\s+/gm, '') // Remove '###' and any spaces after it at the start of each line
       .replace(/\n/g, '\n\n') // Add extra line breaks for spacing
-      .replace(/(\d+)\./g, '\n$1.'); // Add new lines before numbered lists
+      .replace(/^(\d+)\.\s/gm, '\n$1. '); // Add new lines before numbered lists
   
     return formattedMessage;
   };
@@ -308,13 +318,15 @@ const RecipeGenerator = () => {
         </NavigationButtonDiv>
       </HeaderContainer>
       <ChatContainer>
-        <MessageList>
+        <MessageList aria-live="polite">
+          {errorMessage && <p role="alert">{errorMessage}</p>}
+          {isSetFetchingResponse && <p role="status">Creating your recipe…</p>}
           {messages.map((message, index) => (
-            <Message key={index} isUser={message.type === 'user'}>
+            <Message key={index} $isUser={message.type === 'user'}>
               {message.type !== 'user' && (
                 <AssistantTitle>{assistantName}</AssistantTitle>
               )}
-              <MessageBubble isUser={message.type === 'user'}>
+              <MessageBubble $isUser={message.type === 'user'}>
                 {message.text}
               </MessageBubble>
             </Message>
@@ -322,7 +334,7 @@ const RecipeGenerator = () => {
         </MessageList>
         <InputContainer>
           {/* <SendButton onClick={handleGiveInstructions}>Instructions</SendButton> */}
-          <SendButton onClick={handleNextDish}>Next Dish</SendButton>
+          <SendButton disabled={isSetFetchingResponse || !userData} onClick={handleNextDish}>Next Dish</SendButton>
           <TrashButton onClick={handleClearChat}>Delete Conversation</TrashButton>
           {/* {recipeTitle && <h1>{recipeTitle}</h1>} */}
         </InputContainer>

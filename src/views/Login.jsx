@@ -166,6 +166,7 @@ const SignUpLink = styled.a`
 `;
 
 const Login = () => {
+  const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -180,10 +181,11 @@ const Login = () => {
   }, [navigate]);
 
   const handleLogin = async () => {
+    setErrorMessage('');
     try {
       await signInWithGoogle();
     } catch (error) {
-      console.error("Error signing in with Google:", error);
+      setErrorMessage('Google sign-in could not be completed. Please try again.');
     }
   };
 
@@ -193,12 +195,12 @@ const Login = () => {
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
     try {
-      const user = await signInWithEmail(email, password);
-      console.log(user);
+      await signInWithEmail(email, password);
       navigate('/setup');
     } catch (error) {
-      console.error("Error signing in with email:", error);
+      setErrorMessage('Unable to sign in. Check your email and password, then try again.');
     }
   }
 
@@ -220,6 +222,7 @@ const Login = () => {
       </HeaderContainer>
 
       <Card>
+        {errorMessage && <p role="alert">{errorMessage}</p>}
         <Title>Sign In</Title>
         <GoogleButton onClick={handleLogin}>
           <GoogleLogo src={googleLogo} alt="Google Logo" />

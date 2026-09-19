@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { db } from '../firebaseConfig';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
  
 import mockupImage from '../images/mockup.png';
 import { useNavigate } from 'react-router-dom';
@@ -977,18 +977,7 @@ const Landing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const docRef = doc(db, "newsletter", "users");
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            await setDoc(docRef, {
-                emails: [...(docSnap.data().emails || []), email]
-            }, { merge: true });
-        } else {
-            await setDoc(docRef, {
-                emails: [email]
-            });
-        }
+        await addDoc(collection(db, 'newsletter'), { email: email.trim().toLowerCase() });
 
         setShowAlert(true);
         setAnimateOut(false);
@@ -1139,11 +1128,11 @@ const Landing = () => {
             Find <span>inspiration</span> for your next recipe
           </CenterText>
           
-          <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o. 100% Free. </SubCenterText>
+                                        <SubCenterText>Innovate, Plan, Create. Powered by GPT 4o Mini. Try for free</SubCenterText>
           
           <CenterTextButtonDiv>
               <LeftCenterTextButton onClick={handleActionButton}>Let's begin</LeftCenterTextButton>
-              <LeftCenterTextMobileButton>Download coming soon!</LeftCenterTextMobileButton>
+
               <RightCenterTextButton onClick={handleLearnMore}>Learn more</RightCenterTextButton>
           </CenterTextButtonDiv>
             

@@ -78,7 +78,7 @@ const Button = styled.button`
 
 const InputField = styled.textarea`
   padding: 0.5rem;
-  border: 1px solid ${props => (props.isInvalid ? 'red' : '#ccc')};
+  border: 1px solid ${props => (props.$isInvalid ? 'red' : '#ccc')};
   border-radius: 5px;
   margin-bottom: 1rem;
   width: 300px;
@@ -112,6 +112,7 @@ const HorizontalButtonContainer = styled.div`
 
 const RecipeQuestions = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
   const [cuisinePreference, setCuisinePreference] = useState('');
   const [flavorPreference, setFlavorPreference] = useState('');
   const [cookingTime, setCookingTime] = useState('');
@@ -146,6 +147,7 @@ const RecipeQuestions = () => {
           setAgeCheck(userData.ageCheck || '');
         }
       } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
         console.error('Error fetching user data:', error);
       }
     };
@@ -179,6 +181,7 @@ const handleSaveCuisinePreference = async () => {
 
     setCurrentCard(3); // Move to the next card
   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
     console.error('Error saving cuisine preference:', error);
   }
 };
@@ -203,6 +206,7 @@ const handleSaveFlavorPreference = async () => {
 
     setCurrentCard(4); // Move to the next card
   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
     console.error('Error saving flavor preference:', error);
   }
 };
@@ -227,6 +231,7 @@ const handleSaveCookingTime = async () => {
 
     setCurrentCard(5); // Move to the next card
   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
     console.error('Error saving cooking time:', error);
   }
 };
@@ -251,6 +256,7 @@ const handleSaveServingsNeeded = async () => {
 
     setCurrentCard(6); // Move to the next card
   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
     console.error('Error saving servings needed:', error);
   }
 };
@@ -275,6 +281,7 @@ const handleSaveMealType = async () => {
 
     setCurrentCard(7); // Move to the next card
   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
     console.error('Error saving meal type:', error);
   }
 };
@@ -299,6 +306,7 @@ const handleSaveAgeCheck = async () => {
 
     setCurrentCard(8); // Move to the next card
   } catch (error) {
+      setErrorMessage('Unable to load or save your preferences. Check your connection and try again.');
     console.error('Error saving age check:', error);
   }
 };
@@ -365,6 +373,7 @@ const handleSaveSetup = async () => {
 
   return (
     <PageContainer>
+      {errorMessage && <p role="alert">{errorMessage}</p>}
       <HeaderContainer>
         <Header>Personalize your Recipe</Header>
       </HeaderContainer>
@@ -387,7 +396,7 @@ const handleSaveSetup = async () => {
             placeholder="Enter your response"
             value={cuisinePreference}
             onChange={(e) => setCuisinePreference(e.target.value)}
-            isInvalid={!isCuisinePreferenceValid}
+            $isInvalid={!isCuisinePreferenceValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveCuisinePreference}>Next</Button>
@@ -409,7 +418,7 @@ const handleSaveSetup = async () => {
             placeholder="Enter your response"
             value={flavorPreference}
             onChange={(e) => setFlavorPreference(e.target.value)}
-            isInvalid={!isFlavorPreferenceValid}
+            $isInvalid={!isFlavorPreferenceValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveFlavorPreference}>Next</Button>
@@ -431,7 +440,7 @@ const handleSaveSetup = async () => {
             placeholder="Enter your response"
             value={cookingTime}
             onChange={(e) => setCookingTime(e.target.value)}
-            isInvalid={!isCookingTimeValid}
+            $isInvalid={!isCookingTimeValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveCookingTime}>Next</Button>
@@ -453,7 +462,7 @@ const handleSaveSetup = async () => {
             placeholder="Enter your response"
             value={servingsNeeded}
             onChange={(e) => setServingsNeeded(e.target.value)}
-            isInvalid={!isServingsNeededValid}
+            $isInvalid={!isServingsNeededValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveServingsNeeded}>Next</Button>
@@ -475,7 +484,7 @@ const handleSaveSetup = async () => {
             placeholder="Enter your response"
             value={mealType}
             onChange={(e) => setMealType(e.target.value)}
-            isInvalid={!isMealTypeValid}
+            $isInvalid={!isMealTypeValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveMealType}>Next</Button>
@@ -497,7 +506,7 @@ const handleSaveSetup = async () => {
             placeholder="Enter your response"
             value={ageCheck}
             onChange={(e) => setAgeCheck(e.target.value)}
-            isInvalid={!isAgeCheckValid}
+            $isInvalid={!isAgeCheckValid}
           />
           <ButtonContainer>
             <Button onClick={handleSaveAgeCheck}>Next</Button>
