@@ -336,7 +336,7 @@ const handleGoBack6 = async () => {
 }
 
 const handleGoBack12 = async () => {
-  setCurrentCard(12);
+  setCurrentCard(7);
 }
 
 const handleGoForward2 = async () => {

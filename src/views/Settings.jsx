@@ -88,6 +88,7 @@ const Settings = () => {
   };
 
   const handleDeleteAccount = async () => {
+    if (!window.confirm("Delete your account? This cannot be undone.")) return;
     try {
       await deleteUserAccount();
       alert('Account deleted successfully!');
@@ -102,6 +103,7 @@ const Settings = () => {
     <SettingsContainer>
       <SettingsCard>
         <Title>Settings</Title>
+        <Button onClick={() => navigate('/dashboard')}>Back to dashboard</Button>
         {user && !user.providerData.some(provider => provider.providerId === 'google.com') && (
           <>
             <Input

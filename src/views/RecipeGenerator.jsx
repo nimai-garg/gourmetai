@@ -106,8 +106,9 @@ const ChatContainer = styled.div`
   flex-direction: column;
   width: calc(100% - 40px);
   max-width: 800px;
-  height: calc(100vh - 80px);
-  max-height: 600px;
+  height: calc(100dvh - 130px);
+  min-height: 400px;
+  max-height: 850px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -133,7 +134,8 @@ const Message = styled.div`
 `;
 
 const MessageBubble = styled.div`
-  max-width: 70%;
+  max-width: 100%;
+  line-height: 1.75;
   padding: 10px;
   border-radius: 10px;
   background-color: ${({ $isUser }) => ($isUser ? '#007bff' : '#f1f1f1')};
@@ -151,6 +153,8 @@ const AssistantTitle = styled.div`
 const InputContainer = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 10px;
   width: 100%;
   padding: 10px;
@@ -318,6 +322,7 @@ const RecipeGenerator = () => {
         </NavigationButtonDiv>
       </HeaderContainer>
       <ChatContainer>
+        <p style={{fontSize: 12, margin: '0 0 12px'}}>AI recipes may contain mistakes. Check ingredients against your allergies; nutrition is estimated.</p>
         <MessageList aria-live="polite">
           {errorMessage && <p role="alert">{errorMessage}</p>}
           {isSetFetchingResponse && <p role="status">Creating your recipe…</p>}
@@ -336,7 +341,7 @@ const RecipeGenerator = () => {
           {/* <SendButton onClick={handleGiveInstructions}>Instructions</SendButton> */}
           <SendButton disabled={isSetFetchingResponse || !userData} onClick={handleNextDish}>Next Dish</SendButton>
           <TrashButton onClick={handleClearChat}>Delete Conversation</TrashButton>
-          {/* {recipeTitle && <h1>{recipeTitle}</h1>} */}
+          <ActionButton onClick={() => navigate('/dashboard')}>Dashboard</ActionButton>
         </InputContainer>
       </ChatContainer>
     </PageContainer>

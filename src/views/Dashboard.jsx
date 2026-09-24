@@ -383,7 +383,7 @@ const Landing = () => {
   }
 
   const handleRecipeGenerator = async () => {
-    navigate('/recipeGenerator');
+    navigate('/recipeQuestions');
   }
 
   const handleSettings = async() => {

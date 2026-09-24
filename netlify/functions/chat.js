@@ -3,6 +3,8 @@ const json = (statusCode, body) => ({ statusCode,
   headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }, body: JSON.stringify(body) });
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') return json(405, { error: 'Use POST for recipe requests.' });
+  if (event.body && Buffer.byteLength(event.body, 'utf8') > 32768)
+    return json(413, { error: 'Recipe request is too large.' });
   let body;
   try { body = JSON.parse(event.body || '{}'); }
   catch { return json(400, { error: 'The request must contain valid JSON.' }); }
@@ -32,9 +34,12 @@ exports.handler = async function (event) {
       messages: [
         { role: 'system', content: 'You are a helpful recipe assistant. Respect supplied dietary restrictions and allergies. Nutritional values are estimates.' },
         { role: 'user', content: prompt.trim() }
-      ], temperature: 0.7
+      ], temperature: 0.7, max_completion_tokens: 1800, store: false
     }, { headers: { Authorization: 'Bearer ' + process.env.OPENAI_API_KEY }, timeout: 25000 });
-    const reply = response.data.choices?.[0]?.message?.content;
+    const choice = response.data.choices?.[0];
+    if (choice?.finish_reason === 'length')
+      return json(502, { error: 'The recipe was cut short. Please try a simpler request.' });
+    const reply = choice?.message?.content;
     if (typeof reply !== 'string' || !reply.trim()) throw new Error('Empty recipe');
     return json(200, { reply: reply.trim() });
   } catch (error) {
@@ -43,4 +48,9 @@ exports.handler = async function (event) {
       ? 'Recipe generation is busy or its quota has been reached. Please try again later.'
       : 'Unable to generate a recipe right now. Please try again.' });
   }
+};
+
+// Enforced by Netlify at the edge; the local Express proxy does not apply this rule.
+exports.config = {
+  rateLimit: { windowLimit: 10, windowSize: 60, aggregateBy: ['ip', 'domain'] }
 };

@@ -24,3 +24,12 @@ yarn-error.log*
 
 # .gitignore
 .env
+
+# Local credentials, deployment state, and generated caches
+.env.*
+!.env.example
+.netlify/
+__pycache__/
+*.py[cod]
+
+.netlify

@@ -104,7 +104,7 @@ const Button = styled.button`
 `;
 
 const Message = styled.p`
-  color: ${(props) => (props.error ? 'red' : 'green')};
+  color: ${(props) => (props.$error ? 'red' : 'green')};
   margin-top: 10px;
 `;
 
@@ -149,7 +149,7 @@ const ForgotPassword = () => {
           />
           <Button type="submit">Send Reset Link</Button>
         </form>
-        {message && <Message error={error}>{message}</Message>}
+        {message && <Message $error={error} role="status">{message}</Message>}
       </Card>
     </PageContainer>
   );

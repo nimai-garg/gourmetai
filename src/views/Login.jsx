@@ -174,7 +174,7 @@ const Login = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigate('/setup');
+        navigate('/dashboard', { replace: true });
       }
     });
     return () => unsubscribe();
@@ -198,7 +198,7 @@ const Login = () => {
     setErrorMessage('');
     try {
       await signInWithEmail(email, password);
-      navigate('/setup');
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       setErrorMessage('Unable to sign in. Check your email and password, then try again.');
     }
@@ -228,20 +228,26 @@ const Login = () => {
           <GoogleLogo src={googleLogo} alt="Google Logo" />
           Continue with Google
         </GoogleButton>
-        <form>
+        <form onSubmit={handleEmailLogin}>
           <Input
-            type="text"
+            type="email"
+            autoComplete="email"
+            aria-label="Email"
+            required
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             type="password"
+            autoComplete="current-password"
+            aria-label="Password"
+            required
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" onClick={handleEmailLogin}>Login</Button>
+          <Button type="submit">Login</Button>
         </form>
         <SignUpLink onClick={handleSignUp}>Sign up</SignUpLink>
         <SignUpLink onClick={handleForgotPassword}>Forgot Password</SignUpLink>

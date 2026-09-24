@@ -117,11 +117,11 @@ const PrivacyPolicy = () => {
       </GoBackContainer>
       <Header>Privacy Policy</Header>
       <HeaderContainer>
-        <EffectiveDate>Effective Date: September 3, 2024</EffectiveDate>
+        <EffectiveDate>Effective Date: September 24, 2026</EffectiveDate>
         <Divider />
       </HeaderContainer>
 
-      <BoldParagraph>Welcome to GourmetChef (“we,” “us,” or “our”). These Terms of Use govern your access to and use of the GourmetChef application, website, and services (“Services”). By using our Services, you agree to be bound by these Terms of Use.</BoldParagraph>
+      <BoldParagraph>This policy describes how Gourmet Chef uses account information, saved cooking preferences, and information provided when you use the app.</BoldParagraph>
 
       <SectionTitle>1. Information We Collect</SectionTitle>
         <Paragraph>We collect two types of information:</Paragraph>
@@ -130,7 +130,7 @@ const PrivacyPolicy = () => {
         <UnlistedList>
           <ListItem>Name</ListItem>
           <ListItem>Email Address</ListItem>
-          <ListItem>Be responsible for all activity that occurs under your account.</ListItem>
+          <ListItem>Dietary preferences and any allergies or health information you choose to provide</ListItem>
           <ListItem>Account Type (Google or Email/Password)</ListItem>
           <ListItem>Setup Preferences</ListItem>
           <ListItem>Other Information (e.g., optional feedback)</ListItem>
@@ -142,9 +142,9 @@ const PrivacyPolicy = () => {
           <ListItem>Device Information (e.g., IP address, browser type)</ListItem>
           <ListItem>Email Address</ListItem>
           <ListItem>Usage Data (e.g., pages visited, features used)</ListItem>
-          <ListItem>Location Data (if you enable location services)</ListItem>
+
         </UnlistedList>
-        <Paragraph>Your data is secured on Google Analytics & Google Search Console, your personal information does not reflect your non-personal information.</Paragraph>
+        <Paragraph>Account information and saved preferences are stored in Firebase. Google Analytics is used for website usage measurement.</Paragraph>
 
       <SectionTitle>2. How We Use Your Information</SectionTitle>
         <Paragraph>We use your data to:</Paragraph>
@@ -159,7 +159,8 @@ const PrivacyPolicy = () => {
           We will not sell or rent your personal information to third parties. We may share your data with:
         </Paragraph>
         <UnlistedList>
-          <ListItem>Service Providers: We may share data with trusted vendors who help us operate our Services (e.g., hosting services, email services).</ListItem>
+          <ListItem>Firebase provides authentication and profile storage. Netlify hosts the website and recipe endpoint. Recipe requests send your saved cooking preferences, including any dietary, allergy, age, or health details you supplied, to OpenAI to generate a recipe. Your name and email are not included in the recipe prompt.</ListItem>
+          <ListItem>Food searches are sent to USDA FoodData Central. The optional feedback form is hosted by Tally.</ListItem>
           <ListItem>Legal Obligations: If required by law, we may disclose your data to government authorities or legal entities.</ListItem>
         </UnlistedList>
 
@@ -189,22 +190,22 @@ const PrivacyPolicy = () => {
           <ListItem>Encryption - We use encryption to safeguard personal information.</ListItem>
           <ListItem>Access Controls - We restrict access to personal data to authorized personnel only.</ListItem>
         </UnlistedList>
-        <Paragraph>All of your data is stored in Google Firebase, which has it's own measures of protecting data. We do not have access to your password or other sensitive information.</Paragraph>
+        <Paragraph>Firebase Authentication manages passwords; the application does not store plaintext passwords. Avoid entering sensitive information that is not needed for a recipe.</Paragraph>
         <Paragraph>However, no method of data transmission or storage is entirely secure. We cannot guarantee the absolute security of your information.</Paragraph>
 
       <SectionTitle>Children’s Privacy</SectionTitle>
         <Paragraph>Our Services are not directed toward children under the age of 13, and we do not knowingly collect personal information from children. If we become aware that we have inadvertently collected data from a child, we will take steps to delete it.</Paragraph>
-        
+
       <SectionTitle>10. Changes to This Policy</SectionTitle>
         <Paragraph>We may update this Privacy Policy from time to time. If we make significant changes, we will notify you by email or by posting a notice on our website before the change becomes effective. Please review the policy periodically.</Paragraph>
 
       <Divider />
       <SectionTitle>Contact Us</SectionTitle>
       <Paragraph>
-      If you have any questions or concerns about these Terms of Use, please contact us at:{' '}
+      If you have any questions or concerns about this Privacy Policy, please contact us at:{' '}
         <Link href="mailto:support@gourmetchef.app">support@gourmetchef.app</Link>.
       </Paragraph>
-      <Paragraph>This policy ensures that GourmetChef is transparent about how it handles users’ personal information while offering a personalized, secure experience.</Paragraph>
+
     </Container>
   );
 };

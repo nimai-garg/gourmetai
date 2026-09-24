@@ -253,10 +253,12 @@ const NutritionalData = () => {
         <div>
           <h2 style={{ fontFamily: 'SFPro-Bold, sans-serif' }}>Nutritional Information for "{query}"</h2>
           <NutritionData>{nutritionData.description}</NutritionData>
+          <p>Nutrients are shown on the USDA 100 g / 100 mL basis, not the package serving size.</p>
+          {nutritionData.fdcId && <p><a href={`https://fdc.nal.usda.gov/food-details/${nutritionData.fdcId}/nutrients`} target="_blank" rel="noreferrer">View the USDA source record</a></p>}
           <GridContainer>
           <GridItem>
             <NutrientValue>{`${nutritionData.servingSize || 'N/A'} ${nutritionData.servingSizeUnit || ''}`}</NutrientValue>
-            <NutrientName>Serving Size</NutrientName>
+            <NutrientName>Package serving size (reference)</NutrientName>
           </GridItem>
             <GridItem>
               <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 1008)?.value ?? 'N/A'}</NutrientValue>
@@ -294,7 +296,7 @@ const NutritionalData = () => {
 
             <GridItem>
               <NutrientValue>{nutritionData.foodNutrients?.find(nutrient => nutrient.nutrientId === 2001)?.value ?? 'N/A'}</NutrientValue>
-              <NutrientName>Included Sugars (g)</NutrientName>
+              <NutrientName>Added Sugars (g)</NutrientName>
             </GridItem>
             </GridContainer>
           </div>

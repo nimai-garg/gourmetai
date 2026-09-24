@@ -16,12 +16,8 @@ import Feedback from './views/Feedback';
 import SignUp from './views/SignUp';
 import Settings from './views/Settings';
 import ForgotPassword from './views/ForgotPassword';
-import Testing from './views/Testing';
-import Testing1 from './views/Testing1';
 import TermsOfUse from './views/TermsOfUse';
 import PrivacyPolicy from './views/PrivacyPolicy';
-import Environment from './views/Environment';
-import Solutions from './views/Solutions';
 import NotFound from './views/NotFound';
 import GlobalStyle from './GlobalStyles';
 // persist localStorage, useReducer React.JS StackOverflow Comment
@@ -68,12 +64,10 @@ const App = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/newrg" element={<Navigate to="/recipeGenerator" replace />} />
-        <Route path="/testing" element={<Testing />} />
-        <Route path="/testing1" element={<Testing1 />} />
         <Route path="/legal/terms-of-use" element={<TermsOfUse />} />
         <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/environment" element={<Environment />} />
-        <Route path="/solutions" element={<Solutions />} />
+        <Route path="/environment" element={<Navigate to="/" replace />} />
+        <Route path="/solutions" element={<Navigate to="/" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

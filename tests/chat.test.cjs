@@ -58,3 +58,16 @@ test('returns safe errors for provider failures and empty responses', async () =
   axios.post = async url => ({ data: url.includes('accounts:lookup') ? { users: [{ localId: 'user' }] } : { choices: [] } });
   assert.equal((await handler(event())).statusCode, 502);
 });
+
+test('rejects oversized bodies before calling providers', async () => {
+  assert.equal((await handler({ ...event(), body: ' '.repeat(32769) })).statusCode, 413);
+  assert.equal(calls.length, 0);
+});
+test('does not display a truncated recipe as complete', async () => {
+  axios.post = async url => ({ data: url.includes('accounts:lookup')
+    ? { users: [{ localId: 'user' }] }
+    : { choices: [{ finish_reason: 'length', message: { content: 'Incomplete recipe' } }] } });
+  const response = await handler(event());
+  assert.equal(response.statusCode, 502);
+  assert.match(JSON.parse(response.body).error, /cut short/);
+});
