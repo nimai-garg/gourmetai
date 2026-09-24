@@ -117,7 +117,7 @@ const PrivacyPolicy = () => {
       </GoBackContainer>
       <Header>Privacy Policy</Header>
       <HeaderContainer>
-        <EffectiveDate>Effective Date: September 24, 2026</EffectiveDate>
+        <EffectiveDate>Effective Date: September 3rd, 2024</EffectiveDate>
         <Divider />
       </HeaderContainer>
 
